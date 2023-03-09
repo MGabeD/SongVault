@@ -1,0 +1,52 @@
+### TODO ###
+
+Home Page:
+- make buttons responsive to smaller scales
+- Switch out photo?
+- create darker background for non-photo section
+
+Discover Page:
+- Holy shit so much
+
+Account Page: 
+- add a playlists section
+- maybe a 2 page slider to switch between the two?
+- conditional for if no playlists/songs
+- more customization
+- maybe merge this page with profile page?
+
+Profile Page: 
+- Holy shit so much
+
+Sign In Page:
+- make it so state actually gets updated and not rerendered
+
+Sign Up Page:
+- Literally everything
+- maybe just a slight modification of sign in page with different validation
+
+NavBar:
+- Is there a reason to have the burger menu?
+
+FullSongCard:
+- make size more consistent for md/lg
+- make smaller card for sm
+- add a border?
+- add functions for iconbuttons
+
+SongPlayerUI:
+- Literallly everything
+
+General:
+- need a way to incorporate db query for everything:
+    - username/password
+    - songs/playlists for each account
+    - songs/playlists for discover page
+    - rating system
+
+
+Approximate Hours:
+friday: ~2 hours
+saturday: ~4.5 hours
+sunday: ~3 hours
+monday: ~1 hour
