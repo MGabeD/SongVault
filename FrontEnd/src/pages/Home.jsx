@@ -30,6 +30,16 @@ const Home = () => {
                         Login
                     </Button>
                 </div>
+                {/* <div style={{position: 'fixed', top: '62%', backgroundColor: "rgba(0, 0, 0, 0.5)"}}>
+                    <Typography variant="h4" fontWeight={700} className={classes.title}>
+                        Promote your music
+                    </Typography>
+                    <Typography variant="h6" className={classes.subtitle}>
+                        Upload your song, rate other artists' songs, and contact curators to 
+                        get your music added to their playlists.
+                    </Typography>
+                </div> */}
+                
             </div>
             
             <div className={classes.centeredElements}>

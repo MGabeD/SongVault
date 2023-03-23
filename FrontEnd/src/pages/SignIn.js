@@ -50,6 +50,7 @@ export default function SignIn(props) {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            backgroundColor: 'white'
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }} style={{marginTop: '200px'}}>
@@ -105,8 +106,12 @@ export default function SignIn(props) {
             </Grid>
           </Box>
         </Box>
+        <footer style={{minHeight: '23vh'}}>
+              
+        </footer>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
+    
   );
 }

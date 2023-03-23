@@ -8,7 +8,8 @@ const useStyles = makeStyles((theme) => ({ // the theme object is part of MUI
     container: { // this is where you can define classes for css styling
         backgroundColor: theme.palette.background.paper, // using theme object for styling
         backgroundColor: "#000000",
-        padding: theme.spacing(8, 0, 6) 
+        padding: theme.spacing(8, 0, 6),
+        paddingTop: '1vh'
     },
 
     icon: {
