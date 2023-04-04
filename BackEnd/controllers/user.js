@@ -77,7 +77,7 @@ exports.getUserById = (req,res, next) => {
 };
 
 exports.updateUser = (req, res, next) => {
-    const updatedUser = new User({
+    const updatedUser = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
@@ -85,7 +85,8 @@ exports.updateUser = (req, res, next) => {
         birthday: req.body.birthday,
         bio: req.body.bio,
         hyperLinks: req.body.hyperLinks,
-    });
+    };
+    console.log(updatedUser);
     User.updateOne({ _id: req.params.id }, { $set: updatedUser })
         .then((result) => {
             res.status(200).json({ message: "Update is successful!" });
@@ -94,6 +95,7 @@ exports.updateUser = (req, res, next) => {
             res.status(500).json({
                 message: "Couldn't update user!",
             });
+            console.log(error);
         });
 };
 
