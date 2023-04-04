@@ -1,18 +1,24 @@
 const Todo = require("../models/todo");
 
 exports.createTodo = (req, res, next) => {
+    console.log("here");
+    console.log(req.body.title);
+    console.log(req.body.content);
+    console.log(req.body.date);
     const todo = new Todo({
         title: req.body.title,
         content: req.body.content,
         date: req.body.date,
     });
+    console.log(todo);
+    // console.log(req);
     todo
         .save()
         .then((result) => {
             res.status(201).json({
                 message: "Todo added successfully",
                 post: {
-                    ...result,
+                    ...result.toObject(),
                     id: result._id,
                 },
             });
@@ -30,29 +36,31 @@ exports.getTodos = (req, res, next) => {
     const pageSize = +req.query.pageSize;
     const currPage = +req.query.page;
     const todoQuery = Todo.find();
-    let fetchedTodo;
+    let fetchedToDo;
     if (pageSize && currPage) {
-        todoQuery.skip(pageSize * (currPage - 1)).limit(pageSize);
+      todoQuery.skip(pageSize * (currPage - 1)).limit(pageSize);
     }
     todoQuery
-        .then((doc) => {
-            fetchedToDo = doc;
-            console.log(doc);
-            return Todo.countDocuments();
-        })
-        .then((count) => {
-            res.status(200).json({
-                message: "All Todos fetched 200!",
-                posts: fetchedTodo,
-                maxPosts: count,
-            });
-        })
-        .catch((error) => {
-            res.status(500).json({
-                message: "Fetching todos failed!",
-            });
+      .populate() // populate all fields
+      .then((docs) => {
+        fetchedToDo = docs;
+        console.log(fetchedToDo);
+        return Todo.countDocuments();
+      })
+      .then((count) => {
+        res.status(200).json({
+          message: "All Todos fetched 200!",
+          posts: fetchedToDo,
+          maxPosts: count,
         });
-};
+      })
+      .catch((error) => {
+        res.status(500).json({
+          message: "Fetching todos failed!",
+        });
+      });
+  };  
+  
 
 // const Todo = require("../models/todo");
 
@@ -75,16 +83,14 @@ exports.getTodoById = (req,res, next) => {
 // const Todo = require("../models/todo");
 
 exports.updateTodo = (req, res, next) => {
-    const todo = new Todo({
-        _id: req.body.id,
+    const updatedTodo = {
         title: req.body.title,
         content: req.body.content,
         date: req.body.date,
-    });
-    Todo.updateOne({ _id: req.params.id }, todo)
-        .then((results) => {
-            res.status(200).json({ message: "Update is successful!"
-        });
+    };
+    Todo.updateOne({ _id: req.params.id }, { $set: updatedTodo })
+        .then((result) => {
+            res.status(200).json({ message: "Update is successful!" });
         })
         .catch((error) => {
             res.status(500).json({
@@ -96,6 +102,8 @@ exports.updateTodo = (req, res, next) => {
 // const Todo = require("../models/todo");
 
 exports.deleteTodo = (req, res, next) => {
+    console.log("here");
+    console.log(req.params.id);
     Todo.deleteOne({ _id: req.params.id })
     .then((resp) => {
         res.status(200).json({ message: "Delete is successful!" });
