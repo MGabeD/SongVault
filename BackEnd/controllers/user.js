@@ -9,6 +9,10 @@ exports.createUser = (req, res, next) => {
         birthday: req.body.birthday,
         bio: req.body.bio,
         hyperLinks: req.body.hyperLinks,
+        followers: req.body.followers,
+        friends: req.body.friends,
+        songs: req.body.songs,
+        playlists: req.body.playlists,
     });
     console.log(user);
     // console.log(req);
@@ -85,6 +89,10 @@ exports.updateUser = (req, res, next) => {
         birthday: req.body.birthday,
         bio: req.body.bio,
         hyperLinks: req.body.hyperLinks,
+        followers: req.body.followers,
+        friends: req.body.friends,
+        songs: req.body.songs,
+        playlists: req.body.playlists,
     };
     console.log(updatedUser);
     User.updateOne({ _id: req.params.id }, { $set: updatedUser })

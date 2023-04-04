@@ -9,6 +9,10 @@ const userSchema = mongoose.Schema({
     birthday : {type: String, required: true },
     bio : {type: String, required: true },
     hyperLinks: { type: [String], default: [], required: true },
+    followers: { type: [String], default: [], required: true },
+    friends: { type: [String], default: [], required: true },
+    songs: { type: [String], default: [], required: true },
+    playlists: { type: [String], default: [], required: true},
 
 });
 
