@@ -4,6 +4,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const todoRoutes = require("./routes/todos.js");
+const userRoutes = require("./routes/users.js")
 
 main()
     .then((res) => console.log(res))
@@ -14,13 +15,14 @@ async function main() {
     // await mongoose.connect("mongodb://localhost:27017/test");
 } 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded( { extended: false } ))
+// app.use(bodyParser.urlencoded( { extended: false } ));
 
 app.get("/", (req, res) => {
     res.send("hello world");
 });
 
 app.use("/api/todos", todoRoutes);
+app.use("/api/users", userRoutes);
 
 app.listen(8080, () => {
     console.log("listening on port 8080");
