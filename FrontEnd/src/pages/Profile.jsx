@@ -1,4 +1,4 @@
-import {React} from 'react'
+import {React, useState, useEffect} from 'react'
 import { Container, Grid, Typography } from '@material-ui/core'
 
 import profilePic from '../images/SomeDude.jpeg'
@@ -19,6 +19,33 @@ const songProps = {
 const songs = [1, 2, 3, 4, 5, 6, 7];
 
 const Profile = () => {
+    let [msg, setMsg] = useState("Loading...")
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const params = {input: "testinginput"}
+    //         const result = await fetch('http://localhost:3001/api', );
+    //         const data = await result.json()
+    //         console.log("response: ", data);
+    //         setMsg(data.message);
+        
+            
+    //       };
+      
+    //       fetchData();
+    // },[]);
+
+    useEffect(() => {
+        const fetchData = async(url, params) => {
+            const response = await fetch(url + '?' + new URLSearchParams(params));
+            const data = await response.json()
+
+            console.log("response: " + data.message);
+            setMsg(data.message);
+        }
+
+        fetchData('http://localhost:3001/api', {input: "testing"});
+    }, []);
     return (
         <>
             <Container style={{marginTop: '1vh', height: '90vh', marginLeft: 0, marginRight: 0, padding: 0}}>
@@ -33,9 +60,12 @@ const Profile = () => {
                     ))}
 
                 </Grid>
-                <button>
+                <button onClick={() => {console.log("hi")}}>
                     Hello
                 </button>
+                <Typography>
+                    {msg}
+                </Typography>
                 
                 {/* <SongPlayerUI/>
                 <audio controls title='Song Title'>
