@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useEffect } from 'react';
 
 import {Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container, createTheme, ThemeProvider} from '@material-ui/core'
 import {Lock} from '@material-ui/icons'
@@ -44,13 +43,7 @@ export default function SignIn(props) {
       } else { // not valid suername/password
         alert("invalid");
       }
-    })
-    
-    // console.log({
-    //   email: data.get('email'),
-    //   password: data.get('password'),
-    // });
-    
+    })   
   };
 
   return (

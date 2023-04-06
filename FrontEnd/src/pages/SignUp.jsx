@@ -1,4 +1,6 @@
-import {Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container, createTheme, ThemeProvider} from '@material-ui/core'
+import {Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container, createTheme, ThemeProvider, Input} from '@material-ui/core'
+import { useState } from 'react';
+
 import {Lock} from '@material-ui/icons'
 import React from 'react'
 
@@ -18,27 +20,41 @@ function Copyright(props) {
   const theme = createTheme();
 
 const SignUp = (props) => {
+  const [validEmail, setValidEmail] = useState(false)
+  const [validPass, setValidPass] = useState(false)
+  const [validPassRetype, setValidPassRetype] = useState(false)
 
-    const validateLogin = () => {
-        alert("Need to Validate");
-        return true;
-      }
+    const createUser = async (params) => {
+      const waiting = await fetch("http://localhost:3001/signUp" + '?' + new URLSearchParams(params)); 
+      const response = await waiting.json();
+      return response;
+    }
     
       const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        // props.setLoginStatus(true);
-        // console.log(props.loginStatus);
-        // if (validateLogin()) {
-        //   window.location.pathname = '/account'
-        // }
-        // const email = data.get('email');
+        const user = data.get('username');
         const pass = data.get('password');
         const passRetype = data.get('passwordRetype');
 
+        //add some checks for emptiness/if its a complete email
+
         if (pass !== passRetype) {
-            alert("Theyre not the same")
-            // Need to move this to validate login
+            alert("password and password retype are not equal")
+        } else if (pass === '' || user === '') {
+            alert("username and password field cannot be empty")
+        } else {
+          const params = {username: data.get('email'), password: data.get('password')}
+          createUser(params)
+          .then((data) => {
+            if (data.created == true) {
+              console.log("created new user")
+              window.location.pathname = '/login'
+            } else {
+              console.log("user already exists")
+            }
+            alert(data.message);
+          })
         }
         
         console.log({
@@ -46,7 +62,6 @@ const SignUp = (props) => {
           password: data.get('password'),
           passwordRetype: data.get('passwordRetype'),
         });
-        
       };
     
     return (
@@ -73,6 +88,7 @@ const SignUp = (props) => {
             <TextField
               margin="normal"
               required
+              error={!validEmail} // check for self.value === ''
               fullWidth
               id="email"
               label="Email Address"
@@ -83,6 +99,7 @@ const SignUp = (props) => {
             <TextField
               margin="normal"
               required
+              error={!validPass}
               fullWidth
               name="password"
               label="Password"
@@ -93,6 +110,7 @@ const SignUp = (props) => {
             <TextField
               margin="normal"
               required
+              error={!validPassRetype}
               fullWidth
               name="passwordRetype"
               label="Retype Password"

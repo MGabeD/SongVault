@@ -57,6 +57,27 @@ app.get("/validateLogin", (req, res) => {
     
 });
 
+
+app.get("/signUp", (req, res) => {
+    console.log("got signUp request");
+
+    // receiving input parameters
+    const userName = req.query.username;
+    const pass = req.query.password;
+
+    console.log("req.query: ", req.query);
+    console.log("username: ", userName);
+    console.log("password: ", pass);
+
+    if (userName != "validUser") { // simulating username already exists
+        res.json({ created: true, message: "user was created" });
+    } else {
+        res.json({ created: false, message: 'account not created: user already exists'});
+    }
+
+    
+});
+
 app.use("/api/todos", todoRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/requests", requestRoutes);
