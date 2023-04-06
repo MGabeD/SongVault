@@ -35,7 +35,42 @@ const Profile = () => {
     //       fetchData();
     // },[]);
 
+    // function getUserData() {
+    //     // Set the URL to the desired endpoint
+    //     const url = 'http://localhost:3001/api/users/642cced92aed756b41eea226';
+      
+    //     // Make the GET request using fetch()
+    //     fetch(url)
+    //       .then(response => {
+    //         if (!response.ok) {
+    //           throw new Error('Network response was not ok');
+    //         }
+    //         return response.json();
+    //       })
+    //       .then(data => {
+    //         // Handle the response data
+    //         console.log('User data:', data);
+    //         // Do something with the retrieved data
+    //       })
+    //       .catch(error => {
+    //         // Handle any errors that occurred during the fetch
+    //         console.error('Error fetching user data:', error);
+    //       });
+          
+    //       console.log("pulling data");
+    //       getUserData();
+    //   }
+
     useEffect(() => {
+        const obj = {
+            "firstName": "Gabe",
+            "lastName": "Denton",
+            "email": "fake@fake.com",
+            "stageName": "amazingStageName",
+            "birthday": "6-6-2002",
+            "bio": "amazing_test_bio"
+        }
+
         const fetchData = async(url, params) => {
             const response = await fetch(url + '?' + new URLSearchParams(params));
             const data = await response.json()
@@ -44,7 +79,8 @@ const Profile = () => {
             setMsg(data.message);
         }
 
-        fetchData('http://localhost:3001/api', {input: "testing"});
+        fetchData('http://localhost:3001/api', {input: "testing", user: "Gabe D"});
+        
     }, []);
     return (
         <>

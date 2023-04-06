@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 
 import {Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container, createTheme, ThemeProvider} from '@material-ui/core'
 import {Lock} from '@material-ui/icons'
@@ -18,10 +19,15 @@ function Copyright(props) {
 
 const theme = createTheme();
 
+// Login Access Token Tutorial:
+// https://blog.logrocket.com/persistent-login-in-react-using-refresh-token-rotation/
+
 export default function SignIn(props) {
-  const validateLogin = () => {
-    alert("Need to Validate");
-    return true;
+  const validateLogin = async (params) => {
+    const response = await fetch('http://localhost:3001/validateLogin' + '?' + new URLSearchParams(params))
+    const valid = await response.json();
+    console.log(valid);
+    return valid.valid;
   }
 
   const handleSubmit = (event) => {
@@ -29,14 +35,21 @@ export default function SignIn(props) {
     const data = new FormData(event.currentTarget);
     props.setLoginStatus(true);
     console.log(props.loginStatus);
-    if (validateLogin()) {
-      window.location.pathname = '/account'
-    }
+    const params = {username: data.get('email'), password: data.get('password')}
+
+    validateLogin(params)
+    .then((valid) => { // waits for async response
+      if (valid) { // server validated username/password combo
+        window.location.pathname = '/account'
+      } else { // not valid suername/password
+        alert("invalid");
+      }
+    })
     
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    // console.log({
+    //   email: data.get('email'),
+    //   password: data.get('password'),
+    // });
     
   };
 
