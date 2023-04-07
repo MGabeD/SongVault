@@ -7,6 +7,21 @@ import useCardStyles from './CardFullStyles'
 
 const SongCardFull = (props) => {
     const classes = useCardStyles();
+
+    const onLike = () => {
+        const serverLike = async (params) => {
+            const response = await fetch('http://localhost:3001/likeSong' + '?' + new URLSearchParams(params));
+            const status = await response.json();
+
+            return status;
+        }
+
+        const params = {songID : "fakeSongID"}
+        serverLike(params)
+        .then((data) => {
+            alert(data.status);
+        })
+    }
   return (
     <Card className={classes.card} style={{flexDirection:"column"}}> 
         <CardMedia
@@ -26,7 +41,9 @@ const SongCardFull = (props) => {
         </CardContent>
         <CardActions>
             <IconButton
-            aria-label="add to favorites">
+            aria-label="add to favorites"
+            onClick={onLike}
+            >
                 <Favorite />
             </IconButton>
             <IconButton

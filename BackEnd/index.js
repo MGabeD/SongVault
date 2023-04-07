@@ -89,6 +89,19 @@ app.get("/signUp", (req, res) => {
     
 });
 
+app.get("/likeSong", (req, res) => {
+    console.log("got like song request");
+
+    // receiving input parameters
+    const songID = req.query.songID;
+    
+    console.log("req.query: ", req.query);
+    console.log("songID: ", songID);
+
+    
+    res.json({ status: 200 });
+});
+
 app.use("/api/todos", todoRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/requests", requestRoutes);
