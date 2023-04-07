@@ -15,6 +15,7 @@ const songProps = {
 const songs = [1, 2, 3, 4, 5, 6, 7]
 
 const Discover = () => {
+
     return (
         <div style={{background: 'black'}}>
             <SearchBar/>

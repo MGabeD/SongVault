@@ -57,6 +57,17 @@ app.get("/validateLogin", (req, res) => {
     
 });
 
+app.get("/discover", (req, res) => {
+    console.log("got discover request");
+
+    // receiving input parameters
+    const searchReq = req.query.searchReq;
+
+    console.log("username: ", searchReq);
+
+    res.json({ songs: ['song1', 'song2', 'song3'] });
+});
+
 
 app.get("/signUp", (req, res) => {
     console.log("got signUp request");

@@ -18,6 +18,23 @@ const SearchBar = () => {
     };
 
     const handleSubmit = () => {
+        
+        const reqSearch = async (params) => {
+            
+            const response = await fetch('http://localhost:3001/discover' + '?' + new URLSearchParams(params));
+            const results = await response.json();
+    
+            console.log(results);
+            return results;
+    
+            
+        }
+
+        const params = {searchReq: searchInput };
+        reqSearch(params)
+        .then((data) => {
+            alert(data.songs)
+        })
         console.log(searchInput);
     }
 
