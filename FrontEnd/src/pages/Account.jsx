@@ -1,9 +1,11 @@
 import {React, useState} from 'react'
-import { Typography, Button, Grid, Container, Tabs, Tab, Box, IconButton} from '@material-ui/core'
+import { Modal, Typography, Button, Grid, Container, Tabs, Tab, Box, IconButton} from '@material-ui/core'
 import { Settings } from '@material-ui/icons'
 
 import useStyles from '../styles'
 import SongCardFull from '../Components/SongCardFull/SongCardFull'
+import SongUploadModal from '../Components/SongUploadModal/SongUploadModal'
+import CreatePlaylistModal from '../Components/CreatePlaylistModal/CreatePlaylistModal'
 
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -14,6 +16,7 @@ const Account = () => {
     const classes = useStyles();
 
     const [cardType, setCardType] = useState("Songs");
+    const [uploadingSong, setUploadingSong] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
 
     const handleChange = (event, newValue) => {
@@ -24,10 +27,24 @@ const Account = () => {
         window.location.href = websiteLink;
     }
 
+    const toggleUploadingSong = () => {
+        
+    }
+
+
+
     return (
         <>
             <main className={classes.main}>
-                <div style={{justifyContent:'flex-end', flexDirection:'row', display: 'flex'}}>
+                <div style={{justifyContent:'flex-end', flexDirection:'row', display: 'flex', paddingTop: '5px'}}>
+                    {/* <Button variant="outlined" style={{color: 'white', border: "1px solid gray"}} >
+                        {cardType ==="Songs" ? "Upload Song" : "Create New Playlist"}
+                    </Button> */}
+                    {cardType === "Songs" ? <SongUploadModal/> : <CreatePlaylistModal/>}
+                    
+                    
+                    
+                    
                     <IconButton style={{color: 'grey'}}>
                         <Settings/>
                     </IconButton>

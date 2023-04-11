@@ -57,13 +57,32 @@ app.get("/validateLogin", (req, res) => {
     
 });
 
+app.get("/uploadSong", (req, res) => {
+    console.log("got upload song request");
+
+    // receiving input parameters
+    const songName = req.query.Name;
+    const songAudio = req.query.Audio;
+    const songImg = req.query.Image;
+
+    console.log("req.query: ", req.query);
+    console.log("songName: ", songName);
+    console.log("songAudio: ", songAudio);
+    console.log("songImg: ", songImg);
+
+    res.json({ status: 200 });
+    
+});
+
+
+
 app.get("/discover", (req, res) => {
     console.log("got discover request");
 
     // receiving input parameters
     const searchReq = req.query.searchReq;
 
-    console.log("username: ", searchReq);
+    console.log("search value: ", searchReq);
 
     res.json({ songs: ['song1', 'song2', 'song3'] });
 });
@@ -100,6 +119,12 @@ app.get("/likeSong", (req, res) => {
 
     
     res.json({ status: 200 });
+});
+
+app.get("/trending", (req, res) => {
+    console.log("got trending request");
+
+    res.json({ trending: ['trending1', 'trending2', 'trending3'] });
 });
 
 app.use("/api/todos", todoRoutes);
