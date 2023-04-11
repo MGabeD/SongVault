@@ -27,6 +27,13 @@ app.use((req, res, next) => {
 // app.use(bodyParser.urlencoded( { extended: false } ));
 
 app.get("/api", (req, res) => {
+    // This is a useless function
+    //////////////////////////////
+    //                          //
+    //        Delete Me         //
+    //                          //
+    //////////////////////////////
+
     console.log("got request");
 
     // receiving input parameters
@@ -48,13 +55,19 @@ app.get("/validateLogin", (req, res) => {
     console.log("username: ", userName);
     console.log("password: ", pass);
 
+    // validate that this is a user, and return a loginToken
+    // loginToken doesn't need to be secure so maybe just email == the userID == loginToken
+    
+    // login Token will be stored on client side, and will be passed to 
+    // the server to get user's songs/playlists
+
     if (userName === "validUser" && pass === "validPass") {
+        // username + password present in db, send back userID as loginToken
         res.json({ valid: true, token: 'thisIsSomeUserToken' });
     } else {
+        // user/pass did not match in the database, send back invalid
         res.json({ valid: false, token: null });
     }
-
-    
 });
 
 app.get("/uploadSong", (req, res) => {
@@ -70,7 +83,14 @@ app.get("/uploadSong", (req, res) => {
     console.log("songAudio: ", songAudio);
     console.log("songImg: ", songImg);
 
-    res.json({ status: 200 });
+    // need to push this to the database
+
+    const dbResponse = true
+    if (dbResponse) {
+        res.json({ status: 200 });
+    } else {
+        res.json({ status: 400 });
+    }
     
 });
 
