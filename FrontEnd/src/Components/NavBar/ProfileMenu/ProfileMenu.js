@@ -16,7 +16,9 @@ export default function ProfileMenu(props) {
 
     const handleLogoutClick = () => {
         props.setLoginStatus(false);
+        localStorage.setItem('loginStatus', 'invalid');
         handleClose();
+        window.location.pathname = "";
     }
 
     const handleLinkSelect = (pathname) => {
@@ -50,7 +52,7 @@ export default function ProfileMenu(props) {
             }}
             style={{marginTop: "35px"}}
         >
-            {props.loginStatus ?
+            {localStorage.getItem('loginStatus') === 'valid' ?
             <>
             {/* <MenuItem> Home </MenuItem> */}
             <MenuItem onClick={() => handleLinkSelect("profile")}>Profile</MenuItem>

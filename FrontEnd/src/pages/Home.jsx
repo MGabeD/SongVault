@@ -26,9 +26,12 @@ const Home = () => {
                     <Button variant="text" className={classes.button} onClick={() => handleLinkSelect("discover")}> 
                         Discover 
                     </Button>
+                    {localStorage.getItem('loginStatus') !== 'valid' ? 
                     <Button variant="text" className={classes.button} onClick={() => handleLinkSelect("login")}>
                         Login
-                    </Button>
+                    </Button> :
+                    <></>}
+                    
                 </div>
                 {/* <div style={{position: 'fixed', top: '62%', backgroundColor: "rgba(0, 0, 0, 0.5)"}}>
                     <Typography variant="h4" fontWeight={700} className={classes.title}>

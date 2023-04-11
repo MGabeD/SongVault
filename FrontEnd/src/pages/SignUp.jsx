@@ -88,7 +88,6 @@ const SignUp = (props) => {
             <TextField
               margin="normal"
               required
-              error={!validEmail} // check for self.value === ''
               fullWidth
               id="email"
               label="Email Address"
@@ -99,7 +98,6 @@ const SignUp = (props) => {
             <TextField
               margin="normal"
               required
-              error={!validPass}
               fullWidth
               name="password"
               label="Password"
@@ -110,7 +108,6 @@ const SignUp = (props) => {
             <TextField
               margin="normal"
               required
-              error={!validPassRetype}
               fullWidth
               name="passwordRetype"
               label="Retype Password"
@@ -131,9 +128,6 @@ const SignUp = (props) => {
             </Button>
             <Grid container>
               <Grid item xs>
-                {/* <Link href="#" variant="body2">
-                  Forgot password?
-                </Link> */}
               </Grid>
               <Grid item>
                 <Link href="login" variant="body2">

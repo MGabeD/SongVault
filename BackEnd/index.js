@@ -49,9 +49,9 @@ app.get("/validateLogin", (req, res) => {
     console.log("password: ", pass);
 
     if (userName === "validUser" && pass === "validPass") {
-        res.json({ valid: true });
+        res.json({ valid: true, token: 'thisIsSomeUserToken' });
     } else {
-        res.json({ valid: false });
+        res.json({ valid: false, token: null });
     }
 
     

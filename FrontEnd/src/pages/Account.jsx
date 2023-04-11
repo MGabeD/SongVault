@@ -100,7 +100,7 @@ const Account = () => {
                                 <SongCardFull
                                 title={cardType === "Songs" ? "Song Title" : "Playlist Title"}
                                 desc={cardType==="Songs" ? "This is a short description of the song" : "This is a short description of the playlist"}
-                                image="https://source.unsplash.com/random"/>
+                                image="https://source.unsplash.com/random/?Music"/>
                             </Grid>
                         ))
                             :
@@ -109,7 +109,7 @@ const Account = () => {
                                 <SongCardFull
                                 title={cardType === "Songs" ? "Song Title" : "Playlist Title"}
                                 desc={cardType==="Songs" ? "This is a short description of the song" : "This is a short description of the playlist"}
-                                image="https://source.unsplash.com/random"/>
+                                image="https://source.unsplash.com/random/?Music"/>
                             </Grid>
                             )
                         )}

@@ -24,7 +24,7 @@ const [loginStatus, setLoginStatus] = React.useState(true);
       <Routes>
         <Route path="/" element={<Layout loginStatus={loginStatus} setLoginStatus={setLoginStatus}/>}>
           <Route index element={<Home />} /> {/** Default route */}
-          <Route path="account" element={<Account />} />
+          <Route path="account" element={localStorage.getItem('loginStatus') === 'valid' ?  <Account /> : <></>} />
           <Route path="discover" element={<Discover />} />
           <Route path="login" element={<SignIn oginStatus={loginStatus} setLoginStatus={setLoginStatus}/>} />
           <Route path="signup" element={<SignUp />} />

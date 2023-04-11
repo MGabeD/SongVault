@@ -31,7 +31,7 @@ export default function SignIn(props) {
     const response = await fetch('http://localhost:3001/validateLogin' + '?' + new URLSearchParams(params))
     const valid = await response.json();
     console.log(valid);
-    return valid.valid;
+    return valid;
   }
 
   const handleSubmit = (event) => {
@@ -44,14 +44,21 @@ export default function SignIn(props) {
     validateLogin(params)
     .then((valid) => { // waits for async response
       if (valid) { // server validated username/password combo
-        props.setLoginStatus(valid);
-        localStorage.setItem('loginToken', 'valid')
-        alert(localStorage.getItem('loginToken'))
-
+        // props.setLoginStatus(valid.valid);
         
+        // setting localStorage for loginToken and loginStatus
+        localStorage.setItem('loginStatus', 'valid')
+        localStorage.setItem('loginToken', valid.token)
+
+        // DeleteMe
+        alert("User Token: " + localStorage.getItem('loginToken'))
+        alert("Login Status: " + localStorage.getItem('loginStatus'))
+
+        // pathing to the account page
         window.location.pathname = '/account'
-      } else { // not valid suername/password
-        alert("invalid");
+      } else { 
+        // not valid suername/password
+        alert("incorrect username or password");
       }
     })   
   };

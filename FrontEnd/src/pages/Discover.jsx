@@ -8,7 +8,7 @@ import song from '../audio/reds.mp3'
 const songProps = {
     title: "Reds",
     artist: "James Becker",
-    image: "https://source.unsplash.com/random",
+    image: "https://source.unsplash.com/random/?Music",
     audio: song
 }
 
