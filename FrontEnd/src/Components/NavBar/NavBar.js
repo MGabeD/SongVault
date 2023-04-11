@@ -40,6 +40,13 @@ const NavBar = (props) => {
                         >
                             Discover
                         </Button>
+
+                        <Button variant="text" color='inherit'
+                        onClick={() => handleLinkClick("/trending")}
+                        >
+                            Trending
+                        </Button>
+
                         <ProfileMenu
                         loginStatus = {props.loginStatus}
                         setLoginStatus = {props.setLoginStatus}

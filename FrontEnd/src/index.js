@@ -15,6 +15,7 @@ import Profile from "./pages/Profile";
 import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import Discover from './pages/Discover';
+import Trending from './pages/Trending';
 import PageNotFound from './pages/PageNotFound';
 
 export default function App() {
@@ -29,6 +30,7 @@ const [loginStatus, setLoginStatus] = React.useState(true);
           <Route path="login" element={<SignIn oginStatus={loginStatus} setLoginStatus={setLoginStatus}/>} />
           <Route path="signup" element={<SignUp />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="trending" element={<Trending />} />
           <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>

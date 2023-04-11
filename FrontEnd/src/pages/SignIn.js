@@ -20,12 +20,6 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-// Login Access Token Tutorial:
-// https://blog.logrocket.com/persistent-login-in-react-using-refresh-token-rotation/
-
-// better one:
-// https://www.digitalocean.com/community/tutorials/how-to-add-login-authentication-to-react-applications
-
 export default function SignIn(props) {
   const validateLogin = async (params) => {
     const response = await fetch('http://localhost:3001/validateLogin' + '?' + new URLSearchParams(params))

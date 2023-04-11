@@ -28,25 +28,21 @@ const Account = () => {
         // window.location.href = websiteLink;
     }
 
-    const toggleUploadingSong = () => {
-        
+    const editAccount = () => {
+        alert("can't edit account details yet");
     }
-
-
 
     return (
         <>
             <main className={classes.main}>
-                <div style={{justifyContent:'flex-end', flexDirection:'row', display: 'flex', paddingTop: '5px'}}>
-                    {/* <Button variant="outlined" style={{color: 'white', border: "1px solid gray"}} >
-                        {cardType ==="Songs" ? "Upload Song" : "Create New Playlist"}
-                    </Button> */}
+                <div style={{justifyContent:'flex-end', flexDirection:'row', display: 'flex', paddingTop: '10px'}}>
                     {cardType === "Songs" ? <SongUploadModal/> : <CreatePlaylistModal/>}
                     
                     
                     
                     
-                    <IconButton style={{color: 'grey'}}>
+                    <IconButton style={{color: 'grey'}} 
+                    onClick={editAccount}>
                         <Settings/>
                     </IconButton>
                 </div>

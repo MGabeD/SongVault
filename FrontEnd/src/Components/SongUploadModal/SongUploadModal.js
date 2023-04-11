@@ -6,7 +6,6 @@ const SongUploadModal = () => {
     const [open, setOpen] = React.useState(false);
     const [imagePreview, setImagePreview] = React.useState(null);
 
-
     const inputRef = useRef();
 
     const style = {

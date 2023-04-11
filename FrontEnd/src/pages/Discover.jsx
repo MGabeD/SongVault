@@ -12,40 +12,22 @@ const songProps = {
     audio: song
 }
 
+const songs = [1, 2, 3, 4, 5, 6, 7]
 
 // https://www.thecodecreative.com/blog/how-to-load-an-audio-file-using-fetch
 
-const songs = [1, 2, 3, 4, 5, 6, 7]
+
 
 const Discover = () => {
-    const [recSongs, setRecSongs] = useState([]);
-
-    useEffect(() => {
-        const getRecSongs = async () => {
-            const response = await fetch('http://localhost:3001/trending');
-            const recSongs = await response.json();
-
-            setRecSongs(recSongs.recSongs);
-            return recSongs;
-        }
-
-        getRecSongs()
-        .then((data) => {
-            console.log(data.trending);
-            alert(data.trending)
-        })
-    },[]);
-
     return (
         <div style={{background: 'black'}}>
             <SearchBar/>
-            <div>
-                <Typography variant='h3' style={{color: 'gray' , textAlign:' center', marginTop: '20px', marginBottom: '5px'}}>
-                    Trending Today
-                    {recSongs}
+            <div >
+                <Typography variant='h3' style={{color: 'white', width: '100%', justifyContent: 'center', display: 'flex'}}>
+                    Search Results
                 </Typography>
                 <Container style={{width: '100%'}}>
-                    <Grid container style={{width: '100%'}} spacing={4}>
+                    <Grid container style={{width: '100%', paddingTop: '20px'}} spacing={4}>
                         {songs.map((key) => (
                             <Grid item xs={12} key={key}>
                             <BottomSongControlUI
@@ -58,7 +40,6 @@ const Discover = () => {
                         ))}
                     </Grid>
                 </Container>
-                
             </div>
         </div>
     )

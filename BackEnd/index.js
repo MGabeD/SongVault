@@ -85,13 +85,15 @@ app.get("/uploadSong", (req, res) => {
 
     // need to push this to the database
 
+    // get the status of the upload from the database
     const dbResponse = true
+
+    // send back to frontend whether or not the db uploaded successfully
     if (dbResponse) {
         res.json({ status: 200 });
     } else {
         res.json({ status: 400 });
     }
-    
 });
 
 
@@ -102,8 +104,10 @@ app.get("/discover", (req, res) => {
     // receiving input parameters
     const searchReq = req.query.searchReq;
 
+    // maybe just a direct search for a username --> return their songs
     console.log("search value: ", searchReq);
 
+    // pushing array of songs to the frontend as response
     res.json({ songs: ['song1', 'song2', 'song3'] });
 });
 
@@ -111,7 +115,6 @@ app.get("/discover", (req, res) => {
 app.get("/signUp", (req, res) => {
     console.log("got signUp request");
 
-    // receiving input parameters
     const userName = req.query.username;
     const pass = req.query.password;
 
@@ -119,13 +122,16 @@ app.get("/signUp", (req, res) => {
     console.log("username: ", userName);
     console.log("password: ", pass);
 
+    // need to do some validation to make sure email/password
+
+    // push these to the database for users
+
+    // if the user was created, send created=true, else send with message describing error
     if (userName != "validUser") { // simulating username already exists
         res.json({ created: true, message: "user was created" });
     } else {
         res.json({ created: false, message: 'account not created: user already exists'});
     }
-
-    
 });
 
 app.get("/likeSong", (req, res) => {
@@ -137,13 +143,19 @@ app.get("/likeSong", (req, res) => {
     console.log("req.query: ", req.query);
     console.log("songID: ", songID);
 
-    
+    // update the song's likes in db and send back status
     res.json({ status: 200 });
 });
 
 app.get("/trending", (req, res) => {
     console.log("got trending request");
 
+    // idk what kind of search query we are going to do for db, but
+    // i think we should do just some blanket search of the first 10 songs
+    // in song page
+
+    // sending back array of songs to frontend
+    // need to change these to objects containing mp3, image, name, and artist
     res.json({ trending: ['trending1', 'trending2', 'trending3'] });
 });
 
