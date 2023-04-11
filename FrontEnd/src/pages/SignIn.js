@@ -3,6 +3,8 @@ import * as React from 'react';
 import {Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container, createTheme, ThemeProvider} from '@material-ui/core'
 import {Lock} from '@material-ui/icons'
 
+import { PropTypes } from '@material-ui/core';
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -20,6 +22,9 @@ const theme = createTheme();
 
 // Login Access Token Tutorial:
 // https://blog.logrocket.com/persistent-login-in-react-using-refresh-token-rotation/
+
+// better one:
+// https://www.digitalocean.com/community/tutorials/how-to-add-login-authentication-to-react-applications
 
 export default function SignIn(props) {
   const validateLogin = async (params) => {
@@ -39,6 +44,11 @@ export default function SignIn(props) {
     validateLogin(params)
     .then((valid) => { // waits for async response
       if (valid) { // server validated username/password combo
+        props.setLoginStatus(valid);
+        localStorage.setItem('loginToken', 'valid')
+        alert(localStorage.getItem('loginToken'))
+
+        
         window.location.pathname = '/account'
       } else { // not valid suername/password
         alert("invalid");

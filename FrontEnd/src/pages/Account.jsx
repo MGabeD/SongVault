@@ -24,7 +24,8 @@ const Account = () => {
     }
 
     const handleWebsiteLink = () => {
-        window.location.href = websiteLink;
+        alert(localStorage.getItem('loginToken'))
+        // window.location.href = websiteLink;
     }
 
     const toggleUploadingSong = () => {

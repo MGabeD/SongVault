@@ -18,7 +18,6 @@ const SearchBar = () => {
     };
 
     const handleSubmit = () => {
-        
         const reqSearch = async (params) => {
             
             const response = await fetch('http://localhost:3001/discover' + '?' + new URLSearchParams(params));
