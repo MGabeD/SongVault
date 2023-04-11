@@ -8,6 +8,14 @@ const requestRoutes = require("./routes/requests.js");
 
 const PORT = 3001;
 
+const admin = require('firebase-admin');
+const serviceAccount = require('songvault-7f750-firebase-adminsdk-6x758-8dfbc34995.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  storageBucket: 'gs://songvault-7f750.appspot.com'
+});
+
 main()
     .then((res) => console.log(res))
     .catch((err) => console.log(err));
@@ -16,6 +24,7 @@ async function main() {
     await mongoose.connect("mongodb://129.114.27.13:27017/test")
     // await mongoose.connect("mongodb://localhost:27017/test");
 } 
+
 app.use(bodyParser.json());
 
 app.use((req, res, next) => { 
