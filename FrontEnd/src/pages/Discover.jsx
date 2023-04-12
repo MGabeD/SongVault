@@ -12,16 +12,16 @@ const songProps = {
     audio: song
 }
 
-const songs = [1, 2, 3, 4, 5, 6, 7]
-
 // https://www.thecodecreative.com/blog/how-to-load-an-audio-file-using-fetch
 
 
 
 const Discover = () => {
+    const [songs, setSongs] = useState([]);
+
     return (
         <div style={{background: 'black'}}>
-            <SearchBar/>
+            <SearchBar songs={songs} setSongs={setSongs}/>
             <div >
                 <Typography variant='h3' style={{color: 'white', width: '100%', justifyContent: 'center', display: 'flex'}}>
                     Search Results

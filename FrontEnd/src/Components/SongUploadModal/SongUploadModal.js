@@ -69,6 +69,7 @@ const SongUploadModal = () => {
             Name: data.get('songName'),
             Audio: data.get('songMP3'),
             Image: data.get('songImg'),
+            User: localStorage.getItem('loginToken'),
         }
         
         sendToServer(params)

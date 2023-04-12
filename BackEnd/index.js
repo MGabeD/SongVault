@@ -165,7 +165,7 @@ app.get("/trending", (req, res) => {
 
     // sending back array of songs to frontend
     // need to change these to objects containing mp3, image, name, and artist
-    res.json({ trending: ['trending1', 'trending2', 'trending3'] });
+    res.json({ trending: [1, 2, 3, 4, 5] });
 });
 
 app.use("/api/todos", todoRoutes);

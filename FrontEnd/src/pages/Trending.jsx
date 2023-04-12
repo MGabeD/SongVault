@@ -11,10 +11,11 @@ const songProps = {
     audio: song
 }
 
-const songs = [1, 2, 3, 4, 5, 6, 7]
+
 
 const Trending = () => {
     const [recSongs, setRecSongs] = useState([]);
+    const [songs, setSongs] = useState([]);
 
     useEffect(() => {
         const getRecSongs = async () => {
@@ -28,6 +29,7 @@ const Trending = () => {
         getRecSongs()
         .then((data) => {
             console.log(data.trending);
+            setSongs(data.trending)
             alert(data.trending)
         })
     },[]);

@@ -7,7 +7,7 @@ import useStyles from './searchbarStyles'
 import stockPhoto from '../../images/Headphones.avif'
 
 
-const SearchBar = () => {
+const SearchBar = (props) => {
     const classes = useStyles();
 
     const [searchInput, setSearchInput] = useState("");
@@ -33,6 +33,7 @@ const SearchBar = () => {
         reqSearch(params)
         .then((data) => {
             alert(data.songs)
+            props.setSongs(data.songs)
         })
         console.log(searchInput);
     }
