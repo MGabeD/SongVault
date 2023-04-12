@@ -62,34 +62,21 @@ const SongUploadModal = () => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         console.log(data)
-        alert(data.get('songName'));
-        // alert(data.get('songMP3'));
-        // alert(data.get('songImg'));
-
-        const params = {
-            Name: data.get('songName'),
-            Audio: data.get('songMP3'),
-            Image: data.get('songImg'),
-            User: localStorage.getItem('loginToken'),
-        }
-        
-        // sendToServer(params)
-        // .then((data) => {
-        //     alert(data.status);
-        // })
         
         const formData = new FormData();
-        // formData.append("Name", data.get('songName'));
-        // formData.append("Image", "noImageRn");
+        formData.append("Name", data.get('songName'));
+        formData.append("Image", data.get('songImg'));
         formData.append("Audio", data.get('songMP3'));
-        // formData.append("User", localStorage.getItem('loginToken'));
-        
-        console.log('sending Post req');
-        console.log(formData)
+        formData.append("User", localStorage.getItem('loginToken'));
+
         fetch("http://localhost:3001/uploadSong", {
             method: "POST",
             body: formData,
-        });
+        }).then((response) => {
+            console.log(response);
+        }).catch((error) => {
+            alert(error);
+        })
         console.log('after post req');
 
         handleClose();

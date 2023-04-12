@@ -25,7 +25,7 @@ const SignUp = (props) => {
   const [validPassRetype, setValidPassRetype] = useState(false)
 
     const createUser = async (params) => {
-      const waiting = await fetch("http://localhost:3001/signUp" + '?' + new URLSearchParams(params)); 
+      const waiting = await fetch("http://localhost:3001/api/users" + '?' + new URLSearchParams(params)); 
       const response = await waiting.json();
       return response;
     }
@@ -44,17 +44,49 @@ const SignUp = (props) => {
         } else if (pass === '' || user === '') {
             alert("username and password field cannot be empty")
         } else {
-          const params = {username: data.get('email'), password: data.get('password')}
-          createUser(params)
-          .then((data) => {
-            if (data.created == true) {
-              console.log("created new user")
-              window.location.pathname = '/login'
-            } else {
-              console.log("user already exists")
-            }
-            alert(data.message);
+          // const params = {username: data.get('email'), password: data.get('password')}
+
+          // const formData = new FormData();
+          // formData.append("firstName", 'notImplemented');
+          // formData.append("lastName", 'notImplemented');
+          // formData.append("email", 'notImplemented');
+          // formData.append("stageName", 'notImplemented');
+          // formData.append("birthday", 'notImplemented');
+          // formData.append("bio", 'notImplemented');
+
+          // formData.append("username", data.get('username'));
+          // formData.append("password", data.get('songName'));
+
+          const bodyData = {
+            "userName": data.get('username'),
+            "password": data.get('password'),
+            "firstName": 'notImplemented',
+            "lastName": 'notImplemented',
+            "email": 'notImplemented',
+            "stageName": 'notImplemented',
+            "birthday": 'notImplemented',
+            "bio": 'notImplemented'
+          }
+
+  
+          fetch("http://localhost:3001/api/users", {
+              method: "POST",
+              body: bodyData,
+          }).then((response) => {
+              console.log(response);
+          }).catch((error) => {
+              alert(error);
           })
+          // createUser(params)
+          // .then((data) => {
+          //   if (data.created == true) {
+          //     console.log("created new user")
+          //     window.location.pathname = '/login'
+          //   } else {
+          //     console.log("user already exists")
+          //   }
+          //   alert(data.message);
+          // })
         }
         
         console.log({
