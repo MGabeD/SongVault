@@ -46,23 +46,12 @@ const SignUp = (props) => {
         } else {
           // const params = {username: data.get('email'), password: data.get('password')}
 
-          const formData = new FormData();
-          formData.append("firstName", 'notImplemented');
-          formData.append("lastName", 'notImplemented');
-          formData.append("email", 'notImplemented');
-          formData.append("stageName", 'notImplemented');
-          formData.append("birthday", 'notImplemented');
-          formData.append("bio", 'notImplemented');
-
-          formData.append("username", data.get('username'));
-          formData.append("password", data.get('songName'));
-
           const bodyData = {
-            "userName": data.get('email'),
+            "userName": data.get('username'),
             "password": data.get('password'),
             "firstName": 'notImplemented',
             "lastName": 'notImplemented',
-            "email": 'notImplemented',
+            "email": data.get('email'),
             "stageName": 'notImplemented',
             "birthday": 'notImplemented',
             "bio": 'notImplemented'
@@ -75,20 +64,15 @@ const SignUp = (props) => {
             },
             body: JSON.stringify(bodyData)
           }).then((response) => {
-            console.log(response);
+            console.log('status: ' + response.status)
+            if (response.status === 201) {
+              window.location.pathname = '/login'
+            } else {
+              alert('user not created')
+            }
           }).catch((error) => {
             alert(error);
           });
-          // createUser(params)
-          // .then((data) => {
-          //   if (data.created == true) {
-          //     console.log("created new user")
-          //     window.location.pathname = '/login'
-          //   } else {
-          //     console.log("user already exists")
-          //   }
-          //   alert(data.message);
-          // })
         }
         
         console.log({
@@ -129,6 +113,17 @@ const SignUp = (props) => {
               autoComplete="email"
               autoFocus
             />
+
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="Username"
+              label="username"
+              name="username"
+              autoFocus
+            />
+
             <TextField
               margin="normal"
               required
