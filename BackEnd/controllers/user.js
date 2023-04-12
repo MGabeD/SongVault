@@ -1,6 +1,7 @@
 const User = require("../models/user");
 
 exports.createUser = (req, res, next) => {
+    console.log('got createUser req')
     const user = new User({
         userName: req.body.userName,
         password: req.body.password,
@@ -17,7 +18,7 @@ exports.createUser = (req, res, next) => {
         playlists: req.body.playlists,
     });
     console.log(user);
-    // console.log(req);
+    
     user
         .save()
         .then((result) => {
