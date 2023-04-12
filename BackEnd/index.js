@@ -193,34 +193,49 @@ app.listen(PORT, () => {
 
 // FIREBASE
 
-const bucket = admin.storage().bucket();
+const { Storage } = require('@google-cloud/storage');
 
-async function uploadMP3ToFirebaseStorage(filePath) {
-  if (!fs.existsSync(filePath)) {
-    console.error("File not found:", filePath);
+async function uploadMP3ToFirebaseStorage(base64AudioData) {
+  if (!base64AudioData) {
+    console.error("No audio data provided.");
     return;
   }
 
-  const mimeType = "audio/mpeg";
-  const fileName = path.basename(filePath);
+  const fileName = 'your-file-name.mp3';
+  const mimeType = 'audio/mpeg';
+  const buffer = Buffer.from(base64AudioData, 'base64');
 
   try {
-    await bucket.upload(filePath, {
-      destination: `songs/${fileName}`,
-      metadata: {
-        contentType: mimeType
-      }
+    const storage = new Storage({
+      projectId: 'your-project-id',
+      keyFilename: 'path/to/your/private-key.json'
     });
 
+    const bucket = storage.bucket('songvault-7f750.appspot.com');
     const file = bucket.file(`songs/${fileName}`);
-    const config = {
-      action: 'read',
-      expires: '03-01-2030' // Set the expiration date for the signed URL
-    };
-    const url = await file.getSignedUrl(config);
 
-    console.log("File uploaded successfully:", url[0]);
+    const stream = file.createWriteStream({
+      metadata: {
+        contentType: mimeType,
+      },
+      resumable: false,
+    });
+
+    stream.on('error', (error) => {
+      console.error('Error uploading file:', error);
+    });
+
+    stream.on('finish', async () => {
+      const config = {
+        action: 'read',
+        expires: '03-01-2030',
+      };
+      const url = await file.getSignedUrl(config);
+      console.log('File uploaded successfully:', url[0]);
+    });
+
+    stream.end(buffer);
   } catch (error) {
-    console.error("Error uploading file:", error);
+    console.error('Error uploading file:', error);
   }
 }
