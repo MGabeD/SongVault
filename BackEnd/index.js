@@ -1,4 +1,5 @@
 const express = require("express");
+const multer = require("multer");
 const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -14,11 +15,71 @@ const serviceAccount = require('songvault-7f750-firebase-adminsdk-6x758-8dfbc349
 const fs = require('fs');
 const path = require('path');
 
+////////////////////////////////////////////////////////////
+// Firebase stuff //
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   storageBucket: 'gs://songvault-7f750.appspot.com'
 });
 
+const bucket = admin.storage().bucket();
+
+// Create a Multer storage object with options
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+// Define a POST route to receive the file
+app.post("/uploadSong", upload.single("Audio"), (req, res, next) => {
+    // Get the file from the request
+
+    console.log('req: \n');
+    console.log(req);
+
+    console.log('req.file: \n')
+    console.log(req.file);
+  
+    const file = req.file;
+
+    // Create a unique filename for the file
+    const filename = `${Date.now()}-${file.originalname}`;
+  
+    // Create a file object to upload to Firebase Storage
+    const fileObject = bucket.file(filename);
+  
+    // Create a write stream to Firebase Storage
+    const stream = fileObject.createWriteStream({
+      metadata: {
+        contentType: file.mimetype
+      }
+    });
+  
+    // Handle errors during the upload
+    stream.on("error", err => {
+      console.error(err);
+      res.status(500).send("Failed to upload file");
+    });
+  
+    // Handle the end of the upload
+    stream.on("finish", async () => {
+      // Set the URL expiration time to one week
+      const expires = Date.now() + 7 * 24 * 60 * 60 * 1000;
+  
+      // Get the signed URL for the file with the specified expiration time
+      const [url] = await fileObject.getSignedUrl({
+        action: "read",
+        expires
+      });
+  
+      // Send the URL back to the client
+      res.json({ url });
+    });
+  
+    // Pipe the file stream to the Firebase Storage write stream
+    stream.end(file.buffer);
+  });
+////////////////////////////////////////////////////////////
+// end Firebase stuff //
 main()
     .then((res) => console.log(res))
     .catch((err) => console.log(err));
@@ -82,35 +143,21 @@ app.get("/validateLogin", (req, res) => {
     }
 });
 
-app.get("/uploadSong", (req, res) => {
-    console.log("got upload song request");
+// app.post("/uploadSong", (req, res) => {
+//     console.log("got upload song request");
 
-    // receiving input parameters
-    const songName = req.query.Name;
-    const songAudio = req.query.Audio;
-    const songImg = req.query.Image;
+//     const songAudio = req.file;
 
-    console.log("req.query: ", req.query);
-    console.log("songName: ", songName);
-    console.log("songAudio: ", songAudio);
-    console.log("songImg: ", songImg);
+//     // get the status of the upload from the database
+//     const dbResponse = true
 
-    // need to push this to the database
-    
-    //TODO mongo side
-
-    uploadMP3ToFirebaseStorage(songAudio);
-
-    // get the status of the upload from the database
-    const dbResponse = true
-
-    // send back to frontend whether or not the db uploaded successfully
-    if (dbResponse) {
-        res.json({ status: 200 });
-    } else {
-        res.json({ status: 400 });
-    }
-});
+//     // send back to frontend whether or not the db uploaded successfully
+//     if (dbResponse) {
+//         res.json({ status: 200 });
+//     } else {
+//         res.json({ status: 400 });
+//     }
+// });
 
 app.get("/discover", (req, res) => {
     console.log("got discover request");
@@ -191,51 +238,3 @@ app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });
 
-// FIREBASE
-
-const { Storage } = require('@google-cloud/storage');
-
-async function uploadMP3ToFirebaseStorage(base64AudioData) {
-  if (!base64AudioData) {
-    console.error("No audio data provided.");
-    return;
-  }
-
-  const fileName = 'your-file-name.mp3';
-  const mimeType = 'audio/mpeg';
-  const buffer = Buffer.from(base64AudioData, 'base64');
-
-  try {
-    const storage = new Storage({
-      projectId: 'your-project-id',
-      keyFilename: 'path/to/your/private-key.json'
-    });
-
-    const bucket = storage.bucket('songvault-7f750.appspot.com');
-    const file = bucket.file(`songs/${fileName}`);
-
-    const stream = file.createWriteStream({
-      metadata: {
-        contentType: mimeType,
-      },
-      resumable: false,
-    });
-
-    stream.on('error', (error) => {
-      console.error('Error uploading file:', error);
-    });
-
-    stream.on('finish', async () => {
-      const config = {
-        action: 'read',
-        expires: '03-01-2030',
-      };
-      const url = await file.getSignedUrl(config);
-      console.log('File uploaded successfully:', url[0]);
-    });
-
-    stream.end(buffer);
-  } catch (error) {
-    console.error('Error uploading file:', error);
-  }
-}

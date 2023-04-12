@@ -1,12 +1,13 @@
-import React, { useRef } from 'react'
+import React, { useState } from 'react'
 
 import { Modal, Button, Box, TextField, Input, Container, Typography} from '@material-ui/core'
 
 const SongUploadModal = () => {
     const [open, setOpen] = React.useState(false);
     const [imagePreview, setImagePreview] = React.useState(null);
+    const [mp3File, setMp3File] = useState(null);
 
-    const inputRef = useRef();
+    
 
     const style = {
         position: 'absolute',
@@ -51,12 +52,12 @@ const SongUploadModal = () => {
 
 
     const handleSubmit = (event) => {
-        const sendToServer = async (params) => {
-            const response = await fetch("http://localhost:3001/uploadSong" + '?' + new URLSearchParams(params))
-            const status = await response.json();
+        // const sendToServer = async (params) => {
+        //     const response = await fetch("http://localhost:3001/uploadSong" + '?' + new URLSearchParams(params))
+        //     const status = await response.json();
 
-            return status;
-        }
+        //     return status;
+        // }
 
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -72,10 +73,24 @@ const SongUploadModal = () => {
             User: localStorage.getItem('loginToken'),
         }
         
-        sendToServer(params)
-        .then((data) => {
-            alert(data.status);
-        })
+        // sendToServer(params)
+        // .then((data) => {
+        //     alert(data.status);
+        // })
+        
+        const formData = new FormData();
+        // formData.append("Name", data.get('songName'));
+        // formData.append("Image", "noImageRn");
+        formData.append("Audio", data.get('songMP3'));
+        // formData.append("User", localStorage.getItem('loginToken'));
+        
+        console.log('sending Post req');
+        console.log(formData)
+        fetch("http://localhost:3001/uploadSong", {
+            method: "POST",
+            body: formData,
+        });
+        console.log('after post req');
 
         handleClose();
     }
@@ -132,7 +147,6 @@ const SongUploadModal = () => {
                         required
                         // onChange={e => setImg(e.target.value)}
                         onChange={handleImageChange}
-                        ref={inputRef}
 
                         style={{
                             paddingLeft: '32px',
