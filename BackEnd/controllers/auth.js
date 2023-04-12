@@ -1,8 +1,8 @@
 const User = require("../models/user");
 
 exports.getAuth = (req, res, next) => {
-    const userName = req.body.userName;
-    const password = req.body.password;
+    const userName = req.query.userName;
+    const password = req.query.password;
     console.log(userName);
     console.log(password);
     User.findOne({
