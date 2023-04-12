@@ -11,6 +11,9 @@ const PORT = 3001;
 const admin = require('firebase-admin');
 const serviceAccount = require('songvault-7f750-firebase-adminsdk-6x758-8dfbc34995.json');
 
+const fs = require('fs');
+const path = require('path');
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   storageBucket: 'gs://songvault-7f750.appspot.com'
