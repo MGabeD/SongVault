@@ -63,7 +63,16 @@ const Account = () => {
                     onClick={editAccount}>
                         <Settings/>
                     </IconButton> */}
-                    <EditAccountModal/>
+                    <EditAccountModal 
+                    username={'wesleyminton'}
+                    password={'secret'}
+                    firstName={'Wesley'}
+                    lastName={'Minton'}
+                    email={'fakeEmail@gmail.com'}
+                    birthday={'8/11/2001'}
+                    bio={"This is a short description of the user's profile that they can enter for themselves. They can talk about what kind of music they make or what kind of playlists they make"}
+                    websiteLink={'http://thisIsMyWebsiteLink.com'}
+                    />
                 </div>
                 <div className={classes.container} >
                     

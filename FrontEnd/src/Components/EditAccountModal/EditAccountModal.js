@@ -1,8 +1,8 @@
 import {React, useState} from 'react'
 import { Modal, Button, Box, TextField, Input, Container, Typography, IconButton} from '@material-ui/core'
-import { Settings } from '@material-ui/icons'
+import { MultilineChart, Settings } from '@material-ui/icons'
 
-const EditAccountModal = () => {
+const EditAccountModal = (props) => {
     const [open, setOpen] = useState(false);
 
     const style = {
@@ -36,17 +36,23 @@ const EditAccountModal = () => {
         
         // preparing formData to send PUT request
         const formData = new FormData();
-        formData.append("Name", data.get('songName'));
-        formData.append("Image", data.get('songImg'));
-        formData.append("Audio", data.get('songMP3'));
+        formData.append("firstName", data.get('newFirstName'));
+        formData.append("lastName", data.get('newLastName'));
+        formData.append("userName", data.get('newUsername'));
+        formData.append("password", data.get("newPassword"));
+        formData.append("birthday", data.get("newBirthday"));
+        formData.append("bio", data.get('newBio'));
+        formData.append("email", props.email);
+        formData.append("stageName", "notImplemented")
         formData.append("User", localStorage.getItem('userID'));
 
         // sending Put request to change info about the user's account
-        fetch("http://localhost:3001/uploadSong", {
+        fetch("http://localhost:3001/api/user", {
             method: "PUT",
             body: formData,
         }).then((response) => {
             console.log(response);
+            alert("Account Information Successfully Updated")
         }).catch((error) => {
             console.log(error);
             alert(error);
@@ -58,9 +64,6 @@ const EditAccountModal = () => {
 
     return (
         <div>
-             {/* <Button variant="outlined" style={{color: 'white', border: "1px solid gray"}} onClick={onOpen}>
-                Edit Account Details
-            </Button> */}
             <IconButton style={{color: 'grey'}} 
                 onClick={onOpen}>
                 <Settings/>
@@ -81,6 +84,7 @@ const EditAccountModal = () => {
                     id="newUsername"
                     label="Username"
                     name="newUsername"
+                    defaultValue={props.username}
                     autoFocus
                     />
 
@@ -90,7 +94,25 @@ const EditAccountModal = () => {
                     id="newPassword"
                     label="Password"
                     name="newPassword"
+                    defaultValue={props.password}
                     />
+
+                    <TextField
+                    margin="normal"
+                    fullWidth
+                    id="newFirstName"
+                    label="First Name"
+                    name="newFirstName"
+                    defaultValue={props.firstName}
+                    />
+                    <TextField
+                    margin="normal"
+                    fullWidth
+                    id="newLastName"
+                    label="Last Name"
+                    name="newLastName"
+                    defaultValue={props.lastName}
+                    />                    
 
                     <TextField
                     margin="normal"
@@ -98,6 +120,7 @@ const EditAccountModal = () => {
                     id="birthday"
                     label="Birthday"
                     name="newPassword"
+                    defaultValue={props.birthday}
                     />
 
                     <TextField
@@ -106,6 +129,19 @@ const EditAccountModal = () => {
                     id="newBio"
                     label="Bio"
                     name="newBio"
+                    defaultValue={props.bio}
+                    
+                    
+                    maxRows={null}
+                    />
+
+                    <TextField
+                    margin="normal"
+                    fullWidth
+                    id="newWebsiteLink"
+                    label="Website Link"
+                    name="newWebsiteLink"
+                    defaultValue={props.websiteLink}
                     />
 
                     <Button

@@ -8,6 +8,15 @@ Home Page:
 Discover Page:
 <!-- - Holy shit so much -->
 
+Trending Page
+- need to sort by genre
+- implement query on server side
+    - what is default search
+    - after that need to make api call to filter by genre
+    - top 10 songs?
+
+
+
 Account Page: 
 <!-- - add a playlists section
 - maybe a 2 page slider to switch between the two? -->

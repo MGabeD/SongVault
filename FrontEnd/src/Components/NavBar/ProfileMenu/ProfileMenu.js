@@ -56,8 +56,9 @@ export default function ProfileMenu(props) {
             {localStorage.getItem('loginStatus') === 'valid' ?
             <>
             {/* <MenuItem> Home </MenuItem> */}
-            <MenuItem onClick={() => handleLinkSelect("profile")}>Profile</MenuItem>
+            {/* <MenuItem onClick={() => handleLinkSelect("profile")}>Profile</MenuItem> */}
             <MenuItem onClick={() => handleLinkSelect("account")}>My account</MenuItem>
+            <MenuItem onClick={() => {alert("not built yet")}}> Messages </MenuItem>
             <MenuItem onClick={handleLogoutClick}> Logout </MenuItem>
             </>
             :
