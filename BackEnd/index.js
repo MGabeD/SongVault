@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const todoRoutes = require("./routes/todos.js");
 const userRoutes = require("./routes/users.js");
 const requestRoutes = require("./routes/requests.js");
+// const songRoutes = require("./routes/songs.js");
 
 const PORT = 3001;
 
@@ -233,6 +234,7 @@ app.get("/accountInfo", (req, res) => {
 app.use("/api/todos", todoRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/requests", requestRoutes);
+// app.use("/api/songs", songRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
