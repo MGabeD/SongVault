@@ -2,7 +2,7 @@ const User = require("../models/user");
 
 exports.createUser = (req, res, next) => {
     const user = new User({
-        username: req.body.username,
+        userName: req.body.userName,
         password: req.body.password,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -84,6 +84,8 @@ exports.getUserById = (req,res, next) => {
 
 exports.updateUser = (req, res, next) => {
     const updatedUser = {
+        userName: req.body.userName,
+        password: req.body.password,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
