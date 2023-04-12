@@ -44,12 +44,12 @@ export default function SignIn(props) {
       if (valid.message === "User found.") { // server validated username/password combo
         // props.setLoginStatus(valid.valid);
         
-        // setting localStorage for loginToken and loginStatus
+        // setting localStorage for userID and loginStatus
         localStorage.setItem('loginStatus', 'valid')
-        localStorage.setItem('loginToken', valid.userId)
+        localStorage.setItem('userID', valid.userId)
 
         // DeleteMe
-        alert("UserID: " + localStorage.getItem('loginToken'))
+        alert("UserID: " + localStorage.getItem('userID'))
         alert("Login Status: " + localStorage.getItem('loginStatus'))
 
         // pathing to the account page
@@ -86,7 +86,7 @@ export default function SignIn(props) {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Username or Email Address"
               name="email"
               autoComplete="email"
               autoFocus

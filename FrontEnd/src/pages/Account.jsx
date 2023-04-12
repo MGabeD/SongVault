@@ -1,15 +1,13 @@
 import {React, useEffect, useState} from 'react'
 import { Modal, Typography, Button, Grid, Container, Tabs, Tab, Box, IconButton} from '@material-ui/core'
-import { Settings } from '@material-ui/icons'
+
 
 import useStyles from '../styles'
 import SongCardFull from '../Components/SongCardFull/SongCardFull'
 import SongUploadModal from '../Components/SongUploadModal/SongUploadModal'
 import CreatePlaylistModal from '../Components/CreatePlaylistModal/CreatePlaylistModal'
+import EditAccountModal from '../Components/EditAccountModal/EditAccountModal'
 
-
-// const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-const playlistCards = [1, 2];
 const websiteLink = 'https://google.com'
 
 const Account = () => {
@@ -24,7 +22,7 @@ const Account = () => {
             return data;
         }
 
-        const params = { userID: localStorage.getItem('loginToken')};
+        const params = { userID: localStorage.getItem('userID')};
 
         getUserData(params)
         .then((data) => {
@@ -44,7 +42,7 @@ const Account = () => {
     }
 
     const handleWebsiteLink = () => {
-        alert(localStorage.getItem('loginToken'))
+        alert(localStorage.getItem('userID'))
         // window.location.href = websiteLink;
     }
 
@@ -61,10 +59,11 @@ const Account = () => {
                     
                     
                     
-                    <IconButton style={{color: 'grey'}} 
+                    {/* <IconButton style={{color: 'grey'}} 
                     onClick={editAccount}>
                         <Settings/>
-                    </IconButton>
+                    </IconButton> */}
+                    <EditAccountModal/>
                 </div>
                 <div className={classes.container} >
                     
@@ -80,11 +79,6 @@ const Account = () => {
                         </Typography>
                         <div className={classes.buttons}>
                             <Grid container spacing={2} justify='center'>
-                                {/* <Grid item>
-                                    <Button variant='contained' color='primary'>
-                                        See my Songs
-                                    </Button>
-                                </Grid> */}
                                 <Grid item>
                                     <Button 
                                     variant='outlined' 

@@ -17,6 +17,7 @@ export default function ProfileMenu(props) {
     const handleLogoutClick = () => {
         props.setLoginStatus(false);
         localStorage.setItem('loginStatus', 'invalid');
+        localStorage.setItem('userID', 'null');
         handleClose();
         window.location.pathname = "";
     }

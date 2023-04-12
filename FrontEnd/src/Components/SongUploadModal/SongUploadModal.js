@@ -52,13 +52,6 @@ const SongUploadModal = () => {
 
 
     const handleSubmit = (event) => {
-        // const sendToServer = async (params) => {
-        //     const response = await fetch("http://localhost:3001/uploadSong" + '?' + new URLSearchParams(params))
-        //     const status = await response.json();
-
-        //     return status;
-        // }
-
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         console.log(data)
@@ -67,7 +60,7 @@ const SongUploadModal = () => {
         formData.append("Name", data.get('songName'));
         formData.append("Image", data.get('songImg'));
         formData.append("Audio", data.get('songMP3'));
-        formData.append("User", localStorage.getItem('loginToken'));
+        formData.append("User", localStorage.getItem('userID'));
 
         fetch("http://localhost:3001/uploadSong", {
             method: "POST",
