@@ -39,7 +39,7 @@ const Trending = () => {
     }
 
     return (
-        <div style={{backgroundColor: 'black', color: 'black', marginTop: 0}}>
+        <div style={{backgroundColor: 'black', color: 'black', marginTop: 0, minHeight: '80vh'}}>
             <Typography variant='h3' style={{color: 'gray' , textAlign:' center', paddingTop: '20px', marginBottom: '5px'}}>
                 Trending Today
                 {recSongs}

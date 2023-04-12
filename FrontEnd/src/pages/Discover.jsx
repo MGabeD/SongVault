@@ -20,7 +20,7 @@ const Discover = () => {
     const [songs, setSongs] = useState([]);
 
     return (
-        <div style={{background: 'black'}}>
+        <div style={{background: 'black', minHeight: '80vh'}}>
             <SearchBar songs={songs} setSongs={setSongs}/>
             <div >
                 <Typography variant='h3' style={{color: 'white', width: '100%', justifyContent: 'center', display: 'flex'}}>
