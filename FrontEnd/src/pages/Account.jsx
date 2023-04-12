@@ -1,4 +1,4 @@
-import {React, useState} from 'react'
+import {React, useEffect, useState} from 'react'
 import { Modal, Typography, Button, Grid, Container, Tabs, Tab, Box, IconButton} from '@material-ui/core'
 import { Settings } from '@material-ui/icons'
 
@@ -8,11 +8,31 @@ import SongUploadModal from '../Components/SongUploadModal/SongUploadModal'
 import CreatePlaylistModal from '../Components/CreatePlaylistModal/CreatePlaylistModal'
 
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+// const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const playlistCards = [1, 2];
 const websiteLink = 'https://google.com'
 
 const Account = () => {
+    const [songs, setSongs] = useState([]);
+    const [playlists, setPlaylists] = useState([]);
+
+    useEffect(() => {
+        const getUserData = async (params) => {
+            const response = await fetch('http://localhost:3001/accountInfo' + '?' + new URLSearchParams(params));
+            const data = await response.json();
+
+            return data;
+        }
+
+        const params = { userID: localStorage.getItem('loginToken')};
+
+        getUserData(params)
+        .then((data) => {
+            setSongs(data.songs);
+            setPlaylists(data.playlists);
+        })
+    }, []);
+
     const classes = useStyles();
 
     const [cardType, setCardType] = useState("Songs");
@@ -91,7 +111,7 @@ const Account = () => {
                 </Box>
                 <Container >
                     <Grid container spacing={4}>
-                        {cardType === "Songs" ? cards.map((card) => (
+                        {cardType === "Songs" ? songs.map((card) => (
                             <Grid item key={card} xs={12} sm={6} md={4} lg={3}>
                                 <SongCardFull
                                 title={cardType === "Songs" ? "Song Title" : "Playlist Title"}
@@ -100,7 +120,7 @@ const Account = () => {
                             </Grid>
                         ))
                             :
-                            playlistCards.map((card) => (
+                            playlists.map((card) => (
                             <Grid item key={card} xs={12} sm={6} md={4} lg={3}>
                                 <SongCardFull
                                 title={cardType === "Songs" ? "Song Title" : "Playlist Title"}

@@ -168,6 +168,17 @@ app.get("/trending", (req, res) => {
     res.json({ trending: [1, 2, 3, 4, 5] });
 });
 
+app.get("/accountInfo", (req, res) => {
+    console.log("got accountInfo request");
+
+    const userID = req.query.userID;
+    console.log('userID: ' + userID);
+
+    // need to take userID and get songs/playlists
+
+    res.json({ songs: [1, 2, 3, 4, 5, 6, 7, 8], playlists: [1, 2, 3, 4] });
+});
+
 app.use("/api/todos", todoRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/requests", requestRoutes);

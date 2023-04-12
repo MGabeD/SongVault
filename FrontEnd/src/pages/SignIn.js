@@ -37,7 +37,7 @@ export default function SignIn(props) {
 
     validateLogin(params)
     .then((valid) => { // waits for async response
-      if (valid) { // server validated username/password combo
+      if (valid.valid) { // server validated username/password combo
         // props.setLoginStatus(valid.valid);
         
         // setting localStorage for loginToken and loginStatus
