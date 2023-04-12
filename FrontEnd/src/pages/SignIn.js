@@ -22,7 +22,8 @@ const theme = createTheme();
 
 export default function SignIn(props) {
   const validateLogin = async (params) => {
-    const response = await fetch('http://localhost:3001/validateLogin' + '?' + new URLSearchParams(params))
+    console.log(JSON.stringify(params));
+    const response = await fetch('http://localhost:3001/api/auth' + '?' + new URLSearchParams(params))
     const valid = await response.json();
     console.log(valid);
     return valid;
@@ -33,19 +34,22 @@ export default function SignIn(props) {
     const data = new FormData(event.currentTarget);
     props.setLoginStatus(true);
     console.log(props.loginStatus);
-    const params = {username: data.get('email'), password: data.get('password')}
+    const params = {
+      "userName": data.get('email'), 
+      "password": data.get('password')
+    }
 
     validateLogin(params)
     .then((valid) => { // waits for async response
-      if (valid.valid) { // server validated username/password combo
+      if (valid.message === "User found.") { // server validated username/password combo
         // props.setLoginStatus(valid.valid);
         
         // setting localStorage for loginToken and loginStatus
         localStorage.setItem('loginStatus', 'valid')
-        localStorage.setItem('loginToken', valid.token)
+        localStorage.setItem('loginToken', valid.userId)
 
         // DeleteMe
-        alert("User Token: " + localStorage.getItem('loginToken'))
+        alert("UserID: " + localStorage.getItem('loginToken'))
         alert("Login Status: " + localStorage.getItem('loginStatus'))
 
         // pathing to the account page

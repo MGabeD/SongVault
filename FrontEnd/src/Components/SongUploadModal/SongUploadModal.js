@@ -75,6 +75,7 @@ const SongUploadModal = () => {
         }).then((response) => {
             console.log(response);
         }).catch((error) => {
+            console.log(error);
             alert(error);
         })
         console.log('after post req');
