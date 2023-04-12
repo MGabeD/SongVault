@@ -93,6 +93,10 @@ app.get("/uploadSong", (req, res) => {
     console.log("songImg: ", songImg);
 
     // need to push this to the database
+    
+    //TODO mongo side
+
+    uploadMP3ToFirebaseStorage(songAudio);
 
     // get the status of the upload from the database
     const dbResponse = true
@@ -104,8 +108,6 @@ app.get("/uploadSong", (req, res) => {
         res.json({ status: 400 });
     }
 });
-
-
 
 app.get("/discover", (req, res) => {
     console.log("got discover request");
@@ -119,7 +121,6 @@ app.get("/discover", (req, res) => {
     // pushing array of songs to the frontend as response
     res.json({ songs: ['song1', 'song2', 'song3'] });
 });
-
 
 app.get("/signUp", (req, res) => {
     console.log("got signUp request");
@@ -165,7 +166,7 @@ app.get("/trending", (req, res) => {
 
     // sending back array of songs to frontend
     // need to change these to objects containing mp3, image, name, and artist
-    res.json({ trending: [1, 2, 3, 4, 5] });
+    res.json({ trending: ['trending1', 'trending2', 'trending3'] });
 });
 
 app.get("/accountInfo", (req, res) => {
@@ -187,3 +188,36 @@ app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });
 
+// FIREBASE
+
+const bucket = admin.storage().bucket();
+
+async function uploadMP3ToFirebaseStorage(filePath) {
+  if (!fs.existsSync(filePath)) {
+    console.error("File not found:", filePath);
+    return;
+  }
+
+  const mimeType = "audio/mpeg";
+  const fileName = path.basename(filePath);
+
+  try {
+    await bucket.upload(filePath, {
+      destination: `songs/${fileName}`,
+      metadata: {
+        contentType: mimeType
+      }
+    });
+
+    const file = bucket.file(`songs/${fileName}`);
+    const config = {
+      action: 'read',
+      expires: '03-01-2030' // Set the expiration date for the signed URL
+    };
+    const url = await file.getSignedUrl(config);
+
+    console.log("File uploaded successfully:", url[0]);
+  } catch (error) {
+    console.error("Error uploading file:", error);
+  }
+}
