@@ -58,7 +58,7 @@ const SignUp = (props) => {
           // formData.append("password", data.get('songName'));
 
           const bodyData = {
-            "userName": data.get('username'),
+            "userName": data.get('email'),
             "password": data.get('password'),
             "firstName": 'notImplemented',
             "lastName": 'notImplemented',
@@ -66,17 +66,19 @@ const SignUp = (props) => {
             "stageName": 'notImplemented',
             "birthday": 'notImplemented',
             "bio": 'notImplemented'
-          }
-
-  
+          };
+          
           fetch("http://localhost:3001/api/users", {
-              method: "POST",
-              body: bodyData,
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(bodyData)
           }).then((response) => {
-              console.log(response);
+            console.log(response);
           }).catch((error) => {
-              alert(error);
-          })
+            alert(error);
+          });
           // createUser(params)
           // .then((data) => {
           //   if (data.created == true) {
