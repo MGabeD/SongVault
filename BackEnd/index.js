@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const todoRoutes = require("./routes/todos.js");
 const userRoutes = require("./routes/users.js");
 const requestRoutes = require("./routes/requests.js");
+const authRoutes = require("./routes/auth.js");
 // const songRoutes = require("./routes/songs.js");
 const fs = require('fs');
 const path = require('path');
@@ -429,6 +430,7 @@ app.get("/accountInfo", (req, res) => {
 app.use("/api/todos", todoRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/requests", requestRoutes);
+app.use("/api/auth", authRoutes);
 // app.use("/api/songs", songRoutes);
 
 app.listen(PORT, () => {
