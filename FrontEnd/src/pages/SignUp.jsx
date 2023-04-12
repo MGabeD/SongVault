@@ -46,16 +46,16 @@ const SignUp = (props) => {
         } else {
           // const params = {username: data.get('email'), password: data.get('password')}
 
-          // const formData = new FormData();
-          // formData.append("firstName", 'notImplemented');
-          // formData.append("lastName", 'notImplemented');
-          // formData.append("email", 'notImplemented');
-          // formData.append("stageName", 'notImplemented');
-          // formData.append("birthday", 'notImplemented');
-          // formData.append("bio", 'notImplemented');
+          const formData = new FormData();
+          formData.append("firstName", 'notImplemented');
+          formData.append("lastName", 'notImplemented');
+          formData.append("email", 'notImplemented');
+          formData.append("stageName", 'notImplemented');
+          formData.append("birthday", 'notImplemented');
+          formData.append("bio", 'notImplemented');
 
-          // formData.append("username", data.get('username'));
-          // formData.append("password", data.get('songName'));
+          formData.append("username", data.get('username'));
+          formData.append("password", data.get('songName'));
 
           const bodyData = {
             "userName": data.get('email'),
