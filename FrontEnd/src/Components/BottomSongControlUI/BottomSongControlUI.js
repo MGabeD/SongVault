@@ -1,4 +1,4 @@
-import React from 'react'
+import {React, useRef} from 'react'
 
 import {Container, Typography, Card, CardMedia, CardContent, IconButton} from '@material-ui/core'
 import { Favorite } from '@material-ui/icons'
@@ -7,18 +7,12 @@ import AddToPlaylistModal from '../AddToPlaylistModal/AddToPlaylistModal'
 import useStyles from './BottomSongControlUIStyles'
 import song from '../../audio/reds.mp3'
 
-const songProps = {
-    title: "Reds",
-    artist: "James Becker",
-    image: "https://source.unsplash.com/random",
-    audio: song
-}
-
 const propPlaylists = [{name: 'playlist1', id: '12398124982'}, {name: 'playlist2', id: '1285830290'}, {name: 'playlist3', id: '1284883593'}]
 
 
 const BottomSongControlUI = (props) => {
     const classes = useStyles()
+    const audioRef = useRef();
 
     const onLike = () => {
         const serverLike = async (params) => {
@@ -33,11 +27,19 @@ const BottomSongControlUI = (props) => {
             alert(JSON.stringify(data));
         }
     
-        const params = {songID : songProps.id}
+        const params = {songID : props.id}
         serverLike(params)
         .then((data) => {
             alert(data.status);
         })
+
+        
+    }
+    const playingAudio = () => {
+        // console.log(audioRef.current.currentTime);
+        if (audioRef.current.currentTime === 0) {
+            alert('playing song for the first time')
+        }
     }
 
     return (
@@ -79,8 +81,8 @@ const BottomSongControlUI = (props) => {
                         {props.artist}
                     </Typography>
                 </Container>
-                <audio controls title='Song Title' style={{width: '100%'}}>
-                    <source src={props.audio} type="audio/mp3"/>
+                <audio controls title='Song Title' style={{width: '100%'}} onPlay={playingAudio} ref={audioRef}>
+                    <source src={props.audio} type="audio/mp3" />
                     Your browser does not support the audio tag.
                 </audio>
             </Container>
