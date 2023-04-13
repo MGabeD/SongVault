@@ -15,6 +15,7 @@ const userSchema = mongoose.Schema({
     friends: { type: [String], default: [], required: true },
     songs: { type: [String], default: [], required: true },
     playlists: { type: [String], default: [], required: true},
+    likedSongs: { type: [String], default: [], required: true},
 
 });
 

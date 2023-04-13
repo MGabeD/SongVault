@@ -16,6 +16,7 @@ exports.createUser = (req, res, next) => {
         friends: req.body.friends,
         songs: req.body.songs,
         playlists: req.body.playlists,
+        likedSongs: req.body.likedSongs,
     });
     console.log(user);
     User.findOne({
@@ -147,6 +148,7 @@ exports.updateUser = (req, res, next) => {
         friends: req.body.friends,
         songs: req.body.songs,
         playlists: req.body.playlists,
+        likedSongs: req.body.likedSongs,
     };
     console.log(updatedUser);
     User.updateOne({ _id: req.params.id }, { $set: updatedUser })

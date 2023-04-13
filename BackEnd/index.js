@@ -8,6 +8,7 @@ const userRoutes = require("./routes/users.js");
 const requestRoutes = require("./routes/requests.js");
 const authRoutes = require("./routes/auth.js");
 const songRoutes = require("./routes/songs.js");
+const likeRoutes = require("./routes/like.js");
 
 
 const PORT = 3001;
@@ -174,6 +175,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/requests", requestRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/songs", songRoutes);
+app.use("/api/likes", likeRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
