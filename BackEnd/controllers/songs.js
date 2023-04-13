@@ -42,7 +42,7 @@ exports.createSong = async (req, res, next) => {
           likes: req.body.likes,
           plays: req.body.plays,
           genre: req.body.genre,
-          artist: req.body.userName,
+          artistNames: req.body.userName,
         });
   
         const savedSong = await song.save();
