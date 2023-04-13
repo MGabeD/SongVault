@@ -77,9 +77,29 @@ exports.createSong = async (req, res, next) => {
 
         imageStream.on("finish", async () => {
           try {
-            savedSong.audioUrl = `gs://${audioFileObject.bucket.name}/${audioFileObject.name}`;
-            savedSong.imageUrl = `gs://${imageFileObject.bucket.name}/${imageFileObject.name}`;
-            const updatedSong = await savedSong.save();
+            savedSong.mp3Link = `gs://${audioFileObject.bucket.name}/${audioFileObject.name}`;
+            savedSong.imageLink = `gs://${imageFileObject.bucket.name}/${imageFileObject.name}`;
+            console.log(savedSong.imageFile)
+            // const updatedSong = await savedSong.save();
+            const upSong = {
+                // name: savedSong.name,
+                // artist: savedSong.artist,
+                // likes: savedSong.likes,
+                // plays: savedSong.plays,
+                imageLink: savedSong.imageLink,
+                mp3Link: savedSong.mp3Link
+            }
+            console.log(upSong);
+            Song.updateOne({ _id: savedSong._id }, { $set: upSong })
+                .then((result) => {
+                    // res.status(200).json({ message: "Update is successful!" });
+                })
+                .catch((error) => {
+                    res.status(500).json({
+                        message: "Couldn't update Song!",
+                    });
+                    console.log(error);
+                });
             res.status(201).json({
               message: "Song created successfully",
               song: updatedSong,
@@ -103,4 +123,26 @@ exports.createSong = async (req, res, next) => {
       message: "An error occurred while creating the song",
     });
   }
+};
+
+exports.updatedSong = (req, res, next) => {
+    const updatedSong = {
+        name: req.body.songName,
+        artist: req.body.user,
+        likes: req.body.likes,
+        plays: req.body.plays,
+        imageLink: req.body.imageLink,
+        mp3Link: req.body.mp3Link
+    };
+    console.log(updatedSong);
+    Song.updateOne({ _id: req.params.id }, { $set: updatedSong })
+        .then((result) => {
+            res.status(200).json({ message: "Update is successful!" });
+        })
+        .catch((error) => {
+            res.status(500).json({
+                message: "Couldn't update Song!",
+            });
+            console.log(error);
+        });
 };
