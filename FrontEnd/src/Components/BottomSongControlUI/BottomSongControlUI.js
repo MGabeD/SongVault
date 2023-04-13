@@ -56,10 +56,10 @@ const BottomSongControlUI = (props) => {
             <Container style={{height: '100%', justifyContent: 'flex-end', flexDirection: 'column', display: 'flex', justifyItems:"flex-start"}}>
                 <Container style={{height: '50%'}}>
                     <div style={{display: 'flex', flexDirection:'row'}}>
-                        <Typography variant="h5" gutterBottom>
+                        <Typography variant="h5" gutterBottom style={{width:'90%'}}>
                             {props.title}
                         </Typography>
-                        <div style={{justifyContent: 'flex-end', flexDirection: 'row', width: '100%', display: 'flex', marginTop: 0}}>
+                        <div style={{justifyContent: 'flex-end', flexDirection: 'row', width: '10%', display: 'flex', marginTop: 0}}>
                             <IconButton
                             aria-label="add to favorites"
                             onClick={onLike}

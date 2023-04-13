@@ -30,14 +30,18 @@ const Discover = () => {
                 </Typography>
                 <Container style={{width: '100%'}}>
                     <Grid container style={{width: '100%', paddingTop: '20px'}} spacing={4}>
-                        {songs.map((key) => (
-                            <Grid item xs={12} key={key}>
+                        {songs.map((songInfo) => (
+                            <Grid item xs={12} key={songInfo.songId}>
                             <BottomSongControlUI
-                            title={songProps.title}
-                            artist={songProps.artist}
-                            image={songProps.image}
-                            audio={songProps.audio}
-                            id={'12093929492'}
+                            title={songInfo.name}
+                            desc={""}
+                            audio={songInfo.mp3Link}
+                            image={songInfo.imageLink}
+                            id={songInfo.songId}
+                            
+                            
+                            
+                            
                             />
                         </Grid>
                         ))}

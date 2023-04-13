@@ -28,18 +28,18 @@ const SearchBar = (props) => {
     const handleSubmit = () => {
         const reqSearch = async (params) => {
             
-            const response = await fetch('http://localhost:3001/discover' + '?' + new URLSearchParams(params));
+            const response = await fetch('http://localhost:3001/api/discover' + '?' + new URLSearchParams(params));
             const results = await response.json();
     
             console.log(results);
             return results;        
         }
 
-        const params = {searchReq: searchInput };
+        const params = {userName: searchInput };
         reqSearch(params)
         .then((data) => {
             alert(JSON.stringify(data))
-            // props.setSongs(data.songs)
+            
             const updatedSongs = [];
             Promise.all(data.songs.map((songID) => {
                 return getSongInfo(songID)
