@@ -60,9 +60,10 @@ const SongUploadModal = () => {
         formData.append("songName", data.get('songName'));
         formData.append("Image", data.get('songImg'));
         formData.append("Audio", data.get('songMP3'));
-        formData.append("User", localStorage.getItem('userID'));
+        formData.append("user", localStorage.getItem('userID'));
+        
 
-        fetch("http://localhost:3001/uploadSong", {
+        fetch("http://localhost:3001/api/songs", {
             method: "POST",
             body: formData,
         }).then((response) => {
@@ -158,7 +159,7 @@ const SongUploadModal = () => {
                         alt="Preview" />
                     </div>
 
-                    <TextField
+                    {/* <TextField
                     margin="normal"
                     required
                     fullWidth
@@ -168,7 +169,7 @@ const SongUploadModal = () => {
                     autoFocus
                     multiline
                     maxRows={2}
-                    />
+                    /> */}
                     
                     <Button
                     type="submit"

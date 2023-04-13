@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles((theme) => ({ // the theme object is part of MUI
     main: {
         background: 'black', // change to black
+        minHeight: '90vh'
     },
     container: { // this is where you can define classes for css styling
         backgroundColor: theme.palette.background.paper, // using theme object for styling

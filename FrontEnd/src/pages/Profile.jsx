@@ -132,7 +132,7 @@ const Profile = () => {
                     Your browser does not support the audio element.
                 </audio> */}
                 <audio controls src={audioUrl}></audio>
-                <img src={imageUrl} alt="Album cover" />
+                <img src={"https://firebasestorage.googleapis.com/v0/b/songvault-7f750.appspot.com/o/64378748fdcec13c62d4d113%2FdiscoverPageBG.jpeg?alt=media&token=89894b05-1aad-4b13-9d4d-c2114f3bc52b"} alt="Album cover" />
                 )}
                 <Typography>
                     {msg}

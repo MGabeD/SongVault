@@ -17,8 +17,7 @@ const websiteLink = 'https://google.com'
 const Account = () => {
     const classes = useStyles();
     
-    const [songs, setSongs] = useState([]);
-    const [playlists, setPlaylists] = useState([]);
+    // const [playlists, setPlaylists] = useState([]);
     const [cardType, setCardType] = useState("Songs");
     const [userData, setUserData] = useState({
         username: 'wesleyminton',
@@ -28,23 +27,37 @@ const Account = () => {
         websiteLink: 'http://fakeWebsite.com',
         firstname: 'Wesley',
         lastname: 'Minton',
-        email: 'fakeEmail@gmail.com'
+        email: 'fakeEmail@gmail.com',
+        songs: [],
+        playlists: [1, 2, 3, 4]
     })
 
     useEffect(() => {
         const getUserData = async (params) => {
-            const response = await fetch('http://localhost:3001/accountInfo' + '?' + new URLSearchParams(params));
+            // const response = await fetch('http://localhost:3001/accountInfo' + '?' + new URLSearchParams(params));
+            const response = await fetch('http://localhost:3001/api/users/' + localStorage.getItem("userID"));
             const data = await response.json();
 
             return data;
         }
 
-        const params = { userID: localStorage.getItem('userID')};
+        const params = { userId: localStorage.getItem('userID')};
+        console.log(localStorage.getItem('userID'));
 
         getUserData(params)
         .then((data) => {
-            setSongs(data.songs);
-            setPlaylists(data.playlists);
+            setUserData({
+                username: data.userName,
+                password: data.password,
+                birthday: data.birthday,
+                bio: data.bio,
+                websiteLink: 'http://fakeWebsite.com',
+                firstname: data.firstName,
+                lastname: data.lastName,
+                email: data.email,
+                songs: data.songs,
+                playlists: data.playlists
+            })
         })
     }, []);
 
@@ -117,7 +130,7 @@ const Account = () => {
                 </Box>
                 <Container >
                     <Grid container spacing={4}>
-                        {cardType === "Songs" ? songs.map((card) => (
+                        {cardType === "Songs" ? userData.songs.map((card) => (
                             <Grid item key={card} xs={12} sm={6} md={4} lg={3}>
                                 <SongCardFull
                                 title={cardType === "Songs" ? "Song Title" : "Playlist Title"}
@@ -127,7 +140,7 @@ const Account = () => {
                             </Grid>
                         ))
                             :
-                            playlists.map((card) => (
+                            userData.playlists.map((card) => (
                             <Grid item key={card} xs={12} sm={6} md={4} lg={3}>
                                 <SongCardFull
                                 title={cardType === "Songs" ? "Song Title" : "Playlist Title"}

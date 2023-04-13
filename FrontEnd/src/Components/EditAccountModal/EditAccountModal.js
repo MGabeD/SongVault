@@ -48,18 +48,19 @@ const EditAccountModal = (props) => {
         // formData.append("User", localStorage.getItem('userID'));
 
         const jsonBody = {
-            username: data.get('newUsername'),
+            userName: data.get('newUsername'),
             password: data.get("newPassword"),
             birthday: data.get("newBirthday"),
             bio: data.get('newBio'),
-            firstname: data.get('newFirstName'),
-            lastname: data.get('newLastName'),
+            firstName: data.get('newFirstName'),
+            lastName: data.get('newLastName'),
             email: data.get('newEmail'),
             userId: localStorage.getItem('userID')
         }
 
         // sending Put request to change info about the user's account
-        fetch("http://localhost:3001/api/user", {
+        console.log("http://localhost:3001/api/user/" + localStorage.getItem('userID'))
+        fetch("http://localhost:3001/api/users/" + localStorage.getItem('userID'), {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -67,6 +68,7 @@ const EditAccountModal = (props) => {
             body: JSON.stringify(jsonBody)
         }).then((response) => {
             console.log(response);
+            
             alert("Account Information Successfully Updated")
         }).catch((error) => {
             console.log(error);
