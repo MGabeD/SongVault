@@ -11,6 +11,7 @@ const songRoutes = require("./routes/songs.js");
 const likeRoutes = require("./routes/like.js");
 const discRoutes = require("./routes/discover.js");
 const playRoutes = require("./routes/play.js");
+const trenRoutes = require("./routes/trending.js");
 
 const PORT = 3001;
 
@@ -179,6 +180,7 @@ app.use("/api/songs", songRoutes);
 app.use("/api/likes", likeRoutes);
 app.use("/api/discover", discRoutes);
 app.use("/api/play", playRoutes);
+app.use("/api/trending", trenRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
