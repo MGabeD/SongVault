@@ -90,7 +90,16 @@ admin.initializeApp({
               };
               console.log(upSong);
               await Song.updateOne({ _id: savedSong._id }, { $set: upSong });
-  
+              User.updateMany({ _id: { $in: song.artist } }, { $push: { songs: savedSong._id } })
+                .then((result) => {
+                    res.status(200).json({ message: "Song added to users' list of songs" });
+                })
+                .catch((error) => {
+                    res.status(500).json({
+                    message: "Failed to add song to users' list of songs",
+                    error: error
+                    });
+                });
               res.status(201).json({
                 message: "Song created successfully",
                 song: upSong,
