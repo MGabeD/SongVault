@@ -61,6 +61,7 @@ const SongUploadModal = (props) => {
         formData.append("Image", data.get('songImg'));
         formData.append("Audio", data.get('songMP3'));
         formData.append("user", [localStorage.getItem('userID')]);
+        formData.append("userName", [props.username]);
         
 
         fetch("http://localhost:3001/api/songs", {

@@ -59,6 +59,7 @@ const BottomSongControlUI = (props) => {
                         <Typography variant="h5" gutterBottom style={{width:'90%'}}>
                             {props.title}
                         </Typography>
+                        {localStorage.getItem('loginStatus') === 'valid' ? 
                         <div style={{justifyContent: 'flex-end', flexDirection: 'row', width: '10%', display: 'flex', marginTop: 0}}>
                             <IconButton
                             aria-label="add to favorites"
@@ -69,7 +70,9 @@ const BottomSongControlUI = (props) => {
                                 <Favorite />
                             </IconButton> 
                             <AddToPlaylistModal playlists={propPlaylists}/>
-                        </div>
+                        </div> 
+                    :
+                    <></>}
                         
                     </div>
                     <Typography variant="subtitle">

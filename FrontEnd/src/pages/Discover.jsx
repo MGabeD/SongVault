@@ -25,7 +25,7 @@ const Discover = () => {
                             audio={songInfo.mp3Link}
                             image={songInfo.imageLink}
                             id={songInfo.songId}
-                            artist={songInfo.userName}
+                            artist={songInfo.artistNames[0]}
                             />
                         </Grid>
                         ))}

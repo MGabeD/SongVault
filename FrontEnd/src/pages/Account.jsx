@@ -34,7 +34,6 @@ const Account = () => {
     const [songs, setSongs] = useState([]);
 
     const getUserData = async (params) => {
-        // const response = await fetch('http://localhost:3001/accountInfo' + '?' + new URLSearchParams(params));
         const response = await fetch('http://localhost:3001/api/users/' + localStorage.getItem("userID"));
         const data = await response.json();
 
@@ -69,14 +68,18 @@ const Account = () => {
                 playlists: data.playlists
             })
             
-            // localStorage.setItem('playlists', data.playlists)
+            // localStorage.setItem('playlists', JSON.stringify(data.playlists));
+            
+            // REPLACE WITH ABOVE WHEN API IS READY
+            localStorage.setItem('playlists', JSON.stringify([{name: 'playlist 1', id: '1298214912'}, {name: 'playlist 2', id: '1238421052'}, {name: 'playlist 3', id: '184003592'}]))
+            
             // alert(localStorage.getItem('playlists'))
 
             const updatedSongs = [];
             Promise.all(data.songs.map((songID) => {
                 return getSongInfo(songID)
                 .then((songInfo) => {
-                    alert(JSON.stringify(songInfo))
+                    // alert(JSON.stringify(songInfo))
                   updatedSongs.push(songInfo);
                 })
               }))
@@ -107,7 +110,7 @@ const Account = () => {
         <>
             <main className={classes.main}>
                 <div style={{justifyContent:'flex-end', flexDirection:'row', display: 'flex', paddingTop: '10px'}}>
-                    {cardType === "Songs" ? <SongUploadModal updateRender={updateRender}/> : <CreatePlaylistModal/>}
+                    {cardType === "Songs" ? <SongUploadModal updateRender={updateRender} username={userData.username}/> : <CreatePlaylistModal/>}
                     <EditAccountModal 
                     username={userData.username}
                     password={userData.password}
@@ -166,7 +169,8 @@ const Account = () => {
                                 desc={""}
                                 audio={card.mp3Link}
                                 image={card.imageLink}
-                                playlists={[{name: 'playlist 1', id: '1298214912'}, {name: 'playlist 2', id: '1238421052'}, {name: 'playlist 3', id: '184003592'}]}
+                                // DELETE ME WHEN 
+                                // playlists={localStorage.getItem('playlists')}
                                 />
                                 
                             </Grid>

@@ -18,6 +18,7 @@ export default function ProfileMenu(props) {
         props.setLoginStatus(false);
         localStorage.setItem('loginStatus', 'invalid');
         localStorage.setItem('userID', 'null');
+        localStorage.setItem('playlists', '[]');
         handleClose();
         window.location.pathname = "";
     }
