@@ -1,6 +1,6 @@
 const Song = require("../models/songs");
 
-exports.createUser = (req, res, next) => {
+exports.createSong = (req, res, next) => {
     const song = new Song({
         title: req.body.title,
         artist: req.body.artists

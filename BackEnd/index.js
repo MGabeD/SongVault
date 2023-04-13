@@ -116,31 +116,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get("/validateLogin", (req, res) => {
-    console.log("got verification request");
 
-    // receiving input parameters
-    const userName = req.query.username;
-    const pass = req.query.password;
-
-    console.log("req.query: ", req.query);
-    console.log("username: ", userName);
-    console.log("password: ", pass);
-
-    // validate that this is a user, and return a loginToken
-    // loginToken doesn't need to be secure so maybe just email == the userID == loginToken
-    
-    // login Token will be stored on client side, and will be passed to 
-    // the server to get user's songs/playlists
-
-    if (userName === "validUser" && pass === "validPass") {
-        // username + password present in db, send back userID as loginToken
-        res.json({ valid: true, token: 'thisIsSomeUserToken' });
-    } else {
-        // user/pass did not match in the database, send back invalid
-        res.json({ valid: false, token: null });
-    }
-});
 
 // app.post("/uploadSong", (req, res) => {
 //     console.log("got upload song request");
@@ -216,17 +192,6 @@ app.get("/trending", (req, res) => {
     // sending back array of songs to frontend
     // need to change these to objects containing mp3, image, name, and artist
     res.json({ trending: ['trending1', 'trending2', 'trending3'] });
-});
-
-app.get("/accountInfo", (req, res) => {
-    console.log("got accountInfo request");
-
-    const userID = req.query.userID;
-    console.log('userID: ' + userID);
-
-    // need to take userID and get songs/playlists
-
-    res.json({ songs: [1, 2, 3, 4, 5, 6, 7, 8], playlists: [1, 2, 3, 4] });
 });
 
 app.use("/api/todos", todoRoutes);
@@ -498,4 +463,39 @@ app.listen(PORT, () => {
 //         console.log(err)
 //         res.status(500).send("Error uploading the files");
 //     }
+// });
+// app.get("/validateLogin", (req, res) => {
+//     console.log("got verification request");
+
+//     // receiving input parameters
+//     const userName = req.query.username;
+//     const pass = req.query.password;
+
+//     console.log("req.query: ", req.query);
+//     console.log("username: ", userName);
+//     console.log("password: ", pass);
+
+//     // validate that this is a user, and return a loginToken
+//     // loginToken doesn't need to be secure so maybe just email == the userID == loginToken
+    
+//     // login Token will be stored on client side, and will be passed to 
+//     // the server to get user's songs/playlists
+
+//     if (userName === "validUser" && pass === "validPass") {
+//         // username + password present in db, send back userID as loginToken
+//         res.json({ valid: true, token: 'thisIsSomeUserToken' });
+//     } else {
+//         // user/pass did not match in the database, send back invalid
+//         res.json({ valid: false, token: null });
+//     }
+// });
+// app.get("/accountInfo", (req, res) => {
+//     console.log("got accountInfo request");
+
+//     const userID = req.query.userID;
+//     console.log('userID: ' + userID);
+
+//     // need to take userID and get songs/playlists
+
+//     res.json({ songs: [1, 2, 3, 4, 5, 6, 7, 8], playlists: [1, 2, 3, 4] });
 // });
