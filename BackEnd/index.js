@@ -7,11 +7,8 @@ const todoRoutes = require("./routes/todos.js");
 const userRoutes = require("./routes/users.js");
 const requestRoutes = require("./routes/requests.js");
 const authRoutes = require("./routes/auth.js");
-// const songRoutes = require("./routes/songs.js");
-const fs = require('fs');
-const path = require('path');
-const admin = require('firebase-admin');
-const serviceAccount = require('songvault-7f750-firebase-adminsdk-6x758-8dfbc34995.json');
+const songRoutes = require("./routes/songs.js");
+
 
 const PORT = 3001;
 
@@ -19,76 +16,76 @@ const PORT = 3001;
 ////////////////////////////////////////////////////////////
 // Firebase stuff //
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  storageBucket: 'gs://songvault-7f750.appspot.com'
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   storageBucket: 'gs://songvault-7f750.appspot.com'
+// });
 
-const bucket = admin.storage().bucket();
+// const bucket = admin.storage().bucket();
 
-// Create a Multer storage object with options
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+// // Create a Multer storage object with options
+// const storage = multer.memoryStorage();
+// const upload = multer({ storage: storage });
 
 
-app.post("/uploadSong", upload.fields([
-    {name: 'Audio', maxCount: 1},
-    {name: 'Image', maxCount: 1},
-]), async (req, res) => {
-    try {
-        // Get the files from the request
-        const audioFile = req.files['Audio'][0];
-        const imageFile = req.files['Image'][0];
-        const songName = req.body.songName;
-        console.log('SongName: ' + songName)
+// app.post("/uploadSong", upload.fields([
+//     {name: 'Audio', maxCount: 1},
+//     {name: 'Image', maxCount: 1},
+// ]), async (req, res) => {
+//     try {
+//         // Get the files from the request
+//         const audioFile = req.files['Audio'][0];
+//         const imageFile = req.files['Image'][0];
+//         const songName = req.body.songName;
+//         console.log('SongName: ' + songName)
 
-        // Create a file object to upload the audio file to Firebase Storage
-        const audioFileObject = bucket.file(`${songName}/${audioFile.originalname}`);
+//         // Create a file object to upload the audio file to Firebase Storage
+//         const audioFileObject = bucket.file(`${songName}/${audioFile.originalname}`);
 
-        // Create a write stream to Firebase Storage for the audio file
-        const audioStream = audioFileObject.createWriteStream({
-            metadata: {
-                contentType: audioFile.mimetype
-            }
-        });
+//         // Create a write stream to Firebase Storage for the audio file
+//         const audioStream = audioFileObject.createWriteStream({
+//             metadata: {
+//                 contentType: audioFile.mimetype
+//             }
+//         });
     
-        // Handle errors during the audio file upload
-        audioStream.on("error", err => {
-        console.error(err);
-            res.status(500).send("Failed to upload audio file");
-        });
+//         // Handle errors during the audio file upload
+//         audioStream.on("error", err => {
+//         console.error(err);
+//             res.status(500).send("Failed to upload audio file");
+//         });
     
-        // Handle the end of the audio file upload
-        audioStream.on("finish", async () => {
-            // Create a file object to upload the image file to Firebase Storage
-            const imageFileObject = bucket.file(`${songName}/${imageFile.originalname}`);
+//         // Handle the end of the audio file upload
+//         audioStream.on("finish", async () => {
+//             // Create a file object to upload the image file to Firebase Storage
+//             const imageFileObject = bucket.file(`${songName}/${imageFile.originalname}`);
     
-            // Create a write stream to Firebase Storage for the image file
-            const imageStream = imageFileObject.createWriteStream({
-                metadata: {
-                    contentType: imageFile.mimetype
-                }
-            });
+//             // Create a write stream to Firebase Storage for the image file
+//             const imageStream = imageFileObject.createWriteStream({
+//                 metadata: {
+//                     contentType: imageFile.mimetype
+//                 }
+//             });
     
-            // Handle errors during the image file upload
-            imageStream.on('error', err => {
-                console.error(err);
-                res.status(500).send("Failed to upload image file");
-            });
+//             // Handle errors during the image file upload
+//             imageStream.on('error', err => {
+//                 console.error(err);
+//                 res.status(500).send("Failed to upload image file");
+//             });
         
-                // Pipe the image file stream to the Firebase Storage write stream
-            imageStream.end(imageFile.buffer);
-        });
+//                 // Pipe the image file stream to the Firebase Storage write stream
+//             imageStream.end(imageFile.buffer);
+//         });
     
-        // Pipe the audio file stream to the Firebase Storage write stream
-        audioStream.end(audioFile.buffer);
-        res.status(200).send("Good Shit");
+//         // Pipe the audio file stream to the Firebase Storage write stream
+//         audioStream.end(audioFile.buffer);
+//         res.status(200).send("Good Shit");
     
-    } catch (err)  {
-        console.log(err)
-        res.status(500).send("Error uploading the files");
-    }
-});
+//     } catch (err)  {
+//         console.log(err)
+//         res.status(500).send("Error uploading the files");
+//     }
+// });
 
 
 
@@ -147,28 +144,6 @@ app.get("/discover", (req, res) => {
     res.json({ songs: ['song1', 'song2', 'song3'] });
 });
 
-app.get("/signUp", (req, res) => {
-    console.log("got signUp request");
-
-    const userName = req.query.username;
-    const pass = req.query.password;
-
-    console.log("req.query: ", req.query);
-    console.log("username: ", userName);
-    console.log("password: ", pass);
-
-    // need to do some validation to make sure email/password
-
-    // push these to the database for users
-
-    // if the user was created, send created=true, else send with message describing error
-    if (userName != "validUser") { // simulating username already exists
-        res.json({ created: true, message: "user was created" });
-    } else {
-        res.json({ created: false, message: 'account not created: user already exists'});
-    }
-});
-
 app.get("/likeSong", (req, res) => {
     console.log("got like song request");
 
@@ -198,7 +173,7 @@ app.use("/api/todos", todoRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/requests", requestRoutes);
 app.use("/api/auth", authRoutes);
-// app.use("/api/songs", songRoutes);
+app.use("/api/songs", songRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
@@ -498,4 +473,26 @@ app.listen(PORT, () => {
 //     // need to take userID and get songs/playlists
 
 //     res.json({ songs: [1, 2, 3, 4, 5, 6, 7, 8], playlists: [1, 2, 3, 4] });
+// });
+
+// app.get("/signUp", (req, res) => {
+//     console.log("got signUp request");
+
+//     const userName = req.query.username;
+//     const pass = req.query.password;
+
+//     console.log("req.query: ", req.query);
+//     console.log("username: ", userName);
+//     console.log("password: ", pass);
+
+//     // need to do some validation to make sure email/password
+
+//     // push these to the database for users
+
+//     // if the user was created, send created=true, else send with message describing error
+//     if (userName != "validUser") { // simulating username already exists
+//         res.json({ created: true, message: "user was created" });
+//     } else {
+//         res.json({ created: false, message: 'account not created: user already exists'});
+//     }
 // });
