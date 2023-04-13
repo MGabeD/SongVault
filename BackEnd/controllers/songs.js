@@ -155,7 +155,7 @@ exports.getSong = (req, res, next) => {
     songQuery
       .populate() // populate all fields
       .then((docs) => {
-        fetchedsong = docs;
+        fetchedSong = docs;
         console.log(fetchedSong);
         return Song.countDocuments();
       })
