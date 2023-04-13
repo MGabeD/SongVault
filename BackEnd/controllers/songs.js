@@ -102,7 +102,7 @@ exports.createSong = async (req, res, next) => {
                 });
             res.status(201).json({
               message: "Song created successfully",
-              song: updatedSong,
+              song: upSong,
             });
           } catch (error) {
             console.error(error);
