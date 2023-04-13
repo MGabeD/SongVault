@@ -20,6 +20,12 @@ const songs = [1, 2, 3, 4, 5, 6, 7];
 
 const Profile = () => {
     let [msg, setMsg] = useState("Loading...")
+    const [imageSrc, setImageSrc] = useState(null);
+    const [audioSrc, setAudioSrc] = useState(null);
+
+    const [audioUrl, setAudioUrl] = useState("");
+    const [imageUrl, setImageUrl] = useState("");
+
 
     // useEffect(() => {
     //     const fetchData = async () => {
@@ -62,25 +68,45 @@ const Profile = () => {
     //   }
 
     useEffect(() => {
-        const obj = {
-            "firstName": "Gabe",
-            "lastName": "Denton",
-            "email": "fake@fake.com",
-            "stageName": "amazingStageName",
-            "birthday": "6-6-2002",
-            "bio": "amazing_test_bio"
-        }
+        // const obj = {
+        //     "firstName": "Gabe",
+        //     "lastName": "Denton",
+        //     "email": "fake@fake.com",
+        //     "stageName": "amazingStageName",
+        //     "birthday": "6-6-2002",
+        //     "bio": "amazing_test_bio"
+        // }
 
-        const fetchData = async(url, params) => {
-            const response = await fetch(url + '?' + new URLSearchParams(params));
-            const data = await response.json()
+        // const fetchData = async(url, params) => {
+        //     const response = await fetch(url + '?' + new URLSearchParams(params));
+        //     const data = await response.json()
 
-            console.log("response: " + data.message);
-            setMsg(data.message);
-        }
+        //     console.log("response: " + data.message);
+        //     setMsg(data.message);
+        // }
 
-        fetchData('http://localhost:3001/api', {input: "testing", user: "Gabe D"});
+        // fetchData('http://localhost:3001/api', {input: "testing", user: "Gabe D"});
         
+        // const fetchData = async () => {
+        //     const fileName='fuck this';
+        //     const response = await fetch(`/download?fileName=${fileName}`);
+        //     console.log(response)
+        //     const data = await response.json();
+        //     console.log(data)
+        //     setImageSrc(data.imageSrc);
+        //     setAudioSrc(data.audioSrc);
+        //   };
+        //   fetchData();
+
+        const fetchImageUrl = async () => {
+            const response = await fetch('/download');
+            console.log(response);
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+            console.log(url);
+            setImageUrl(url);
+        }
+        fetchImageUrl();
     }, []);
     return (
         <>
@@ -99,6 +125,15 @@ const Profile = () => {
                 <button onClick={() => {console.log("hi")}}>
                     Hello
                 </button>
+                {/* {imageSrc && <img src={imageSrc} alt="song artwork" />}
+                {audioSrc && (
+                <audio controls>
+                    <source src={audioSrc} type="audio/mpeg" />
+                    Your browser does not support the audio element.
+                </audio> */}
+                <audio controls src={audioUrl}></audio>
+                <img src={imageUrl} alt="Album cover" />
+                )}
                 <Typography>
                     {msg}
                 </Typography>

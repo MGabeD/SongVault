@@ -7,7 +7,7 @@ const useCardStyles = makeStyles((theme) => ({ // the theme object is part of MU
     },
 
     card: {
-        height: '90%',
+        height: '95%',
         display: 'flex',
         flesxDirection: 'column'
     },

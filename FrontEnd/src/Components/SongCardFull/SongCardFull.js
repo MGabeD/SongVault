@@ -52,7 +52,7 @@ const SongCardFull = (props) => {
                         Your browser does not support the audio tag.
                     </audio>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item>
                     <IconButton
                     aria-label="add to favorites"
                     onClick={onLike}
@@ -60,13 +60,10 @@ const SongCardFull = (props) => {
                     >
                         <Favorite />
                     </IconButton>
-                    
-                    <div  xs={2}>
-                        <IconButton
+                    <IconButton
                         aria-label="Share">
                             <PlaylistAdd />
-                        </IconButton>
-                    </div>
+                    </IconButton>
                 </Grid>
             </Grid>
             

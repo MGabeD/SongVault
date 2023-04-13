@@ -179,74 +179,73 @@ app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });
 
+async function downloadFile(fileName) {
+    const file = bucket.file(fileName);
+    const [fileBuffer] = await file.download();
+    return fileBuffer;
+}
 
-////////////////////////////////////////
-//          works for posing          //
-//          only song                 //
-////////////////////////////////////////
+// app.get('/download', (req, res) => {
+//     const folderName = 'fuck this'
+//     // const fileName = SomeDude.jpeg
+//     // this will be a songID
+//     // const fileName = req.query.filename;
 
-// Define a POST route to receive the song
-// app.post("/uploadSong", upload.fields([
-//     {name: 'Audio', maxCount: 1},
-//     {name: 'Image', maxCount: 1},
-// ]), (req, res) => {
-    
-//     // Get the files from the request
-//     const audioFile = req.files['Audio'][0];
-//     const imageFile = req.files['Image'][0];
+//     // const audioRef = storage.ref(`${folderName}/${fileName}`);
+//     // const imageRef = storage.ref(`${folderName}/${fileName.replace('.mp3', '.png')}`);
+//     const imageRef = storage.ref(`${folderName}/SomeDude.jpeg`)
+//     const audioRef = storage.ref(`${folderName}/reds.mp3`)
+  
+//     Promise.all([
+//       audioRef.getDownloadURL(),
+//       imageRef.getDownloadURL(),
+//     ])
+//       .then((urls) => {
+//         const audioUrl = urls[0];
+//         const imageUrl = urls[1];
+//         const audioRequest = fetch(audioUrl);
+//         const imageRequest = fetch(imageUrl);
 
-//     // Create a unique filename for the file
-//     const filename = `${Date.now()}-${file.originalname}`;
-  
-//     // Create a file object to upload to Firebase Storage
-//     const fileObject = bucket.file(filename);
-  
-//     // Create a write stream to Firebase Storage
-//     const stream = fileObject.createWriteStream({
-//       metadata: {
-//         contentType: file.mimetype
-//       }
-//     });
-  
-//     // Handle errors during the upload
-//     stream.on("error", err => {
-//       console.error(err);
-//       res.status(500).send("Failed to upload file");
-//     });
-  
-//     // Handle the end of the upload
-//     stream.on("finish", async () => {
-//       // Set the URL expiration time to one week
-//       const expires = Date.now() + 7 * 24 * 60 * 60 * 1000;
-  
-//       // Get the signed URL for the file with the specified expiration time
-//       const [url] = await fileObject.getSignedUrl({
-//         action: "read",
-//         expires
+//         Promise.all([audioRequest, imageRequest])
+//           .then((responses) => {
+//             const audioBlob = responses[0].blob();
+//             const imageBlob = responses[1].blob();
+//             Promise.all([audioBlob, imageBlob])
+//               .then((blobs) => {
+//                 const audio = blobs[0];
+//                 const image = blobs[1];
+//                 res.setHeader('Content-disposition', `attachment; filename=${fileName}`);
+//                 res.setHeader('Content-type', 'audio/mpeg');
+//                 audio.arrayBuffer().then((audioBuffer) => {
+//                   res.send(Buffer.from(audioBuffer));
+//                 });
+//               });
+//           });
+//       })
+//       .catch((error) => {
+//         console.error(error);
+//         res.status(500).send('Error downloading file');
 //       });
-  
-//       // Send the URL back to the client
-//       res.json({ url });
-//     });
-  
-//     // Pipe the file stream to the Firebase Storage write stream
-//     stream.end(file.buffer);
 //   });
 
+app.get('/download', (req, res) => {
+    // const fileName = req.params.fileName;
 
-////////////////////////////////////////
-//          works for posing not      //
-//          under folder              //
-////////////////////////////////////////
+    const folderName = '/undefined';
+    const fileName = 'githubPfP.jpeg'
+    const fileRef = storage.ref().child(`${folderName}/${fileName}`);
 
-// app.post("/uploadSong", upload.fields([
-//     {name: 'Audio', maxCount: 1},
-//     {name: 'Image', maxCount: 1},
-// ]), async (req, res) => {
-//     try {
-//         // Get the files from the request
-//         const audioFile = req.files['Audio'][0];
-//         const imageFile = req.files['Image'][0];
+    fileRef.getDownloadURL()
+    .then(url => {
+        // send the file URL to the client
+        res.status(200).send({ url });
+    })
+    .catch(error => {
+        console.log(error);
+        res.status(404).send('File not found');
+    });
+});
+// gs://songvault-7f750.appspot.com/fuck this/SomeDude.jpeg
 
 //         // Create a unique filename for the file
 //         const filename = `${Date.now()}-${audioFile.originalname}`;

@@ -31,7 +31,7 @@ const [loginStatus, setLoginStatus] = React.useState(true);
           <Route path="signup" element={<SignUp />} />
           <Route path="profile" element={<Profile />} />
           <Route path="trending" element={<Trending />} />
-          <Route path="*" element={<PageNotFound />} />
+          {/* <Route path="*" element={<PageNotFound />} /> */}
         </Route>
       </Routes>
     </BrowserRouter>
