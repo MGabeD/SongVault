@@ -35,21 +35,36 @@ const EditAccountModal = (props) => {
         const data = new FormData(event.currentTarget);
         
         // preparing formData to send PUT request
-        const formData = new FormData();
-        formData.append("firstName", data.get('newFirstName'));
-        formData.append("lastName", data.get('newLastName'));
-        formData.append("userName", data.get('newUsername'));
-        formData.append("password", data.get("newPassword"));
-        formData.append("birthday", data.get("newBirthday"));
-        formData.append("bio", data.get('newBio'));
-        formData.append("email", props.email);
-        formData.append("stageName", "notImplemented")
-        formData.append("User", localStorage.getItem('userID'));
+
+        // const formData = new FormData();
+        // formData.append("firstName", data.get('newFirstName'));
+        // formData.append("lastName", data.get('newLastName'));
+        // formData.append("userName", data.get('newUsername'));
+        // formData.append("password", data.get("newPassword"));
+        // formData.append("birthday", data.get("newBirthday"));
+        // formData.append("bio", data.get('newBio'));
+        // formData.append("email", props.email);
+        // formData.append("stageName", "notImplemented")
+        // formData.append("User", localStorage.getItem('userID'));
+
+        const jsonBody = {
+            username: data.get('newUsername'),
+            password: data.get("newPassword"),
+            birthday: data.get("newBirthday"),
+            bio: data.get('newBio'),
+            firstname: data.get('newFirstName'),
+            lastname: data.get('newLastName'),
+            email: data.get('newEmail'),
+            userId: localStorage.getItem('userID')
+        }
 
         // sending Put request to change info about the user's account
         fetch("http://localhost:3001/api/user", {
             method: "PUT",
-            body: formData,
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(jsonBody)
         }).then((response) => {
             console.log(response);
             alert("Account Information Successfully Updated")
@@ -58,6 +73,19 @@ const EditAccountModal = (props) => {
             alert(error);
         })
         console.log('after post req');
+
+        // this is temporary, just to show updating of data
+
+        props.setUserData({
+            username: data.get('newUsername'),
+            password: data.get('newPassword'),
+            birthday: data.get('newBirthday'),
+            bio: data.get('newBio'),
+            websiteLink: data.get('newWebsiteLink'),
+            firstname: data.get('newFirstName'),
+            lastname: data.get('newLastName'),
+            email: data.get('newEmail')
+        })
 
         handleClose();
     }
@@ -130,9 +158,9 @@ const EditAccountModal = (props) => {
                     label="Bio"
                     name="newBio"
                     defaultValue={props.bio}
+                    multiline
+                    maxRows={5}
                     
-                    
-                    maxRows={null}
                     />
 
                     <TextField

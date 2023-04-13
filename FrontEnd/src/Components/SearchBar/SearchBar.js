@@ -32,7 +32,6 @@ const SearchBar = (props) => {
         const params = {searchReq: searchInput };
         reqSearch(params)
         .then((data) => {
-            alert(data.songs)
             props.setSongs(data.songs)
         })
         console.log(searchInput);

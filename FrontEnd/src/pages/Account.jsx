@@ -8,11 +8,28 @@ import SongUploadModal from '../Components/SongUploadModal/SongUploadModal'
 import CreatePlaylistModal from '../Components/CreatePlaylistModal/CreatePlaylistModal'
 import EditAccountModal from '../Components/EditAccountModal/EditAccountModal'
 
+import song from '../audio/reds.mp3'
+
 const websiteLink = 'https://google.com'
 
+
+
 const Account = () => {
+    const classes = useStyles();
+    
     const [songs, setSongs] = useState([]);
     const [playlists, setPlaylists] = useState([]);
+    const [cardType, setCardType] = useState("Songs");
+    const [userData, setUserData] = useState({
+        username: 'wesleyminton',
+        password: 'secret',
+        birthday: '8/11/2001',
+        bio: "This is a short description of the user's profile that they can enter for themselves. They can talk about what kind of music they make or what kind of playlists they make",
+        websiteLink: 'http://fakeWebsite.com',
+        firstname: 'Wesley',
+        lastname: 'Minton',
+        email: 'fakeEmail@gmail.com'
+    })
 
     useEffect(() => {
         const getUserData = async (params) => {
@@ -30,12 +47,6 @@ const Account = () => {
             setPlaylists(data.playlists);
         })
     }, []);
-
-    const classes = useStyles();
-
-    const [cardType, setCardType] = useState("Songs");
-    const [uploadingSong, setUploadingSong] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
 
     const handleChange = (event, newValue) => {
         setCardType(newValue);
@@ -55,23 +66,16 @@ const Account = () => {
             <main className={classes.main}>
                 <div style={{justifyContent:'flex-end', flexDirection:'row', display: 'flex', paddingTop: '10px'}}>
                     {cardType === "Songs" ? <SongUploadModal/> : <CreatePlaylistModal/>}
-                    
-                    
-                    
-                    
-                    {/* <IconButton style={{color: 'grey'}} 
-                    onClick={editAccount}>
-                        <Settings/>
-                    </IconButton> */}
                     <EditAccountModal 
-                    username={'wesleyminton'}
-                    password={'secret'}
-                    firstName={'Wesley'}
-                    lastName={'Minton'}
-                    email={'fakeEmail@gmail.com'}
-                    birthday={'8/11/2001'}
-                    bio={"This is a short description of the user's profile that they can enter for themselves. They can talk about what kind of music they make or what kind of playlists they make"}
-                    websiteLink={'http://thisIsMyWebsiteLink.com'}
+                    username={userData.username}
+                    password={userData.password}
+                    firstName={userData.firstname}
+                    lastName={userData.lastname}
+                    email={userData.email}
+                    birthday={userData.birthday}
+                    bio={userData.bio}
+                    websiteLink={userData.websiteLink}
+                    setUserData={setUserData}
                     />
                 </div>
                 <div className={classes.container} >
@@ -79,11 +83,10 @@ const Account = () => {
                     <Container maxWidth='sm' style={{marginTop: '100px'}}>
                         
                         <Typography variant='h2' align='center' className={classes.accountNameTitle}> 
-                            Wesley Minton
+                            {userData.firstname} {" "} {userData.lastname}
                         </Typography>
                         <Typography variant='h5' align='center' className={classes.accountDescription} paragraph>
-                            This is a short description of the user's profile that they can enter for themselves.
-                            They can talk about what kind of music they make or what kind of playlists they make
+                            {userData.bio}
 
                         </Typography>
                         <div className={classes.buttons}>
@@ -119,6 +122,7 @@ const Account = () => {
                                 <SongCardFull
                                 title={cardType === "Songs" ? "Song Title" : "Playlist Title"}
                                 desc={cardType==="Songs" ? "This is a short description of the song" : "This is a short description of the playlist"}
+                                audio={song}
                                 image="https://source.unsplash.com/random/?Music"/>
                             </Grid>
                         ))

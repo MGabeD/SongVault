@@ -57,7 +57,7 @@ const SongUploadModal = () => {
         console.log(data)
         
         const formData = new FormData();
-        formData.append("Name", data.get('songName'));
+        formData.append("songName", data.get('songName'));
         formData.append("Image", data.get('songImg'));
         formData.append("Audio", data.get('songMP3'));
         formData.append("User", localStorage.getItem('userID'));
@@ -69,7 +69,7 @@ const SongUploadModal = () => {
             console.log(response);
         }).catch((error) => {
             console.log(error);
-            alert(error);
+            // alert(error);
         })
         console.log('after post req');
 
@@ -158,9 +158,17 @@ const SongUploadModal = () => {
                         alt="Preview" />
                     </div>
 
-
-
-                    
+                    <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="desc"
+                    label="Description"
+                    name="desc"
+                    autoFocus
+                    multiline
+                    maxRows={2}
+                    />
                     
                     <Button
                     type="submit"

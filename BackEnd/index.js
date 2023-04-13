@@ -184,112 +184,171 @@ const upload = multer({ storage: storage });
 // });
 ////////////////////////////////////////////////////////////
 
+// app.post("/uploadSong", upload.fields([
+//     {name: 'Audio', maxCount: 1},
+//     {name: 'Image', maxCount: 1},
+// ]), async (req, res) => {
+//     try {
+//         // Get the files from the request
+//         const audioFile = req.files['Audio'][0];
+//         const imageFile = req.files['Image'][0];
+//         // const songName = req.body.songName;
+//         const songName = "testingFolder3"
+
+//         // Create a unique filename for the audio file
+//         const audioFilename = `${Date.now()}-${audioFile.originalname}`;
+
+//         // Create a file object to upload the audio file to Firebase Storage
+//         const audioFileObject = bucket.file(`${songName}/${audioFilename}`);
+
+//         // Create a write stream to Firebase Storage for the audio file
+//         const audioStream = audioFileObject.createWriteStream({
+//             metadata: {
+//                 contentType: audioFile.mimetype
+//             }
+//         });
+
+//         // Handle errors during the audio file upload
+//         audioStream.on("error", err => {
+//             console.error(err);
+//             res.status(500).send("Failed to upload audio file");
+//         });
+
+//         // Handle the end of the audio file upload
+//         audioStream.on("finish", async () => {
+//             // Create a unique filename for the image file
+//             const imageFilename = `${Date.now()}-${imageFile.originalname}`;
+
+//             // Create a file object to upload the image file to Firebase Storage
+//             const imageFileObject = bucket.file(`${songName}/${imageFilename}`);
+
+//             // Create a write stream to Firebase Storage for the image file
+//             const imageStream = imageFileObject.createWriteStream({
+//                 metadata: {
+//                     contentType: imageFile.mimetype
+//                 }
+//             });
+
+//             // Handle errors during the image file upload
+//             imageStream.on('error', err => {
+//                 console.error(err);
+//                 res.status(500).send("Failed to upload image file");
+//             });
+
+//             // Handle the end of the image file upload
+//             imageStream.on('finish', async () => {
+//                 // Set the URL expiration time to one week
+//                 const expires = Date.now() + 7 * 24 * 60 * 60 * 1000;
+
+//                 // Get the signed URL for the audio file with the specified expiration time
+//                 const [audioUrl] = await audioFileObject.getSignedUrl({
+//                     action: "read",
+//                     expires
+//                 });
+
+//                 // Get the signed URL for the image file with the specified expiration time
+//                 const [imageUrl] = await imageFileObject.getSignedUrl({
+//                     action: 'read',
+//                     expires
+//                 });
+
+//                 // Create a new object to store in the Firebase database
+//                 const songObject = {
+//                     name: req.body.name,
+//                     userId: req.body.userId,
+//                     audioUrl: audioUrl,
+//                     imageUrl: imageUrl,
+//                     id: null
+//                 };
+
+//                 // Add the song object to the Firebase database
+//                 // const docRef = db.collection('songs').doc();
+
+//                 // const docId = docRef.id;
+//                 // songObject.id = docId;
+//                 // docRef.set(songObject)
+//                 //     .then(() => {
+//                 //         // Send the song object back to the client
+//                 //         res.json(songObject);
+//                 //     })
+//                 //     .catch((err) => {
+//                 //         console.error(err);
+//                 //         res.status(500).send("Failed to add song to database");
+//                 //     });
+//             });
+
+//             // Pipe the image file stream to the Firebase Storage write stream
+//             imageStream.end(imageFile.buffer);
+//         });
+
+//         // Pipe the audio file stream to the Firebase Storage write stream
+//         audioStream.end(audioFile.buffer);
+
+//         res.status(200).send("Think this bitch be working");
+//     } catch (err)  {
+//         console.log(err)
+//         res.status(500).send("Error uploading the files");
+//     }
+// });
+
 app.post("/uploadSong", upload.fields([
-    {name: 'Audio', maxCount: 1},
-    {name: 'Image', maxCount: 1},
-]), async (req, res) => {
-    try {
-        // Get the files from the request
-        const audioFile = req.files['Audio'][0];
-        const imageFile = req.files['Image'][0];
-        // const songName = req.body.songName;
-        const songName = "testingFolder3"
-
-        // Create a unique filename for the audio file
-        const audioFilename = `${Date.now()}-${audioFile.originalname}`;
-
-        // Create a file object to upload the audio file to Firebase Storage
-        const audioFileObject = bucket.file(`${songName}/${audioFilename}`);
-
-        // Create a write stream to Firebase Storage for the audio file
-        const audioStream = audioFileObject.createWriteStream({
-            metadata: {
-                contentType: audioFile.mimetype
-            }
-        });
-
-        // Handle errors during the audio file upload
-        audioStream.on("error", err => {
-            console.error(err);
-            res.status(500).send("Failed to upload audio file");
-        });
-
-        // Handle the end of the audio file upload
-        audioStream.on("finish", async () => {
-            // Create a unique filename for the image file
-            const imageFilename = `${Date.now()}-${imageFile.originalname}`;
-
-            // Create a file object to upload the image file to Firebase Storage
-            const imageFileObject = bucket.file(`${songName}/${imageFilename}`);
-
-            // Create a write stream to Firebase Storage for the image file
-            const imageStream = imageFileObject.createWriteStream({
-                metadata: {
-                    contentType: imageFile.mimetype
-                }
-            });
-
-            // Handle errors during the image file upload
-            imageStream.on('error', err => {
-                console.error(err);
-                res.status(500).send("Failed to upload image file");
-            });
-
-            // Handle the end of the image file upload
-            imageStream.on('finish', async () => {
-                // Set the URL expiration time to one week
-                const expires = Date.now() + 7 * 24 * 60 * 60 * 1000;
-
-                // Get the signed URL for the audio file with the specified expiration time
-                const [audioUrl] = await audioFileObject.getSignedUrl({
-                    action: "read",
-                    expires
-                });
-
-                // Get the signed URL for the image file with the specified expiration time
-                const [imageUrl] = await imageFileObject.getSignedUrl({
-                    action: 'read',
-                    expires
-                });
-
-                // Create a new object to store in the Firebase database
-                const songObject = {
-                    name: req.body.name,
-                    userId: req.body.userId,
-                    audioUrl: audioUrl,
-                    imageUrl: imageUrl,
-                    id: null
-                };
-
-                // Add the song object to the Firebase database
-                // const docRef = db.collection('songs').doc();
-
-                // const docId = docRef.id;
-                // songObject.id = docId;
-                // docRef.set(songObject)
-                //     .then(() => {
-                //         // Send the song object back to the client
-                //         res.json(songObject);
-                //     })
-                //     .catch((err) => {
-                //         console.error(err);
-                //         res.status(500).send("Failed to add song to database");
-                //     });
-            });
-
-            // Pipe the image file stream to the Firebase Storage write stream
-            imageStream.end(imageFile.buffer);
-        });
-
-        // Pipe the audio file stream to the Firebase Storage write stream
-        audioStream.end(audioFile.buffer);
-
-        res.status(200).send("Think this bitch be working");
-    } catch (err)  {
-        console.log(err)
-        res.status(500).send("Error uploading the files");
-    }
-});
+        {name: 'Audio', maxCount: 1},
+        {name: 'Image', maxCount: 1},
+    ]), async (req, res) => {
+        try {
+            // Get the files from the request
+            const audioFile = req.files['Audio'][0];
+            const imageFile = req.files['Image'][0];
+            const songName = req.body.songName;
+            console.log('SongName: ' + songName)
+    
+            // Create a file object to upload the audio file to Firebase Storage
+            const audioFileObject = bucket.file(`${songName}/${audioFile.originalname}`);
+    
+            // Create a write stream to Firebase Storage for the audio file
+            const audioStream = audioFileObject.createWriteStream({
+                metadata: {
+                    contentType: audioFile.mimetype
+                }
+            });
+    
+            // Handle errors during the audio file upload
+            audioStream.on("error", err => {
+                console.error(err);
+                res.status(500).send("Failed to upload audio file");
+            });
+    
+            // Handle the end of the audio file upload
+            audioStream.on("finish", async () => {
+                // Create a file object to upload the image file to Firebase Storage
+                const imageFileObject = bucket.file(`${songName}/${imageFile.originalname}`);
+    
+                // Create a write stream to Firebase Storage for the image file
+                const imageStream = imageFileObject.createWriteStream({
+                    metadata: {
+                        contentType: imageFile.mimetype
+                    }
+                });
+    
+                // Handle errors during the image file upload
+                imageStream.on('error', err => {
+                    console.error(err);
+                    res.status(500).send("Failed to upload image file");
+                });
+    
+                // Pipe the image file stream to the Firebase Storage write stream
+                imageStream.end(imageFile.buffer);
+            });
+    
+            // Pipe the audio file stream to the Firebase Storage write stream
+            audioStream.end(audioFile.buffer);
+            res.status(200).send("Good Shit");
+    
+        } catch (err)  {
+            console.log(err)
+            res.status(500).send("Error uploading the files");
+        }
+    });
 
 
 
