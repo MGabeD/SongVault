@@ -88,6 +88,7 @@ admin.initializeApp({
                 imageLink: savedSong.imageLink,
                 mp3Link: savedSong.mp3Link,
               };
+              console.log(upSong);
               await Song.updateOne({ _id: savedSong._id }, { $set: upSong });
   
               res.status(201).json({
