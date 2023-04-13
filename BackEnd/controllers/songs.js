@@ -42,6 +42,7 @@ exports.createSong = async (req, res, next) => {
           likes: req.body.likes,
           plays: req.body.plays,
           genre: req.body.genre,
+          artist: req.body.userName,
         });
   
         const savedSong = await song.save();
@@ -182,7 +183,8 @@ exports.updateSong = (req, res, next) => {
         plays: req.body.plays,
         imageLink: req.body.imageLink,
         mp3Link: req.body.mp3Link,
-        genre: req.body.genre
+        genre: req.body.genre,
+        artistNames: req.body.userName,
     };
     console.log(updatedSong);
     Song.updateOne({ _id: req.params.id }, { $set: updatedSong })
@@ -198,15 +200,26 @@ exports.updateSong = (req, res, next) => {
 };
 
 exports.deleteSong = (req, res, next) => {
-    console.log("here");
-    console.log(req.params.id);
-    Song.deleteOne({ _id: req.params.id })
-    .then((resp) => {
-        res.status(200).json({ message: "Delete is successful!" });
+  console.log("here");
+  console.log(req.params.id);
+  Song.findByIdAndDelete(req.params.id)
+    .then((deletedSong) => {
+      User.updateMany(
+        { songs: { $in: [deletedSong._id] } },
+        { $pull: { songs: deletedSong._id } }
+      )
+        .then(() => {
+          res.status(200).json({ message: "Delete is successful!" });
+        })
+        .catch((error) => {
+          res.status(500).json({
+            message: "Couldn't delete song from user's list of songs!",
+          });
+        });
     })
     .catch((error) => {
-        res.status(500).json({
-            message: "Couldn't delete song!",
-        });
+      res.status(500).json({
+        message: "Couldn't delete song!",
+      });
     });
 };
