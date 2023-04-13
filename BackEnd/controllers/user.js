@@ -1,7 +1,7 @@
 const User = require("../models/user");
 
 exports.createUser = (req, res, next) => {
-    console.log('got createUser req')
+    console.log('got createUser req');
     const user = new User({
         userName: req.body.userName,
         password: req.body.password,
@@ -18,24 +18,73 @@ exports.createUser = (req, res, next) => {
         playlists: req.body.playlists,
     });
     console.log(user);
-    
-    user
-        .save()
-        .then((result) => {
-            res.status(201).json({
-                message: "User added successfully",
-                post: {
-                    ...result.toObject(),
-                    id: result._id,
-                },
-            });
-        })
-        .catch((err) => {
-            res.status(500).json({
-                message: "Fail to create user!",
-            });
+    User.findOne({
+        $or: [
+            { userName: user.userName },
+            { email: user.email }
+        ]
+    })
+    .then(foundUser => {
+        if (!foundUser) {
+            return user.save();
+        } else {
+            throw new Error("User already exists.");
+        }
+    })
+    .then((result) => {
+        res.status(201).json({
+            message: "User added successfully",
+            post: {
+                ...result.toObject(),
+                id: result._id,
+            },
         });
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(500).json({
+            message: err.message || "Fail to create user!",
+        });
+    });
 };
+
+
+// exports.createUser = (req, res, next) => {
+//     console.log('got createUser req')
+//     const user = new User({
+//         userName: req.body.userName,
+//         password: req.body.password,
+//         firstName: req.body.firstName,
+//         lastName: req.body.lastName,
+//         email: req.body.email,
+//         stageName: req.body.stageName,
+//         birthday: req.body.birthday,
+//         bio: req.body.bio,
+//         hyperLinks: req.body.hyperLinks,
+//         followers: req.body.followers,
+//         friends: req.body.friends,
+//         songs: req.body.songs,
+//         playlists: req.body.playlists,
+//     });
+//     console.log(user);
+    
+//     user
+//         .save()
+//         .then((result) => {
+//             res.status(201).json({
+//                 message: "User added successfully",
+//                 post: {
+//                     ...result.toObject(),
+//                     id: result._id,
+//                 },
+//             });
+//         })
+//         .catch((err) => {
+//             res.status(500).json({
+//                 message: "Fail to create user!",
+//             });
+//         });
+// };
 
 exports.getUser = (req, res, next) => {
     const pageSize = +req.query.pageSize;
