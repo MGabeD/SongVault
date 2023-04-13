@@ -7,7 +7,8 @@ const songSchema = mongoose.Schema({
     likes: { type: Number, default: 0, required: true },
     plays: { type: Number, default: 0, required: true },
     imageLink: { type: String, required: false },
-    mp3Link: { type: String, required: false }
+    mp3Link: { type: String, required: false },
+    genre: { type: [Number], default: [], required: true }
     
 });
 

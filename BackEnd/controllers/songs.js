@@ -41,6 +41,7 @@ exports.createSong = async (req, res, next) => {
           artist: req.body.user,
           likes: req.body.likes,
           plays: req.body.plays,
+          genre: req.body.genre,
         });
   
         const savedSong = await song.save();
@@ -180,7 +181,8 @@ exports.updateSong = (req, res, next) => {
         likes: req.body.likes,
         plays: req.body.plays,
         imageLink: req.body.imageLink,
-        mp3Link: req.body.mp3Link
+        mp3Link: req.body.mp3Link,
+        genre: req.body.genre
     };
     console.log(updatedSong);
     Song.updateOne({ _id: req.params.id }, { $set: updatedSong })
