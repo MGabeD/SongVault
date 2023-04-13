@@ -68,11 +68,15 @@ const Account = () => {
                 songs: data.songs,
                 playlists: data.playlists
             })
+            
+            // localStorage.setItem('playlists', data.playlists)
+            // alert(localStorage.getItem('playlists'))
 
             const updatedSongs = [];
             Promise.all(data.songs.map((songID) => {
                 return getSongInfo(songID)
                 .then((songInfo) => {
+                    alert(JSON.stringify(songInfo))
                   updatedSongs.push(songInfo);
                 })
               }))

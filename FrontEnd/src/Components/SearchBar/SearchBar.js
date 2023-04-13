@@ -40,11 +40,21 @@ const SearchBar = (props) => {
         .then((data) => {
             alert(JSON.stringify(data))
             
+            const allResponses = []
+            data.songs.map((songID) => {
+                allResponses.push(songID)
+            })
+            data.matchingSongs.map((songID) => {
+                if (!allResponses.includes(songID)) {
+                    allResponses.push(songID)                        
+                }
+            })
             const updatedSongs = [];
-            Promise.all(data.songs.map((songID) => {
+            Promise.all(allResponses.map((songID) => {
                 return getSongInfo(songID)
                 .then((songInfo) => {
-                  updatedSongs.push(songInfo);
+                    // alert(JSON.stringify(songInfo))
+                    updatedSongs.push(songInfo);
                 })
               }))
               .then(() => {

@@ -3,20 +3,8 @@ import React, { useEffect, useState } from 'react'
 
 import SearchBar from '../Components/SearchBar/SearchBar'
 import BottomSongControlUI from '../Components/BottomSongControlUI/BottomSongControlUI'
-import song from '../audio/reds.mp3'
-
-const songProps = {
-    title: "Reds",
-    artist: "James Becker",
-    image: "https://source.unsplash.com/random/?Music",
-    audio: song
-}
 
 const propPlaylists = [{name: 'playlist1', id: '12398124982'}, {name: 'playlist2', id: '1285830290'}, {name: 'playlist3', id: '1284883593'}]
-
-// https://www.thecodecreative.com/blog/how-to-load-an-audio-file-using-fetch
-
-
 
 const Discover = () => {
     const [songs, setSongs] = useState([]);
@@ -37,6 +25,7 @@ const Discover = () => {
                             audio={songInfo.mp3Link}
                             image={songInfo.imageLink}
                             id={songInfo.songId}
+                            artist={songInfo.userName}
                             />
                         </Grid>
                         ))}
