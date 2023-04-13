@@ -20,8 +20,17 @@ admin.initializeApp({
 
 exports.createSong = async (req, res, next) => {
   try {
+    if (!req.files || !req.files["Audio"] || !req.files["Image"]) {
+        return res.status(400).json({ message: "Missing files" });
+    }
+      
     const audioFile = req.files["Audio"][0];
     const imageFile = req.files["Image"][0];
+      
+      // the rest of the code here
+      
+    // const audioFile = req.files["Audio"][0];
+    // const imageFile = req.files["Image"][0];
     const song = new Song({
       name: req.body.songName,
       artist: req.body.user,
@@ -86,81 +95,3 @@ exports.createSong = async (req, res, next) => {
 };
 
 
-
-exports.getSong = (req, res, next) => {
-    const pageSize = +req.query.pageSize;
-    const currPage = +req.query.page;
-    const songQuery = User.find();
-    let fetchedSong;
-    if (pageSize && currPage) {
-      songQuery.skip(pageSize * (currPage - 1)).limit(pageSize);
-    }
-    songQuery
-      .populate() // populate all fields
-      .then((docs) => {
-        fetchedUser = docs;
-        console.log(fetchedUser);
-        return Song.countDocuments();
-      })
-      .then((count) => {
-        res.status(200).json({
-          message: "All song fetched 200!",
-          posts: fetchedSong,
-          maxPosts: count,
-        });
-      })
-      .catch((error) => {
-        res.status(500).json({
-          message: "Fetching Songs failed!",
-        });
-      });
-  };  
-  
-
-exports.getUserById = (req,res, next) => {
-    Song.findById(req.params.id)
-        .then((post) => {
-            if (post) {
-                res.status(200).json(post)
-            } else {
-                res.status(404).json({ message: "User not found!" });
-            }
-        })
-        .catch((error) => {
-            res.status(500).json({
-                message: "Fetching user failed!",
-            });
-        });
-};
-
-exports.updateSong = (req, res, next) => {
-    const updatedSong = {
-        title: req.body.title,
-        artist: req.body.artists
-    };
-    console.log(updatedSong);
-    Song.updateOne({ _id: req.params.id }, { $set: updatedSong })
-        .then((result) => {
-            res.status(200).json({ message: "Update is successful!" });
-        })
-        .catch((error) => {
-            res.status(500).json({
-                message: "Couldn't update song!",
-            });
-            console.log(error);
-        });
-};
-
-exports.deleteSong = (req, res, next) => {
-    console.log("here");
-    console.log(req.params.id);
-    Song.deleteOne({ _id: req.params.id })
-    .then((resp) => {
-        res.status(200).json({ message: "Delete is successful!" });
-    })
-    .catch((error) => {
-        res.status(500).json({
-            message: "Couldn't delete song!",
-        });
-    });
-};
