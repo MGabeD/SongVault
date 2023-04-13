@@ -1,6 +1,6 @@
 import {React, useState} from 'react'
 import { Modal, Button, Box, TextField, Input, Container, Typography, IconButton} from '@material-ui/core'
-import { MultilineChart, Settings } from '@material-ui/icons'
+import { Settings } from '@material-ui/icons'
 
 const EditAccountModal = (props) => {
     const [open, setOpen] = useState(false);

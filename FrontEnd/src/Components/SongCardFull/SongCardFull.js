@@ -1,9 +1,10 @@
 import {React} from 'react'
 
 import { Typography, Card, CardActions, CardContent, CardMedia, IconButton, Grid} from '@material-ui/core'
-import {Favorite, Share, PlaylistAdd} from '@material-ui/icons'
+import {Favorite, PlaylistAdd} from '@material-ui/icons'
 
 import useCardStyles from './CardFullStyles'
+import AddToPlaylistModal from '../AddToPlaylistModal/AddToPlaylistModal'
 
 const SongCardFull = (props) => {
     const classes = useCardStyles();
@@ -60,18 +61,10 @@ const SongCardFull = (props) => {
                     >
                         <Favorite />
                     </IconButton>
-                    <IconButton
-                        aria-label="Share">
-                            <PlaylistAdd />
-                    </IconButton>
+                    <AddToPlaylistModal playlists={props.playlists}/>
                 </Grid>
-            </Grid>
-            
-            
+            </Grid>        
         </CardContent>
-        <CardActions>
-            
-        </CardActions>
     </Card>
   )
 }

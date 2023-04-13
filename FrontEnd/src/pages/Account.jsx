@@ -135,8 +135,11 @@ const Account = () => {
                                 <SongCardFull
                                 title={cardType === "Songs" ? "Song Title" : "Playlist Title"}
                                 desc={cardType==="Songs" ? "This is a short description of the song" : "This is a short description of the playlist"}
-                                audio={song}
-                                image="https://source.unsplash.com/random/?Music"/>
+                                audio="https://storage.googleapis.com/songvault-7f750.appspot.com/643791e39d9758ccd6e3ceb6/reds.mp3"
+                                image="https://storage.googleapis.com/songvault-7f750.appspot.com/643791e39d9758ccd6e3ceb6/StockProducerImage.jpeg"
+                                playlists={[{name: 'playlist 1', id: '1298214912'}, {name: 'playlist 2', id: '1238421052'}, {name: 'playlist 3', id: '184003592'}]}
+                                />
+                                
                             </Grid>
                         ))
                             :

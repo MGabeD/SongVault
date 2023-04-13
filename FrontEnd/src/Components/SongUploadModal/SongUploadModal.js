@@ -60,7 +60,7 @@ const SongUploadModal = () => {
         formData.append("songName", data.get('songName'));
         formData.append("Image", data.get('songImg'));
         formData.append("Audio", data.get('songMP3'));
-        formData.append("user", localStorage.getItem('userID'));
+        formData.append("user", [localStorage.getItem('userID')]);
         
 
         fetch("http://localhost:3001/api/songs", {
