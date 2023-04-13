@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { Modal, Button, Box, TextField, Input, Container, Typography} from '@material-ui/core'
 
-const SongUploadModal = () => {
+const SongUploadModal = (props) => {
     const [open, setOpen] = React.useState(false);
     const [imagePreview, setImagePreview] = React.useState(null);
     const [mp3File, setMp3File] = useState(null);
@@ -68,12 +68,15 @@ const SongUploadModal = () => {
             body: formData,
         }).then((response) => {
             console.log(response);
+            props.updateRender();
         }).catch((error) => {
             console.log(error);
             // alert(error);
         })
         console.log('after post req');
 
+        // props.updateSongs();
+        
         handleClose();
     }
 

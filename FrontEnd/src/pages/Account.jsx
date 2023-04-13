@@ -31,21 +31,31 @@ const Account = () => {
         songs: [],
         playlists: [1, 2, 3, 4]
     })
+    const [songs, setSongs] = useState([]);
 
-    useEffect(() => {
-        const getUserData = async (params) => {
-            // const response = await fetch('http://localhost:3001/accountInfo' + '?' + new URLSearchParams(params));
-            const response = await fetch('http://localhost:3001/api/users/' + localStorage.getItem("userID"));
-            const data = await response.json();
+    const getUserData = async (params) => {
+        // const response = await fetch('http://localhost:3001/accountInfo' + '?' + new URLSearchParams(params));
+        const response = await fetch('http://localhost:3001/api/users/' + localStorage.getItem("userID"));
+        const data = await response.json();
 
-            return data;
-        }
+        return data;
+    }
 
+    const getSongInfo = async (id) => {
+        const response = await fetch('http://localhost:3001/api/songs/' + id);
+        const data = await response.json();
+
+        // alert(JSON.stringify(data));
+        return data;
+    }
+
+    const updateRender = () => {
         const params = { userId: localStorage.getItem('userID')};
-        console.log(localStorage.getItem('userID'));
+        // console.log(localStorage.getItem('userID'));
 
         getUserData(params)
         .then((data) => {
+            // alert(JSON.stringify(data))
             setUserData({
                 username: data.userName,
                 password: data.password,
@@ -58,7 +68,22 @@ const Account = () => {
                 songs: data.songs,
                 playlists: data.playlists
             })
+
+            const updatedSongs = [];
+            Promise.all(data.songs.map((songID) => {
+                return getSongInfo(songID)
+                .then((songInfo) => {
+                  updatedSongs.push(songInfo);
+                })
+              }))
+              .then(() => {
+                setSongs(updatedSongs);
+              })
         })
+    }
+
+    useEffect(() => {
+        updateRender();
     }, []);
 
     const handleChange = (event, newValue) => {
@@ -78,7 +103,7 @@ const Account = () => {
         <>
             <main className={classes.main}>
                 <div style={{justifyContent:'flex-end', flexDirection:'row', display: 'flex', paddingTop: '10px'}}>
-                    {cardType === "Songs" ? <SongUploadModal/> : <CreatePlaylistModal/>}
+                    {cardType === "Songs" ? <SongUploadModal updateRender={updateRender}/> : <CreatePlaylistModal/>}
                     <EditAccountModal 
                     username={userData.username}
                     password={userData.password}
@@ -130,13 +155,13 @@ const Account = () => {
                 </Box>
                 <Container >
                     <Grid container spacing={4}>
-                        {cardType === "Songs" ? userData.songs.map((card) => (
+                        {cardType === "Songs" ? songs.map((card) => (
                             <Grid item key={card} xs={12} sm={6} md={4} lg={3}>
                                 <SongCardFull
-                                title={cardType === "Songs" ? "Song Title" : "Playlist Title"}
-                                desc={cardType==="Songs" ? "This is a short description of the song" : "This is a short description of the playlist"}
-                                audio="https://storage.googleapis.com/songvault-7f750.appspot.com/643791e39d9758ccd6e3ceb6/reds.mp3"
-                                image="https://storage.googleapis.com/songvault-7f750.appspot.com/643791e39d9758ccd6e3ceb6/StockProducerImage.jpeg"
+                                title={card.name}
+                                desc={"suck me"}
+                                audio={card.mp3Link}
+                                image={card.imageLink}
                                 playlists={[{name: 'playlist 1', id: '1298214912'}, {name: 'playlist 2', id: '1238421052'}, {name: 'playlist 3', id: '184003592'}]}
                                 />
                                 
