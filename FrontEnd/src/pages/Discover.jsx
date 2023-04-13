@@ -12,6 +12,8 @@ const songProps = {
     audio: song
 }
 
+const propPlaylists = [{name: 'playlist1', id: '12398124982'}, {name: 'playlist2', id: '1285830290'}, {name: 'playlist3', id: '1284883593'}]
+
 // https://www.thecodecreative.com/blog/how-to-load-an-audio-file-using-fetch
 
 
@@ -35,6 +37,7 @@ const Discover = () => {
                             artist={songProps.artist}
                             image={songProps.image}
                             audio={songProps.audio}
+                            id={'12093929492'}
                             />
                         </Grid>
                         ))}

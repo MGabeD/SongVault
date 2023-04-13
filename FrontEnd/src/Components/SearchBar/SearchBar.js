@@ -17,6 +17,14 @@ const SearchBar = (props) => {
         setSearchInput(e.target.value);
     };
 
+    const getSongInfo = async (id) => {
+        const response = await fetch('http://localhost:3001/api/songs/' + id);
+        const data = await response.json();
+
+        // alert(JSON.stringify(data));
+        return data;
+    }
+
     const handleSubmit = () => {
         const reqSearch = async (params) => {
             
@@ -24,16 +32,26 @@ const SearchBar = (props) => {
             const results = await response.json();
     
             console.log(results);
-            return results;
-    
-            
+            return results;        
         }
 
         const params = {searchReq: searchInput };
         reqSearch(params)
         .then((data) => {
-            props.setSongs(data.songs)
+            alert(JSON.stringify(data))
+            // props.setSongs(data.songs)
+            const updatedSongs = [];
+            Promise.all(data.songs.map((songID) => {
+                return getSongInfo(songID)
+                .then((songInfo) => {
+                  updatedSongs.push(songInfo);
+                })
+              }))
+              .then(() => {
+                props.setSongs(updatedSongs);
+              })
         })
+        
         console.log(searchInput);
     }
 

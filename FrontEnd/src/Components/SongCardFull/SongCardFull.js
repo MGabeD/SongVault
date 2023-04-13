@@ -8,22 +8,11 @@ import AddToPlaylistModal from '../AddToPlaylistModal/AddToPlaylistModal'
 
 const SongCardFull = (props) => {
     const classes = useCardStyles();
-    
 
     const onLike = () => {
-        const serverLike = async (params) => {
-            const response = await fetch('http://localhost:3001/likeSong' + '?' + new URLSearchParams(params));
-            const status = await response.json();
-
-            return status;
-        }
-
-        const params = {songID : "fakeSongID"}
-        serverLike(params)
-        .then((data) => {
-            alert(data.status);
-        })
+        alert('no');
     }
+    
   return (
     <Card className={classes.card} style={{flexDirection:"column"}}> 
         <CardMedia
@@ -54,13 +43,6 @@ const SongCardFull = (props) => {
                     </audio>
                 </Grid>
                 <Grid item>
-                    <IconButton
-                    aria-label="add to favorites"
-                    onClick={onLike}
-                    xs={8}
-                    >
-                        <Favorite />
-                    </IconButton>
                     <AddToPlaylistModal playlists={props.playlists}/>
                 </Grid>
             </Grid>        

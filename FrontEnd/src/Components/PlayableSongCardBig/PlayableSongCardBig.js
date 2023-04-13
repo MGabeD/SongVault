@@ -1,18 +1,22 @@
 import {React, useState} from 'react'
 import { CardContent, useTheme, Typography, IconButton, CardMedia, Card } from "@material-ui/core";
-import { SkipPrevious, SkipNext, PlayArrow, Pause} from '@material-ui/icons';
+import { SkipPrevious, SkipNext, PlayArrow, Pause, Favorite} from '@material-ui/icons';
 
 import song from '../../audio/reds.mp3'
 
 const songProps = {
-    title: "Reds",
+    title: "NO",
     artist: "James Becker",
-    audio: song
+    audio: song,
+    id: 'slkdfjsldkfjds'
 }
 
 // tutorial: https://www.geeksforgeeks.org/how-to-create-music-player-ui-controls-component-in-reactjs/
 
 const SongPlayerUI = () => {
+    
+
+
     const playAudio = () => {
         const audioEl = document.getElementsByClassName("audio-element")[0];
         audioEl.play();

@@ -159,7 +159,7 @@ const Account = () => {
                             <Grid item key={card} xs={12} sm={6} md={4} lg={3}>
                                 <SongCardFull
                                 title={card.name}
-                                desc={"suck me"}
+                                desc={""}
                                 audio={card.mp3Link}
                                 image={card.imageLink}
                                 playlists={[{name: 'playlist 1', id: '1298214912'}, {name: 'playlist 2', id: '1238421052'}, {name: 'playlist 3', id: '184003592'}]}
