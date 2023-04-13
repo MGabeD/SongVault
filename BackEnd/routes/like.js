@@ -4,6 +4,6 @@ const likeController = require("../controllers/like");
 
 router.put("/:id", likeController.addLike);
 
-// router.delete("/:id", likeController.deleteLike);
+router.delete("/:id", likeController.deleteLike);
 
 module.exports = router;

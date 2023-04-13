@@ -50,3 +50,37 @@ exports.addLike = (req, res, next) => {
             });
         });
 };
+
+exports.deleteLike = async (req, res, next) => {
+    const userId = req.params.id;
+    const songId = req.body.songId;
+  
+    try {
+      const user = await User.findByIdAndUpdate(
+        userId,
+        { $pull: { likedSongs: songId } },
+        { new: true }
+      );
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      const song = await Song.findByIdAndUpdate(
+        songId,
+        { $inc: { likes: -1 } },
+        { new: true }
+      );
+      if (!song) {
+        return res.status(404).json({ message: "Song not found" });
+      }
+  
+      return res.status(200).json({
+        message: "Successfully removed like",
+        user: user,
+        song: song,
+      });
+    } catch (err) {
+      return res.status(500).json({ error: err });
+    }
+  };
+  
