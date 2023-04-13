@@ -43,6 +43,14 @@ const Trending = () => {
         })
     };
 
+    const getSongInfo = async (id) => {
+        const response = await fetch('http://localhost:3001/api/songs/' + id);
+        const data = await response.json();
+
+        // alert(JSON.stringify(data));
+        return data;
+    }
+
     useEffect(() => {
         // None is the default genre for the trending page
         const params = {genre: "None"}
@@ -50,8 +58,20 @@ const Trending = () => {
         // calls the async function to get the generic trending songs
         getTopSongs(params)
         .then((data) => {
-            console.log(data.trending);
+            // alert(data.trending);
             setSongs(data.trending)
+            // const updatedSongs = [];
+            // Promise.all(data.songs.map((songID) => {
+            //     return getSongInfo(songID)
+            //     .then((songInfo) => {
+            //       updatedSongs.push(songInfo);
+            //     })
+            // }))
+            
+            // .then(() => {
+            //     alert(updatedSongs)
+            //     setSongs(updatedSongs);
+            // })
         })
     },[]);
 
@@ -83,13 +103,19 @@ const Trending = () => {
             </Container>
             <Container style={{width: '100%'}}>
                 <Grid container style={{width: '100%'}} spacing={4}>
-                    {songs.map((key) => (
-                        <Grid item xs={12} key={key}>
+                    {songs.map((songInfo) => (
+                        <Grid item xs={12} key={songInfo.songId}>
                         <BottomSongControlUI
                         title={songProps.title}
                         artist={songProps.artist}
                         image={songProps.image}
                         audio={songProps.audio}
+
+                        // title={songInfo.name}
+                        // desc={""}
+                        // audio={songInfo.mp3Link}
+                        // image={songInfo.imageLink}
+                        // id={songInfo.songId}
                         />
                     </Grid>
                     ))}

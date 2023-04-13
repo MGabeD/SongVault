@@ -34,14 +34,9 @@ const Discover = () => {
                             <Grid item xs={12} key={songInfo.songId}>
                             <BottomSongControlUI
                             title={songInfo.name}
-                            desc={""}
                             audio={songInfo.mp3Link}
                             image={songInfo.imageLink}
                             id={songInfo.songId}
-                            
-                            
-                            
-                            
                             />
                         </Grid>
                         ))}
