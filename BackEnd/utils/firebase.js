@@ -41,7 +41,7 @@ function initializeFirebase() {
   bucket = admin.storage().bucket();
 //   upload = multer({ storage: multer.memoryStorage() });
   const storage = multer.memoryStorage();
-  const upload = multer({storage: storage});
+  upload = multer({storage: storage});
 }
 
 module.exports = { bucket, upload, initializeFirebase };
