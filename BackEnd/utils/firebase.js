@@ -21,7 +21,7 @@ const fs = require('fs');
 const path = require('path');
 const serviceAccount = require('../node_modules/songvault-7f750-firebase-adminsdk-6x758-8dfbc34995.json');
 
-let bucket;
+// let bucket;
 // let upload;
 
 function initializeFirebase() {
@@ -38,13 +38,13 @@ function initializeFirebase() {
   }
 
 //   bucket = admin.storage().bucket('songVaultApp.appspot.com');
-  bucket = admin.storage().bucket();
+  return bucket = admin.storage().bucket();
 //   upload = multer({ storage: multer.memoryStorage() });
 //   const storage = multer.memoryStorage();
 //   upload = multer({storage: storage});
 }
 
-module.exports = { bucket, initializeFirebase };
+module.exports = { initializeFirebase };
 
 
 // use the bucket object to upload and download files from Firebase Storage

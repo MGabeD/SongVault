@@ -1,7 +1,7 @@
 const Song = require('../models/song');
 const User = require('../models/user')
 
-const { bucket } = require('../utils/firebase');
+const { initializeFirebase } = require('../utils/firebase');
 
 // use the bucket object to upload and download files from Firebase Storage
 // use the upload object to handle file uploads using multer
@@ -22,6 +22,7 @@ const path = require('path');
 //   // Create a Multer storage object with options
   const storage = multer.memoryStorage();
   const upload = multer({ storage: storage });
+  const bucket = initializeFirebase();
 
 exports.createSong = async (req, res, next) => {
     try {
