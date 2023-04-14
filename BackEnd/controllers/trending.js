@@ -3,12 +3,13 @@ const Song = require("../models/song");
 
 exports.getTrending = function(req, res, next) {
   Song.find()
-    .sort({ likes: -1 })
+    .sort({ likes: -1, plays: -1 })
     .limit(20)
-    .then(function(topLikedSongs) {
-      res.status(200).json({ songs: topLikedSongs });
+    .then(function(topTrendingSongs) {
+      res.status(200).json({ songs: topTrendingSongs });
     })
     .catch(function(err) {
       res.status(500).json({ error: err.message });
     });
 };
+
