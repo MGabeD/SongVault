@@ -21,6 +21,11 @@ const { initializeFirebase } = require('../utils/firebase');
 // const storage = multer.memoryStorage();
 // const upload = multer({ storage: storage });
 
+const multer = require("multer");
+const fs = require('fs');
+const path = require('path');
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 const bucket = initializeFirebase();
 
 exports.createPlaylist = async (req, res, next) => {
