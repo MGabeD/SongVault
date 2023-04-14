@@ -12,94 +12,23 @@ const likeRoutes = require("./routes/like.js");
 const discRoutes = require("./routes/discover.js");
 const playRoutes = require("./routes/play.js");
 const trenRoutes = require("./routes/trending.js");
+const playListRoutes = require("./routes/playlists.js");
 
 const PORT = 3001;
 
+const { initializeFirebase } = require('./utils/firebase');
 
-////////////////////////////////////////////////////////////
-// Firebase stuff //
+// initializeFirebase();
 
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-//   storageBucket: 'gs://songvault-7f750.appspot.com'
-// });
-
-// const bucket = admin.storage().bucket();
-
-// // Create a Multer storage object with options
-// const storage = multer.memoryStorage();
-// const upload = multer({ storage: storage });
-
-
-// app.post("/uploadSong", upload.fields([
-//     {name: 'Audio', maxCount: 1},
-//     {name: 'Image', maxCount: 1},
-// ]), async (req, res) => {
-//     try {
-//         // Get the files from the request
-//         const audioFile = req.files['Audio'][0];
-//         const imageFile = req.files['Image'][0];
-//         const songName = req.body.songName;
-//         console.log('SongName: ' + songName)
-
-//         // Create a file object to upload the audio file to Firebase Storage
-//         const audioFileObject = bucket.file(`${songName}/${audioFile.originalname}`);
-
-//         // Create a write stream to Firebase Storage for the audio file
-//         const audioStream = audioFileObject.createWriteStream({
-//             metadata: {
-//                 contentType: audioFile.mimetype
-//             }
-//         });
-    
-//         // Handle errors during the audio file upload
-//         audioStream.on("error", err => {
-//         console.error(err);
-//             res.status(500).send("Failed to upload audio file");
-//         });
-    
-//         // Handle the end of the audio file upload
-//         audioStream.on("finish", async () => {
-//             // Create a file object to upload the image file to Firebase Storage
-//             const imageFileObject = bucket.file(`${songName}/${imageFile.originalname}`);
-    
-//             // Create a write stream to Firebase Storage for the image file
-//             const imageStream = imageFileObject.createWriteStream({
-//                 metadata: {
-//                     contentType: imageFile.mimetype
-//                 }
-//             });
-    
-//             // Handle errors during the image file upload
-//             imageStream.on('error', err => {
-//                 console.error(err);
-//                 res.status(500).send("Failed to upload image file");
-//             });
-        
-//                 // Pipe the image file stream to the Firebase Storage write stream
-//             imageStream.end(imageFile.buffer);
-//         });
-    
-//         // Pipe the audio file stream to the Firebase Storage write stream
-//         audioStream.end(audioFile.buffer);
-//         res.status(200).send("Good Shit");
-    
-//     } catch (err)  {
-//         console.log(err)
-//         res.status(500).send("Error uploading the files");
-//     }
-// });
-
-
-
-
+// start the server
 
 // end Firebase stuff //
 main()
     .then((res) => console.log(res))
     .catch((err) => console.log(err));
-
+    
 async function main() {
+    await initializeFirebase();
     await mongoose.connect("mongodb://129.114.27.13:27017/test")
     // await mongoose.connect("mongodb://localhost:27017/test");
 } 
@@ -115,24 +44,6 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
 });
-
-
-
-// app.post("/uploadSong", (req, res) => {
-//     console.log("got upload song request");
-
-//     const songAudio = req.file;
-
-//     // get the status of the upload from the database
-//     const dbResponse = true
-
-//     // send back to frontend whether or not the db uploaded successfully
-//     if (dbResponse) {
-//         res.json({ status: 200 });
-//     } else {
-//         res.json({ status: 400 });
-//     }
-// });
 
 app.get("/discover", (req, res) => {
     console.log("got discover request");
@@ -181,9 +92,13 @@ app.use("/api/likes", likeRoutes);
 app.use("/api/discover", discRoutes);
 app.use("/api/play", playRoutes);
 app.use("/api/trending", trenRoutes);
+app.use("/api/playlists", playListRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
+
+// start the server
+
 });
 
 async function downloadFile(fileName) {
@@ -192,48 +107,6 @@ async function downloadFile(fileName) {
     return fileBuffer;
 }
 
-// app.get('/download', (req, res) => {
-//     const folderName = 'fuck this'
-//     // const fileName = SomeDude.jpeg
-//     // this will be a songID
-//     // const fileName = req.query.filename;
-
-//     // const audioRef = storage.ref(`${folderName}/${fileName}`);
-//     // const imageRef = storage.ref(`${folderName}/${fileName.replace('.mp3', '.png')}`);
-//     const imageRef = storage.ref(`${folderName}/SomeDude.jpeg`)
-//     const audioRef = storage.ref(`${folderName}/reds.mp3`)
-  
-//     Promise.all([
-//       audioRef.getDownloadURL(),
-//       imageRef.getDownloadURL(),
-//     ])
-//       .then((urls) => {
-//         const audioUrl = urls[0];
-//         const imageUrl = urls[1];
-//         const audioRequest = fetch(audioUrl);
-//         const imageRequest = fetch(imageUrl);
-
-//         Promise.all([audioRequest, imageRequest])
-//           .then((responses) => {
-//             const audioBlob = responses[0].blob();
-//             const imageBlob = responses[1].blob();
-//             Promise.all([audioBlob, imageBlob])
-//               .then((blobs) => {
-//                 const audio = blobs[0];
-//                 const image = blobs[1];
-//                 res.setHeader('Content-disposition', `attachment; filename=${fileName}`);
-//                 res.setHeader('Content-type', 'audio/mpeg');
-//                 audio.arrayBuffer().then((audioBuffer) => {
-//                   res.send(Buffer.from(audioBuffer));
-//                 });
-//               });
-//           });
-//       })
-//       .catch((error) => {
-//         console.error(error);
-//         res.status(500).send('Error downloading file');
-//       });
-//   });
 
 app.get('/download', (req, res) => {
     // const fileName = req.params.fileName;
@@ -500,5 +373,140 @@ app.get('/download', (req, res) => {
 //         res.json({ created: true, message: "user was created" });
 //     } else {
 //         res.json({ created: false, message: 'account not created: user already exists'});
+//     }
+// });
+
+////////////////////////////////////////////////////////////
+// Firebase stuff //
+
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   storageBucket: 'gs://songvault-7f750.appspot.com'
+// });
+
+// const bucket = admin.storage().bucket();
+
+// // Create a Multer storage object with options
+// const storage = multer.memoryStorage();
+// const upload = multer({ storage: storage });
+
+
+// app.post("/uploadSong", upload.fields([
+//     {name: 'Audio', maxCount: 1},
+//     {name: 'Image', maxCount: 1},
+// ]), async (req, res) => {
+//     try {
+//         // Get the files from the request
+//         const audioFile = req.files['Audio'][0];
+//         const imageFile = req.files['Image'][0];
+//         const songName = req.body.songName;
+//         console.log('SongName: ' + songName)
+
+//         // Create a file object to upload the audio file to Firebase Storage
+//         const audioFileObject = bucket.file(`${songName}/${audioFile.originalname}`);
+
+//         // Create a write stream to Firebase Storage for the audio file
+//         const audioStream = audioFileObject.createWriteStream({
+//             metadata: {
+//                 contentType: audioFile.mimetype
+//             }
+//         });
+    
+//         // Handle errors during the audio file upload
+//         audioStream.on("error", err => {
+//         console.error(err);
+//             res.status(500).send("Failed to upload audio file");
+//         });
+    
+//         // Handle the end of the audio file upload
+//         audioStream.on("finish", async () => {
+//             // Create a file object to upload the image file to Firebase Storage
+//             const imageFileObject = bucket.file(`${songName}/${imageFile.originalname}`);
+    
+//             // Create a write stream to Firebase Storage for the image file
+//             const imageStream = imageFileObject.createWriteStream({
+//                 metadata: {
+//                     contentType: imageFile.mimetype
+//                 }
+//             });
+    
+//             // Handle errors during the image file upload
+//             imageStream.on('error', err => {
+//                 console.error(err);
+//                 res.status(500).send("Failed to upload image file");
+//             });
+        
+//                 // Pipe the image file stream to the Firebase Storage write stream
+//             imageStream.end(imageFile.buffer);
+//         });
+    
+//         // Pipe the audio file stream to the Firebase Storage write stream
+//         audioStream.end(audioFile.buffer);
+//         res.status(200).send("Good Shit");
+    
+//     } catch (err)  {
+//         console.log(err)
+//         res.status(500).send("Error uploading the files");
+//     }
+// });
+
+
+
+// app.get('/download', (req, res) => {
+//     const folderName = 'fuck this'
+//     // const fileName = SomeDude.jpeg
+//     // this will be a songID
+//     // const fileName = req.query.filename;
+
+//     // const audioRef = storage.ref(`${folderName}/${fileName}`);
+//     // const imageRef = storage.ref(`${folderName}/${fileName.replace('.mp3', '.png')}`);
+//     const imageRef = storage.ref(`${folderName}/SomeDude.jpeg`)
+//     const audioRef = storage.ref(`${folderName}/reds.mp3`)
+  
+//     Promise.all([
+//       audioRef.getDownloadURL(),
+//       imageRef.getDownloadURL(),
+//     ])
+//       .then((urls) => {
+//         const audioUrl = urls[0];
+//         const imageUrl = urls[1];
+//         const audioRequest = fetch(audioUrl);
+//         const imageRequest = fetch(imageUrl);
+
+//         Promise.all([audioRequest, imageRequest])
+//           .then((responses) => {
+//             const audioBlob = responses[0].blob();
+//             const imageBlob = responses[1].blob();
+//             Promise.all([audioBlob, imageBlob])
+//               .then((blobs) => {
+//                 const audio = blobs[0];
+//                 const image = blobs[1];
+//                 res.setHeader('Content-disposition', `attachment; filename=${fileName}`);
+//                 res.setHeader('Content-type', 'audio/mpeg');
+//                 audio.arrayBuffer().then((audioBuffer) => {
+//                   res.send(Buffer.from(audioBuffer));
+//                 });
+//               });
+//           });
+//       })
+//       .catch((error) => {
+//         console.error(error);
+//         res.status(500).send('Error downloading file');
+//       });
+//   });
+
+// app.post("/uploadSong", (req, res) => {
+//     console.log("got upload song request");
+
+//     const songAudio = req.file;
+
+//     // get the status of the upload from the database
+//     const dbResponse = true
+
+//     // send back to frontend whether or not the db uploaded successfully
+//     if (dbResponse) {
+//         res.json({ status: 200 });
+//     } else {
+//         res.json({ status: 400 });
 //     }
 // });

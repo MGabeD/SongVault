@@ -1,22 +1,27 @@
 const Song = require('../models/song');
 const User = require('../models/user')
 
-const multer = require("multer");
-const fs = require('fs');
-const path = require('path');
-const admin = require('firebase-admin');
-const serviceAccount = require('../node_modules/songvault-7f750-firebase-adminsdk-6x758-8dfbc34995.json');
+const { bucket, upload } = require('../utils/firebase');
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    storageBucket: 'gs://songvault-7f750.appspot.com'
-  });
+// use the bucket object to upload and download files from Firebase Storage
+// use the upload object to handle file uploads using multer
+
+// const multer = require("multer");
+// const fs = require('fs');
+// const path = require('path');
+// const admin = require('firebase-admin');
+// const serviceAccount = require('../node_modules/songvault-7f750-firebase-adminsdk-6x758-8dfbc34995.json');
+
+// admin.initializeApp({
+//     credential: admin.credential.cert(serviceAccount),
+//     storageBucket: 'gs://songvault-7f750.appspot.com'
+//   });
   
-  const bucket = admin.storage().bucket();
+//   const bucket = admin.storage().bucket();
   
-  // Create a Multer storage object with options
-  const storage = multer.memoryStorage();
-  const upload = multer({ storage: storage });
+//   // Create a Multer storage object with options
+//   const storage = multer.memoryStorage();
+//   const upload = multer({ storage: storage });
 
 exports.createSong = async (req, res, next) => {
     try {

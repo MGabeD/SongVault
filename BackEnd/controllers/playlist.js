@@ -1,0 +1,109 @@
+const Playlist = require('../models/playlist');
+const User = require('../models/user')
+
+const { bucket, upload } = require('../utils/firebase');
+
+// const multer = require("multer");
+// const fs = require('fs');
+// const path = require('path');
+// const admin = require('firebase-admin');
+// const serviceAccount = require('../node_modules/songvault-7f750-firebase-adminsdk-6x758-8dfbc34995.json');
+
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   storageBucket: 'gs://songvault-7f750.appspot.com'
+// });
+
+// const bucket = admin.storage().bucket();
+
+// // Create a Multer storage object with options
+// const storage = multer.memoryStorage();
+// const upload = multer({ storage: storage });
+
+exports.createPlaylist = async (req, res, next) => {
+  try {
+    upload.fields([
+      { name: "Image", maxCount: 1 },
+    ])(req, res, async (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Failed to upload files");
+      }
+
+      if (!req.files || !req.files["Image"]) {
+        return res.status(400).json({ message: "Missing files" });
+      }
+
+      const imageFile = req.files["Image"][0];
+
+      const playlist = new Playlist({
+        name: req.body.name,
+        songs: req.body.songs,
+        owner: req.body.owner,
+        followers: req.body.followers,
+      });
+
+      const savedPlaylist = await playlist.save();
+      console.log(savedPlaylist._id);
+
+      const imageFileObject = bucket.file(
+        `${savedPlaylist._id}/${imageFile.originalname}`
+      );
+      const imageStream = imageFileObject.createWriteStream({
+        metadata: {
+          contentType: imageFile.mimetype,
+        },
+      });
+
+      imageStream.on("error", (err) => {
+        console.error(err);
+        res.status(500).send("Failed to upload image file");
+      });
+
+      imageStream.on("finish", async () => {
+        try {
+          await Promise.all([
+            imageFileObject.makePublic(),
+          ]);
+
+          savedPlaylist.imageLink = `https://storage.googleapis.com/${imageFileObject.bucket.name}/${imageFileObject.name}`;
+
+          const upPlaylist = {
+            imageLink: savedPlaylist.imageLink,
+          };
+          console.log(upPlaylist);
+          await Playlist.updateOne({ _id: savedPlaylist._id }, { $set: upPlaylist });
+          User.updateMany({ _id: { $in: playlist.followers } }, { $push: { playlists: savedPlaylist._id } })
+            .then((result) => {
+              // res.status(200).json({ message: "Playlist added to users' list of playlists" });
+            })
+            .catch((error) => {
+              res.status(500).json({
+                message: "Failed to add playlist to users' list of playlists",
+                error: error
+              });
+            });
+          savedPlaylist.imageLink = upPlaylist.imageLink;
+          res.status(201).json({
+            message: "Playlist created successfully",
+            playlist: savedPlaylist,
+          });
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({
+            message: "Failed to save playlist with URL",
+          });
+        }
+      });
+
+      imageStream.end(imageFile.buffer);
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "An error occurred while creating the playlist",
+    });
+  }
+};
+
+
