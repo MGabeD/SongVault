@@ -1,5 +1,6 @@
 const Playlist = require('../models/playlist');
-const User = require('../models/user')
+const User = require('../models/user');
+const Song = require('../models/song');
 
 const { initializeFirebase } = require('../utils/firebase');
 
@@ -105,6 +106,35 @@ exports.createPlaylist = async (req, res, next) => {
     res.status(500).json({
       message: "An error occurred while creating the playlist",
     });
+  }
+};
+
+exports.addSong = async (req, res) => {
+  try {
+    const playlistId = req.params.id;
+    const songId = req.body.songId;
+
+    const playlist = await Playlist.findById(playlistId);
+    if (!playlist) {
+      return res.status(404).json({ message: 'Playlist not found' });
+    }
+
+    const song = await Song.findById(songId);
+    if (!song) {
+      return res.status(404).json({ message: 'Song not found' });
+    }
+
+    if (playlist.songs.includes(songId)) {
+      return res.status(400).json({ message: 'Song already in playlist' });
+    }
+
+    playlist.songs.push(songId);
+    await playlist.save();
+
+    return res.status(200).json({ message: 'Song added to playlist', playlist });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Failed to add song to playlist' });
   }
 };
 
