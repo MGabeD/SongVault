@@ -1,7 +1,7 @@
 const Playlist = require('../models/playlist');
 const User = require('../models/user')
 
-const { bucket, upload } = require('../utils/firebase');
+const { initializeFirebase } = require('../utils/firebase');
 
 // const multer = require("multer");
 // const fs = require('fs');
@@ -19,6 +19,8 @@ const { bucket, upload } = require('../utils/firebase');
 // // Create a Multer storage object with options
 // const storage = multer.memoryStorage();
 // const upload = multer({ storage: storage });
+
+const bucket = initializeFirebase();
 
 exports.createPlaylist = async (req, res, next) => {
   try {
