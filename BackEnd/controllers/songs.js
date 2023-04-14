@@ -6,6 +6,7 @@ const { initializeFirebase } = require('../utils/firebase');
 // use the bucket object to upload and download files from Firebase Storage
 // use the upload object to handle file uploads using multer
 
+initializeFirebase();
 const multer = require("multer");
 const fs = require('fs');
 const path = require('path');
