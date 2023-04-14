@@ -81,9 +81,10 @@ exports.createPlaylist = async (req, res, next) => {
           };
           console.log(upPlaylist);
           await Playlist.updateOne({ _id: savedPlaylist._id }, { $set: upPlaylist });
-          User.updateMany({ _id: { $in: playlist.followers } }, { $push: { playlists: savedPlaylist._id } })
+          const members = [...playlist.followers, playlist.owner];
+          User.updateMany({ _id: { $in: members } }, { $push: { playlists: savedPlaylist._id } })
             .then((result) => {
-              // res.status(200).json({ message: "Playlist added to users' list of playlists" });
+              res.status(200).json({ message: "Playlist added to users' list of playlists" });
             })
             .catch((error) => {
               res.status(500).json({
