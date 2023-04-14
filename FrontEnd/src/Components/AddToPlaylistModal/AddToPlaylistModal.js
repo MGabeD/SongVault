@@ -81,9 +81,8 @@ const AddToPlaylistModal = (props) => {
                             <ListItemText primary={playlist.name} />
                         </ListItem>
                     ))}
-
                     <Button
-                    
+
                     type="submit"
                     fullWidth
                     variant="contained"

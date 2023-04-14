@@ -45,29 +45,34 @@ const CreatePlaylistModal = () => {
 
 
   const handleSubmit = (event) => {
-    const sendToServer = async (params) => {
-      const response = await fetch("http://localhost:3001/uploadSong" + '?' + new URLSearchParams(params))
-      const status = await response.json();
 
-      return status;
+    const sendToServer = async (params) => {
+      const response = await fetch("http://localhost:3001/api/playlists", {
+        method: "POST",
+            body: params,
+        }).then((response) => {
+            console.log(response);
+        }).catch((error) => {
+            console.log(error);
+            // alert(error);
+        })
     }
 
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log(data)
     alert(data.get('songName'));
-    // alert(data.get('songMP3'));
-    // alert(data.get('songImg'));
 
-    const params = {
-        Name: data.get('playlistName'),
-        Image: data.get('playlistImg'),
-    }
+    const formData = new FormData();
+    formData.append("name", data.get('playlistName'));
+    formData.append("owner", localStorage.getItem('userID'));
+    formData.append("Image", data.get('playlistImg'));
+    
         
-    sendToServer(params)
-    .then((data) => {
-        alert(data.status);
-    })
+    sendToServer(formData)
+    // .then((data) => {
+    //     alert(data.status);
+    // })
 
     handleClose();
   }

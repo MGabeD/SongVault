@@ -9,6 +9,7 @@ import CreatePlaylistModal from '../Components/CreatePlaylistModal/CreatePlaylis
 import EditAccountModal from '../Components/EditAccountModal/EditAccountModal'
 
 import song from '../audio/reds.mp3'
+import PlaylistCardFull from '../Components/PlaylistCardFull/PlaylistCardFull'
 
 const websiteLink = 'https://google.com'
 
@@ -17,7 +18,6 @@ const websiteLink = 'https://google.com'
 const Account = () => {
     const classes = useStyles();
     
-    // const [playlists, setPlaylists] = useState([]);
     const [cardType, setCardType] = useState("Songs");
     const [userData, setUserData] = useState({
         username: '',
@@ -29,9 +29,11 @@ const Account = () => {
         lastname: '',
         email: 'fakeEmail@gmail.com',
         songs: [],
-        playlists: [1, 2, 3, 4]
     })
+
     const [songs, setSongs] = useState([]);
+    const [playlists, setPlaylists] = useState([]);
+    
 
     const getUserData = async (params) => {
         const response = await fetch('http://localhost:3001/api/users/' + localStorage.getItem("userID"));
@@ -54,7 +56,7 @@ const Account = () => {
 
         getUserData(params)
         .then((data) => {
-            // alert(JSON.stringify(data))
+            alert(JSON.stringify(data))
             setUserData({
                 username: data.userName,
                 password: data.password,
@@ -65,13 +67,15 @@ const Account = () => {
                 lastname: data.lastName,
                 email: data.email,
                 songs: data.songs,
-                playlists: data.playlists
             })
             
-            // localStorage.setItem('playlists', JSON.stringify(data.playlists));
+            localStorage.setItem('playlists', JSON.stringify(data.playlists));
+
+            setPlaylists(data.playlists)
+            // localStorage.setItem('playlists', data.playlists)
             
             // REPLACE WITH ABOVE WHEN API IS READY
-            localStorage.setItem('playlists', JSON.stringify([{name: 'playlist 1', id: '1298214912'}, {name: 'playlist 2', id: '1238421052'}, {name: 'playlist 3', id: '184003592'}]))
+            // localStorage.setItem('playlists', JSON.stringify([{name: 'playlist 1', id: '1298214912'}, {name: 'playlist 2', id: '1238421052'}, {name: 'playlist 3', id: '184003592'}]))
             
             // alert(localStorage.getItem('playlists'))
 
@@ -172,19 +176,21 @@ const Account = () => {
                                 // DELETE ME WHEN 
                                 // playlists={localStorage.getItem('playlists')}
                                 />
-                                
                             </Grid>
-                        ))
-                            :
-                            userData.playlists.map((card) => (
-                            <Grid item key={card} xs={12} sm={6} md={4} lg={3}>
-                                <SongCardFull
-                                title={cardType === "Songs" ? "Song Title" : "Playlist Title"}
-                                desc={cardType==="Songs" ? "This is a short description of the song" : "This is a short description of the playlist"}
+                        ))   :
+                        <></>}
+                         
+                        {cardType === "Playlists" ? 
+                           playlists.map((playlist) => (
+                            <Grid item key={playlist} xs={12} sm={6} md={4} lg={3}>
+                                <PlaylistCardFull
+                                title={playlist}
                                 image="https://source.unsplash.com/random/?Music"/>
                             </Grid>
                             )
-                        )}
+                            ) : <></>
+                        }
+                         
                         
                     </Grid>
                 </Container>
