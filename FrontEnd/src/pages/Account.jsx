@@ -33,6 +33,7 @@ const Account = () => {
 
     const [songs, setSongs] = useState([]);
     const [playlists, setPlaylists] = useState([]);
+
     
 
     const getUserData = async (params) => {
@@ -50,13 +51,21 @@ const Account = () => {
         return data;
     }
 
+    const getPlaylistInfo = async (id) => {
+        const response = await fetch('http://localhost:3001/api/playlists/' + id);
+        const data = await response.json();
+
+        // alert(JSON.stringify(data));
+        return data;
+    }
+
     const updateRender = () => {
         const params = { userId: localStorage.getItem('userID')};
         // console.log(localStorage.getItem('userID'));
 
         getUserData(params)
         .then((data) => {
-            alert(JSON.stringify(data))
+            // alert(JSON.stringify(data))
             setUserData({
                 username: data.userName,
                 password: data.password,
@@ -69,9 +78,11 @@ const Account = () => {
                 songs: data.songs,
             })
             
+            
             localStorage.setItem('playlists', JSON.stringify(data.playlists));
 
-            setPlaylists(data.playlists)
+            
+            // console.log(playlists[0])
             // localStorage.setItem('playlists', data.playlists)
             
             // REPLACE WITH ABOVE WHEN API IS READY
@@ -86,10 +97,23 @@ const Account = () => {
                     // alert(JSON.stringify(songInfo))
                   updatedSongs.push(songInfo);
                 })
-              }))
-              .then(() => {
+            }))
+            .then(() => {
                 setSongs(updatedSongs);
-              })
+            })
+
+            const updatedPlaylists = [];
+            Promise.all(data.playlists.map((playlistID) => {
+                return getPlaylistInfo(playlistID)
+                .then((playlistInfo) => {
+                updatedPlaylists.push(playlistInfo);
+                // console.log(playlistInfo)
+            })
+            }))
+            .then(() => {
+                setPlaylists(updatedPlaylists);
+            // console.log(JSON.stringify(playlists))
+            })
         })
     }
 
@@ -182,16 +206,15 @@ const Account = () => {
                          
                         {cardType === "Playlists" ? 
                            playlists.map((playlist) => (
-                            <Grid item key={playlist} xs={12} sm={6} md={4} lg={3}>
+                            <Grid item key={playlist._id} xs={12} sm={6} md={4} lg={3}>
                                 <PlaylistCardFull
-                                title={playlist}
-                                image="https://source.unsplash.com/random/?Music"/>
+                                title={playlist.name}
+                                image={playlist.imageLink}
+                                />
                             </Grid>
                             )
                             ) : <></>
                         }
-                         
-                        
                     </Grid>
                 </Container>
             </main>
