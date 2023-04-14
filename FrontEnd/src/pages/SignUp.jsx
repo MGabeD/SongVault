@@ -49,12 +49,12 @@ const SignUp = (props) => {
           const bodyData = {
             "userName": data.get('username'),
             "password": data.get('password'),
-            "firstName": 'notImplemented',
-            "lastName": 'notImplemented',
+            "firstName": 'First',
+            "lastName": 'Last',
             "email": data.get('email'),
             "stageName": 'notImplemented',
             "birthday": 'notImplemented',
-            "bio": 'notImplemented'
+            "bio": 'Insert Bio Here'
           };
           
           fetch("http://localhost:3001/api/users", {
