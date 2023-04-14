@@ -144,4 +144,24 @@ exports.addSong = async (req, res) => {
   }
 };
 
-
+exports.getPlaylistById = async (req, res, next) => {
+    try {
+      const playlistId = req.params.id;
+      const playlist = await Playlist.findById(playlistId);
+  
+      if (!playlist) {
+        return res.status(404).json({
+          message: "Playlist not found",
+        });
+      }
+  
+      return res.status(200).json({
+        playlist: playlist,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "An error occurred while fetching the playlist",
+      });
+    }
+  };
