@@ -33,18 +33,19 @@ const Account = () => {
 
     const [songs, setSongs] = useState([]);
     const [playlists, setPlaylists] = useState([]);
+    const backendIP = process.env.REACT_APP_BACKEND_IP;
 
     
 
     const getUserData = async (params) => {
-        const response = await fetch('http://localhost:3001/api/users/' + localStorage.getItem("userID"));
+        const response = await fetch(backendIP + '/api/users/' + localStorage.getItem("userID"));
         const data = await response.json();
 
         return data;
     }
 
     const getSongInfo = async (id) => {
-        const response = await fetch('http://localhost:3001/api/songs/' + id);
+        const response = await fetch(backendIP + '/api/songs/' + id);
         const data = await response.json();
 
         // alert(JSON.stringify(data));
@@ -52,7 +53,7 @@ const Account = () => {
     }
 
     const getPlaylistInfo = async (id) => {
-        const response = await fetch('http://localhost:3001/api/playlists/' + id);
+        const response = await fetch(backendIP + '/api/playlists/' + id);
         const data = await response.json();
 
         // alert(JSON.stringify(data));

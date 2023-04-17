@@ -18,7 +18,8 @@ const SearchBar = (props) => {
     };
 
     const getSongInfo = async (id) => {
-        const response = await fetch('http://localhost:3001/api/songs/' + id);
+        const backendIP = process.env.REACT_APP_BACKEND_IP;
+        const response = await fetch(backendIP + '/api/songs/' + id);
         const data = await response.json();
 
         // alert(JSON.stringify(data));
@@ -27,8 +28,8 @@ const SearchBar = (props) => {
 
     const handleSubmit = () => {
         const reqSearch = async (params) => {
-            
-            const response = await fetch('http://localhost:3001/api/discover' + '?' + new URLSearchParams(params));
+            const backendIP = process.env.REACT_APP_BACKEND_IP;
+            const response = await fetch(backendIP + '/api/discover' + '?' + new URLSearchParams(params));
             const results = await response.json();
     
             console.log(results);

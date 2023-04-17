@@ -63,7 +63,8 @@ const SongUploadModal = (props) => {
         formData.append("user", [localStorage.getItem('userID')]);
         formData.append("userName", [props.username]);
 
-        fetch("http://localhost:3001/api/songs", {
+        const backendIP = process.env.REACT_APP_BACKEND_IP;
+        fetch(backendIP + "/api/songs", {
             method: "POST",
             body: formData,
         }).then((response) => {

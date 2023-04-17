@@ -48,7 +48,8 @@ const AddToPlaylistModal = (props) => {
             songId: props.songID
         }
         alert(params)
-        const response = await fetch('http://localhost:3001/api/playlists?' + playlistID, {
+        const backendIP = process.env.REACT_APP_BACKEND_IP;
+        const response = await fetch(backendIP + '/api/playlists?' + playlistID, {
             method: "PUT",
             body: params,
             headers: {

@@ -23,7 +23,8 @@ const Trending = () => {
     // params = {genre: ${YourSelectedGenre}}
     // Need to change from json response
     const getTopSongs = async (params) => {
-        const response = await fetch('http://localhost:3001/trending');
+        const backendIP = process.env.REACT_APP_BACKEND_IP;
+        const response = await fetch(backendIP + '/trending');
         const recSongs = await response.json();
         return recSongs;
     }
@@ -44,7 +45,8 @@ const Trending = () => {
     };
 
     const getSongInfo = async (id) => {
-        const response = await fetch('http://localhost:3001/api/songs/' + id);
+        const backendIP = process.env.REACT_APP_BACKEND_IP;
+        const response = await fetch(backendIP + '/api/songs/' + id);
         const data = await response.json();
 
         // alert(JSON.stringify(data));

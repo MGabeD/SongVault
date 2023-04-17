@@ -59,8 +59,9 @@ const EditAccountModal = (props) => {
         }
 
         // sending Put request to change info about the user's account
-        console.log("http://localhost:3001/api/user/" + localStorage.getItem('userID'))
-        fetch("http://localhost:3001/api/users/" + localStorage.getItem('userID'), {
+    
+        const backendIP = process.env.REACT_APP_BACKEND_IP;
+        fetch(backendIP + "/api/users/" + localStorage.getItem('userID'), {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"

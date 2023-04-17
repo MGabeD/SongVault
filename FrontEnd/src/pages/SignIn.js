@@ -23,7 +23,8 @@ const theme = createTheme();
 export default function SignIn(props) {
   const validateLogin = async (params) => {
     console.log(JSON.stringify(params));
-    const response = await fetch('http://localhost:3001/api/auth' + '?' + new URLSearchParams(params))
+    const backendIP = process.env.REACT_APP_BACKEND_IP;
+    const response = await fetch(backendIP + '/api/auth' + '?' + new URLSearchParams(params))
     const valid = await response.json();
     console.log(valid);
     return valid;

@@ -25,7 +25,8 @@ const SignUp = (props) => {
   const [validPassRetype, setValidPassRetype] = useState(false)
 
     const createUser = async (params) => {
-      const waiting = await fetch("http://localhost:3001/api/users" + '?' + new URLSearchParams(params)); 
+      const backendIP = process.env.REACT_APP_BACKEND_IP;
+      const waiting = await fetch(backendIP + "/api/users" + '?' + new URLSearchParams(params)); 
       const response = await waiting.json();
       return response;
     }
@@ -57,7 +58,8 @@ const SignUp = (props) => {
             "bio": 'Insert Bio Here'
           };
           
-          fetch("http://localhost:3001/api/users", {
+          const backendIP = process.env.REACT_APP_BACKEND_IP;
+          fetch(backendIP + "/api/users", {
             method: "POST",
             headers: {
               "Content-Type": "application/json"

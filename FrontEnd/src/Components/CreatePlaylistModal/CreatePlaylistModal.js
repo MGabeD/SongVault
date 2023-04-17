@@ -47,7 +47,8 @@ const CreatePlaylistModal = (props) => {
   const handleSubmit = (event) => {
 
     const sendToServer = async (params) => {
-      const response = await fetch("http://localhost:3001/api/playlists", {
+      const backendIP = process.env.REACT_APP_BACKEND_IP;
+      const response = await fetch(backendIP + "/api/playlists", {
         method: "POST",
             body: params,
         }).then((response) => {

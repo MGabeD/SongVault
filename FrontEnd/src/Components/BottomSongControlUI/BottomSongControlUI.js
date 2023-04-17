@@ -16,7 +16,8 @@ const BottomSongControlUI = (props) => {
 
     const onLike = () => {
         const serverLike = async (params) => {
-            const response = await fetch("http://localhost:3001/api/likes/" + localStorage.getItem('userID'), {
+            const backendIP = process.env.REACT_APP_BACKEND_IP;
+            const response = await fetch(backendIP + "/api/likes/" + localStorage.getItem('userID'), {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -36,7 +37,7 @@ const BottomSongControlUI = (props) => {
         
     }
     const playingAudio = () => {
-        // console.log(audioRef.current.currentTime);
+        console.log(audioRef.current.currentTime);
         if (audioRef.current.currentTime === 0) {
             alert('playing song for the first time')
         }
