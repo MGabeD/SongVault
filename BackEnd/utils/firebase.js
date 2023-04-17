@@ -19,7 +19,9 @@ const admin = require('firebase-admin');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
-const serviceAccount = require('../node_modules/songvault-7f750-firebase-adminsdk-6x758-8dfbc34995.json');
+// const serviceAccount = require('../node_modules/songvault-7f750-firebase-adminsdk-6x758-8dfbc34995.json');
+const filePath = path.join(__dirname, '../node_modules/songvault-7f750-firebase-adminsdk-6x758-8dfbc34995.json');
+const serviceAccount = require(filePath);
 
 // let bucket;
 // let upload;

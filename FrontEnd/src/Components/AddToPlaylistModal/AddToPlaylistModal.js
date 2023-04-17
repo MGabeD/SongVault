@@ -43,13 +43,37 @@ const AddToPlaylistModal = (props) => {
         setOpen(true);
     }
 
+    const sendToServer = async(playlistID) => {
+        const params = {
+            songId: props.songID
+        }
+        alert(params)
+        const response = await fetch('http://localhost:3001/api/playlists?' + playlistID, {
+            method: "PUT",
+            body: params,
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+        const data = await response.json();
+        return data;
+    }
+    
     const handleClose = () => {
         setOpen(false);
     }
 
-    const handleSubmit = (event) => {
-        // get playlistID --> send song ID to put request with playlistID passed
+    const addToPlaylist = (playlistID) => {
+        sendToServer(playlistID);
 
+        alert("clicked " + props.playlist.name + " playlist ID: " + props.playlist.id)
+    }
+
+    const handleSubmit = () => {
+        
+        // alert("songID: "+ props.songID)
+
+        
         handleClose();
     }
     return (
@@ -74,11 +98,11 @@ const AddToPlaylistModal = (props) => {
                             style={{borderWidth: '1px', borderColor: 'black'}}
                             disableGutters
                         >
-                            <IconButton edge="end" aria-label="comments" style={{paddingRight:'20px'}}
-                            onClick={() => {alert("clicked " + playlist.name + " playlist ID: " + playlist.id)}}>
+                            <IconButton edge="end" aria-label="comments" 
+                            onClick={addToPlaylist}>
                                 <PlaylistAdd />
                             </IconButton>
-                            <ListItemText primary={playlist.name} />
+                            <ListItemText primary={playlist} style={{paddingLeft:'20px'}} />
                         </ListItem>
                     ))}
                     <Button

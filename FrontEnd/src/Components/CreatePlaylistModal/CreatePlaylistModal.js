@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Modal, Button, Box, TextField} from '@material-ui/core'
 
-const CreatePlaylistModal = () => {
+const CreatePlaylistModal = (props) => {
 
   const [open, setOpen] = React.useState(false);
   const [imagePreview, setImagePreview] = React.useState(null);
@@ -52,6 +52,7 @@ const CreatePlaylistModal = () => {
             body: params,
         }).then((response) => {
             console.log(response);
+            props.updateRender()
         }).catch((error) => {
             console.log(error);
             // alert(error);
@@ -73,7 +74,6 @@ const CreatePlaylistModal = () => {
     // .then((data) => {
     //     alert(data.status);
     // })
-
     handleClose();
   }
 

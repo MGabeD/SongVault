@@ -43,8 +43,8 @@ const SongCardFull = (props) => {
                     </audio>
                 </Grid>
                 <Grid item>
-                    <AddToPlaylistModal
-                    // playlists={props.playlists}
+                    <AddToPlaylistModal 
+                    songID={props.songID}
                     />
                 </Grid>
             </Grid>        

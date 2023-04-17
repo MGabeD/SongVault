@@ -80,6 +80,7 @@ const Account = () => {
             
             
             localStorage.setItem('playlists', JSON.stringify(data.playlists));
+            // console.log(JSON.parse(localStorage.getItem('playlists')))
 
             
             // console.log(playlists[0])
@@ -138,7 +139,7 @@ const Account = () => {
         <>
             <main className={classes.main}>
                 <div style={{justifyContent:'flex-end', flexDirection:'row', display: 'flex', paddingTop: '10px'}}>
-                    {cardType === "Songs" ? <SongUploadModal updateRender={updateRender} username={userData.username}/> : <CreatePlaylistModal/>}
+                    {cardType === "Songs" ? <SongUploadModal updateRender={updateRender} username={userData.username}/> : <CreatePlaylistModal updateRender={updateRender}/>}
                     <EditAccountModal 
                     username={userData.username}
                     password={userData.password}
@@ -197,6 +198,7 @@ const Account = () => {
                                 desc={""}
                                 audio={card.mp3Link}
                                 image={card.imageLink}
+                                songID={card._id}
                                 // DELETE ME WHEN 
                                 // playlists={localStorage.getItem('playlists')}
                                 />
