@@ -11,15 +11,15 @@ import song from '../../audio/reds.mp3'
  * I want to add an automatic scroll through if the title/artist names are too long
  */
 
-const songProps = {
-    title: 'Song Title this is a test of a very long song title that will certainly not fit',
-    artist: 'Artist Name this is another test',
-    audio: song,
-}
+// const songProps = {
+//     title: 'Song Title this is a test of a very long song title that will certainly not fit',
+//     artist: 'Artist Name this is another test',
+//     audio: song,
+// }
 
 const playingProps = true;
 
-const PlayableSongCardSmall = () => {
+const PlayableSongCardSmall = (props) => {
     const classes = useStyles();
     return (
         
@@ -28,21 +28,21 @@ const PlayableSongCardSmall = () => {
 
             <CardMedia
             style={{height: '100%', width: '45px'}}
-            image="https://source.unsplash.com/random"
+            image={props.image}
             />
             <CardContent className={classes.songTitle}>
                 <Typography variant='body1' style={{color: 'white'}}>
-                    {songProps.title}
+                    {props.title}
                 </Typography>
             </CardContent>
             <CardContent className={classes.artistName}>
                 <Typography variant='caption' style={{color: 'white'}}>
-                    {songProps.artist}
+                    {props.artist}
                 </Typography>
             </CardContent>
             {playingProps ? 
             <audio controls title='Song Title' style={{width: '50%', height: '90%', }}>
-                <source src={songProps.audio} type="audio/mp3"/>
+                <source src={props.audio} type="audio/mp3"/>
                 Your browser does not support the audio tag.
             </audio>
             : <></>

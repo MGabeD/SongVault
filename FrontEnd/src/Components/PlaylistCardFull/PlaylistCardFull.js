@@ -3,13 +3,18 @@ import { Typography, Card, CardActions, CardContent, CardMedia, Grid} from '@mat
 import { Settings } from '@material-ui/icons'
 import React from 'react'
 import EditPlaylistModal from '../EditPlaylistModal/EditPlaylistModal'
+import PlaylistDisplayModal from '../PlaylistDisplayModal/PlaylistDisplayModal'
 
 import useCardStyles from '../SongCardFull/CardFullStyles'
 
 const PlaylistCardFull = (props) => {
     const classes = useCardStyles();
     return (
-        <Card className={classes.card} style={{flexDirection:"column"}}> 
+        <Card className={classes.card} 
+        style={{
+            flexDirection:"column",
+            }}
+        > 
         <CardMedia
             component='img'
             className={classes.cardMedia} 
@@ -17,6 +22,8 @@ const PlaylistCardFull = (props) => {
             alt="./images/githubPfP.jpeg"
             style={{maxHeight: '200px', width: '100%'}}
             height={'100px'}
+            onClick={() => {alert("clicked: " + props.title)}}
+            style={{cursor: "pointer",}}
         />
         <CardContent className={classes.cardContent}>
             <Grid container spacing={1}>
@@ -26,13 +33,8 @@ const PlaylistCardFull = (props) => {
                     </Typography>
                 </Grid>
                 <Grid item>
-                    {/* <AddToPlaylistModal
-                    // playlists={props.playlists}
-                    /> */}
-                    {/* <IconButton onClick={() => {alert("need to create modal to edit playlist")}}>
-                        <Settings/>
-                    </IconButton> */}
-                    <EditPlaylistModal/>
+                    {/* <EditPlaylistModal/> */}
+                    <PlaylistDisplayModal title={props.title} songs={props.songs}/>
                 </Grid>
             </Grid>        
         </CardContent>

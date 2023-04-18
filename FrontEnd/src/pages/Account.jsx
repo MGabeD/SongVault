@@ -230,6 +230,7 @@ const Account = () => {
                                 <PlaylistCardFull
                                 title={playlist.name}
                                 image={playlist.imageLink}
+                                songs={playlist.songs}
                                 />
                             </Grid>
                             )

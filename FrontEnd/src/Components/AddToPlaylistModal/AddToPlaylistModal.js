@@ -42,8 +42,7 @@ const AddToPlaylistModal = (props) => {
         const backendIP = process.env.REACT_APP_BACKEND_IP;
         const response = await fetch(backendIP + "/api/playlists/" + playlistID)
         const data = await response.json();
-
-        alert(JSON.stringify(data));
+        
         return data;
     }
 
@@ -52,13 +51,11 @@ const AddToPlaylistModal = (props) => {
         Promise.all(JSON.parse(localStorage.getItem('playlists')).map((playlistID) => {
             return getPlaylistInfo(playlistID)
             .then((playlistInfo) => {
-                // alert(JSON.stringify(songInfo))
                 playlistInfos.push(playlistInfo);
             })
         }))
         .then(() => {
             setPlaylists(playlistInfos);
-            alert(playlistInfos)
         })
     }
 
