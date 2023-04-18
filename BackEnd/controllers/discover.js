@@ -53,7 +53,7 @@ const Song = require("../models/song");
             // );
             // console.log(matchingSongs)
             if (!user) {
-              return res.status(200).header('Content-Type', 'application/json').json({
+              return res.status(200).setHeader('Content-Type', 'application/json').json({
                 userId: "",
                 songs: [],
                 matchingSongs: songIds,
@@ -62,7 +62,7 @@ const Song = require("../models/song");
   
             
   
-            res.status(200).header('Content-Type', 'application/json').json({
+            res.status(200).setHeader('Content-Type', 'application/json').json({
               userId: user._id,
               songs: user.songs,
               matchingSongs: songIds,
@@ -70,14 +70,14 @@ const Song = require("../models/song");
           })
           .catch((err) => {
             console.log(err);
-            res.status(500).header('Content-Type', 'application/json').json({
+            res.status(500).setHeader('Content-Type', 'application/json').json({
               message: "An error occurred while finding user.",
             });
           });
       })
       .catch((err) => {
         console.log(err);
-        res.status(500).header('Content-Type', 'application/json').json({
+        res.status(500).setHeader('Content-Type', 'application/json').json({
           message: "An error occurred while finding songs.",
         });
       });
