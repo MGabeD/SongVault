@@ -12,7 +12,7 @@ import { ViewColumn } from '@material-ui/icons'
 const songProps = {
     title: "Reds",
     artist: "James Becker",
-    image: "https://source.unsplash.com/random",
+    image: "https://source.unsplash.com/random?music",
     audio: song
 }
 

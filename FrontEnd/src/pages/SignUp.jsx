@@ -123,7 +123,6 @@ const SignUp = (props) => {
               id="Username"
               label="username"
               name="username"
-              autoFocus
             />
 
             <TextField

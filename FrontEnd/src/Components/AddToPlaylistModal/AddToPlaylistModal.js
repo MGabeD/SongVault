@@ -8,6 +8,7 @@ import {PlaylistAdd} from '@material-ui/icons'
 const AddToPlaylistModal = (props) => {
     const [open, setOpen] = useState(false);
     const [checked, setChecked] = useState([0]);
+    const [playlists, setPlaylists] = useState([]);
 
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
@@ -37,21 +38,44 @@ const AddToPlaylistModal = (props) => {
         flexDirection: 'column',
         display: 'flex'
     };
+    const getPlaylistInfo = async(playlistID) => {
+        const backendIP = process.env.REACT_APP_BACKEND_IP;
+        const response = await fetch(backendIP + "/api/playlists/" + playlistID)
+        const data = await response.json();
+
+        alert(JSON.stringify(data));
+        return data;
+    }
+
+    const getPlaylists = async () => {
+        const playlistInfos = [];
+        Promise.all(JSON.parse(localStorage.getItem('playlists')).map((playlistID) => {
+            return getPlaylistInfo(playlistID)
+            .then((playlistInfo) => {
+                // alert(JSON.stringify(songInfo))
+                playlistInfos.push(playlistInfo);
+            })
+        }))
+        .then(() => {
+            setPlaylists(playlistInfos);
+            alert(playlistInfos)
+        })
+    }
 
     const onOpen = () => {
         // alert(JSON.stringify(JSON.parse(localStorage.getItem('playlists'))[0]))
         setOpen(true);
+        getPlaylists();
     }
 
     const sendToServer = async(playlistID) => {
-        console.log(props)
         const params = {
             songId: props.songID
         }
-        alert("params: " + JSON.stringify(params))
+        // alert("params: " + JSON.stringify(params))
         const backendIP = process.env.REACT_APP_BACKEND_IP;
 
-        alert(backendIP + '/api/playlists/' + playlistID + '?' + new URLSearchParams(params))
+        // alert(backendIP + '/api/playlists/' + playlistID + '?' + new URLSearchParams(params))
         const response = await fetch(backendIP + "/api/playlists/" + playlistID + "?" + new URLSearchParams(params), {
             method: "PUT",
             headers: {
@@ -72,7 +96,7 @@ const AddToPlaylistModal = (props) => {
     }
 
     const addToPlaylist = (playlistID) => {
-        alert("PlaylistID: " + playlistID)
+        // alert("PlaylistID: " + playlistID)
         sendToServer(playlistID);
     }
 
@@ -99,17 +123,19 @@ const AddToPlaylistModal = (props) => {
                 <Box component='form' sx={{ ...style}} onSubmit={handleSubmit}>
                     <h2 id="child-modal-title"> Add Song To Playlist </h2>
 
-                    {JSON.parse(localStorage.getItem('playlists')).map((playlist) => (
+                    {playlists.map((playlist) => (
                         <ListItem
-                            key={playlist.name}
+                            key={playlist._id}
                             style={{borderWidth: '1px', borderColor: 'black'}}
                             disableGutters
                         >
                             <IconButton edge="end" aria-label="comments" 
-                            onClick={() => {addToPlaylist(playlist)}}>
+                            onClick={() => {addToPlaylist(playlist._id)}}>
                                 <PlaylistAdd />
                             </IconButton>
-                            <ListItemText primary={playlist} style={{paddingLeft:'20px'}} />
+                            <img src={playlist.imageLink} style={{marginLeft: '10px', heigh: 60, width: 60}}/>
+                            <ListItemText primary={playlist.name} style={{paddingLeft:'20px'}} />
+                            
                         </ListItem>
                     ))}
                     <Button
