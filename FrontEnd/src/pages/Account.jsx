@@ -38,17 +38,23 @@ const Account = () => {
     
 
     const getUserData = async (params) => {
+        console.log(backendIP + '/api/users/' + localStorage.getItem("userID"))
         const response = await fetch(backendIP + '/api/users/' + localStorage.getItem("userID"));
+        console.log("response: " + response)
+        console.log(JSON.stringify(response.type))
+        
         const data = await response.json();
+        console.log("data: " + JSON.stringify(data))
 
         return data;
     }
 
     const getSongInfo = async (id) => {
+        
         const response = await fetch(backendIP + '/api/songs/' + id);
         const data = await response.json();
 
-        // alert(JSON.stringify(data));
+        alert(JSON.stringify(data));
         return data;
     }
 
