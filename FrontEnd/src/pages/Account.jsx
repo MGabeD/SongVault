@@ -39,12 +39,23 @@ const Account = () => {
 
     const getUserData = async (params) => {
         console.log(backendIP + '/api/users/' + localStorage.getItem("userID"))
-        const response = await fetch(backendIP + '/api/users/' + localStorage.getItem("userID"));
-        console.log("response: " + response)
-        console.log(JSON.stringify(response.type))
+        const response = await fetch(backendIP + '/api/users/' + localStorage.getItem("userID"), {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        // const response = await fetch(backendIP + '/api/users/' + localStorage.getItem("userID"), {
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // });
+        // console.log("response: " + response)
+        // console.log(JSON.stringify(JSON.stringify(response.json())))
+        // console.log(response.text)
         
         const data = await response.json();
-        console.log("data: " + JSON.stringify(data))
+        // console.log("data: " + JSON.stringify(data))
+        console.log(data)
 
         return data;
     }
