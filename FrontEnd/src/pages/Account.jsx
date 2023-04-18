@@ -113,8 +113,8 @@ const Account = () => {
             Promise.all(data.songs.map((songID) => {
                 return getSongInfo(songID)
                 .then((songInfo) => {
-                    alert(JSON.stringify(songInfo))
-                  updatedSongs.push(songInfo);
+                    // alert(JSON.stringify(songInfo))
+                    updatedSongs.push(songInfo);
                 })
             }))
             .then(() => {

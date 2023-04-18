@@ -51,14 +51,19 @@ const AddToPlaylistModal = (props) => {
         alert("params: " + JSON.stringify(params))
         const backendIP = process.env.REACT_APP_BACKEND_IP;
 
-        const response = await fetch(backendIP + '/api/playlists/' + playlistID, {
+        alert(backendIP + '/api/playlists/' + playlistID + '?' + new URLSearchParams(params))
+        const response = await fetch(backendIP + "/api/playlists/" + playlistID + "?" + new URLSearchParams(params), {
             method: "PUT",
-            body: params,
             headers: {
                 "Content-Type": "application/json"
             },
         })
+        // body: params,
+        
+         
+         
         const data = await response.json();
+        alert(JSON.stringify(data))
         return data;
     }
     
@@ -69,8 +74,6 @@ const AddToPlaylistModal = (props) => {
     const addToPlaylist = (playlistID) => {
         alert("PlaylistID: " + playlistID)
         sendToServer(playlistID);
-
-        alert("clicked " + props.playlist.name + " playlist ID: " + props.playlist.id)
     }
 
     const handleSubmit = () => {
