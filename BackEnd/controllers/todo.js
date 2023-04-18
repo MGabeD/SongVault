@@ -1,3 +1,5 @@
+// THIS IS SIMPLY A TEMPLATE FOR HOW WE ARE BUILDING BACKEND APIS
+
 const Todo = require("../models/todo");
 
 exports.createTodo = (req, res, next) => {

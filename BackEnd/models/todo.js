@@ -1,3 +1,5 @@
+// THIS IS SIMPLY A TEMPLATE FOR HOW WE ARE BUILDING BACKEND APIS
+
 const mongoose = require("mongoose");
 
 const todoSchema = mongoose.Schema({
@@ -9,3 +11,4 @@ const todoSchema = mongoose.Schema({
 });
 
 module.exports = mongoose.model("Todo", todoSchema);
+
