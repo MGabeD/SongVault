@@ -115,34 +115,54 @@ exports.createPlaylist = async (req, res, next) => {
   }
 };
 
-exports.addSong = async (req, res) => {
-  try {
-    const playlistId = req.params.id;
-    const songId = req.body.songId;
+const mongoose = require('mongoose');
 
-    const playlist = await Playlist.findById(playlistId);
-    if (!playlist) {
-      return res.status(404).header('Content-Type', 'application/json').json({ message: 'Playlist not found' });
-    }
+exports.addSong = (req, res) => {
+//   const playlistId = mongoose.Types.ObjectId(req.params.id);
+//   const songId = mongoose.Types.ObjectId(req.query.songId);
+  playlistId = req.params.id;
+  songId = req.query.songId;
+  
+  Playlist.findById(playlistId)
+    .then((playlist) => {
+      if (!playlist) {
+        return res.status(404).header('Content-Type', 'application/json').json({ message: 'Playlist not found' });
+      }
 
-    const song = await Song.findById(songId);
-    if (!song) {
-      return res.status(404).header('Content-Type', 'application/json').json({ message: 'Song not found' });
-    }
+      Song.findById(songId)
+        .then((song) => {
+          if (!song) {
+            return res.status(404).header('Content-Type', 'application/json').json({ message: 'Song not found' });
+          }
 
-    if (playlist.songs.includes(songId)) {
-      return res.status(400).header('Content-Type', 'application/json').json({ message: 'Song already in playlist' });
-    }
+          if (playlist.songs.includes(songId)) {
+            return res.status(400).header('Content-Type', 'application/json').json({ message: 'Song already in playlist' });
+          }
 
-    playlist.songs.push(songId);
-    await playlist.save();
-
-    return res.status(200).header('Content-Type', 'application/json').json({ message: 'Song added to playlist', playlist });
-  } catch (error) {
-    console.error(error);
-    res.status(500).header('Content-Type', 'application/json').json({ message: 'Failed to add song to playlist' });
-  }
+          playlist.songs.push(songId);
+          playlist.save()
+            .then(() => {
+              return res.status(200).header('Content-Type', 'application/json').json({ message: 'Song added to playlist', playlist });
+            })
+            .catch((error) => {
+              console.error(error);
+              console.log("I am here 3")
+              res.status(500).header('Content-Type', 'application/json').json({ message: 'Failed to add song to playlist' });
+            });
+        })
+        .catch((error) => {
+          console.error(error);
+          console.log("I am here")
+          res.status(500).header('Content-Type', 'application/json').json({ message: 'Failed to find song' });
+        });
+    })
+    .catch((error) => {
+      console.error(error);
+      console.log("I am here 2")
+      res.status(500).header('Content-Type', 'application/json').json({ message: 'Failed to find playlist' });
+    });
 };
+
 
 exports.getPlaylistById = async (req, res, next) => {
     Playlist.findById(req.params.id)
@@ -150,12 +170,12 @@ exports.getPlaylistById = async (req, res, next) => {
             if (post) {
                 res.status(200).header('Content-Type', 'application/json').json(post)
             } else {
-                res.status(404).header('Content-Type', 'application/json').json({ message: "Song not found!" });
+                res.status(404).header('Content-Type', 'application/json').json({ message: "Playlist not found!" });
             }
         })
         .catch((error) => {
             res.status(500).header('Content-Type', 'application/json').json({
-                message: "Fetching Song failed!",
+                message: "Fetching Playlist failed!",
             });
         });
   };
