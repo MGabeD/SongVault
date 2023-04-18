@@ -65,7 +65,7 @@ const Account = () => {
         const response = await fetch(backendIP + '/api/songs/' + id);
         const data = await response.json();
 
-        alert(JSON.stringify(data));
+        // alert(JSON.stringify(data));
         return data;
     }
 
@@ -113,7 +113,7 @@ const Account = () => {
             Promise.all(data.songs.map((songID) => {
                 return getSongInfo(songID)
                 .then((songInfo) => {
-                    // alert(JSON.stringify(songInfo))
+                    alert(JSON.stringify(songInfo))
                   updatedSongs.push(songInfo);
                 })
             }))

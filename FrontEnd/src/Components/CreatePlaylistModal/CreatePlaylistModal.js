@@ -52,7 +52,7 @@ const CreatePlaylistModal = (props) => {
         method: "POST",
             body: params,
         }).then((response) => {
-            console.log(response);
+            // console.log(response);
             props.updateRender()
         }).catch((error) => {
             console.log(error);

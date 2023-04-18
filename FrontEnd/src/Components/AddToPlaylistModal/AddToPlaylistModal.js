@@ -44,12 +44,14 @@ const AddToPlaylistModal = (props) => {
     }
 
     const sendToServer = async(playlistID) => {
+        console.log(props)
         const params = {
             songId: props.songID
         }
-        alert(params)
+        alert("params: " + JSON.stringify(params))
         const backendIP = process.env.REACT_APP_BACKEND_IP;
-        const response = await fetch(backendIP + '/api/playlists?' + playlistID, {
+
+        const response = await fetch(backendIP + '/api/playlists/' + playlistID, {
             method: "PUT",
             body: params,
             headers: {
@@ -65,6 +67,7 @@ const AddToPlaylistModal = (props) => {
     }
 
     const addToPlaylist = (playlistID) => {
+        alert("PlaylistID: " + playlistID)
         sendToServer(playlistID);
 
         alert("clicked " + props.playlist.name + " playlist ID: " + props.playlist.id)
@@ -100,7 +103,7 @@ const AddToPlaylistModal = (props) => {
                             disableGutters
                         >
                             <IconButton edge="end" aria-label="comments" 
-                            onClick={addToPlaylist}>
+                            onClick={() => {addToPlaylist(playlist)}}>
                                 <PlaylistAdd />
                             </IconButton>
                             <ListItemText primary={playlist} style={{paddingLeft:'20px'}} />
@@ -113,7 +116,7 @@ const AddToPlaylistModal = (props) => {
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
                     >
-                    Submit
+                    Done
                     </Button>
                 </Box>
             </Modal>
