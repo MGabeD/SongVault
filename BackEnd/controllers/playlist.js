@@ -116,13 +116,15 @@ exports.createPlaylist = async (req, res, next) => {
 };
 
 const mongoose = require('mongoose');
+const song = require('../models/song');
 
 exports.addSong = (req, res) => {
 //   const playlistId = mongoose.Types.ObjectId(req.params.id);
 //   const songId = mongoose.Types.ObjectId(req.query.songId);
   playlistId = req.params.id;
   songId = req.query.songId;
-  
+  deleteOrNa = req.query.type;
+  console.log(deleteOrNa);
   Playlist.findById(playlistId)
     .then((playlist) => {
       if (!playlist) {
@@ -135,20 +137,39 @@ exports.addSong = (req, res) => {
             return res.status(404).header('Content-Type', 'application/json').json({ message: 'Song not found' });
           }
 
-          if (playlist.songs.includes(songId)) {
-            return res.status(400).header('Content-Type', 'application/json').json({ message: 'Song already in playlist' });
+          if (deleteOrNa) {
+            if (!playlist.songs.includes(songId)) {
+                return res.status(200).header('Content-Type', 'application/json').json({ message: 'Song not in playlist' });
+            }
+            Playlist.updateOne(
+                { _id: playlistId },
+                { $pull: { songs: songId } }
+              )
+              .then((result) => {
+                if (result.modifiedCount === 0) {
+                  return res.status(404).json({ message: 'Playlist not found' });
+                }
+                return res.status(200).json({ message: 'Song removed from playlist' });
+              })
+              .catch((error) => {
+                console.error(error);
+                res.status(500).json({ message: 'Failed to remove song from playlist' });
+              });
+          } else {
+            if (playlist.songs.includes(songId)) {
+                return res.status(400).header('Content-Type', 'application/json').json({ message: 'Song already in playlist' });
+              }
+              playlist.songs.push(songId);
+              playlist.save()
+                .then(() => {
+                  return res.status(200).header('Content-Type', 'application/json').json({ message: 'Song added to playlist', playlist });
+                })
+                .catch((error) => {
+                  console.error(error);
+                  console.log("I am here 3")
+                  res.status(500).header('Content-Type', 'application/json').json({ message: 'Failed to add song to playlist' });
+                });
           }
-
-          playlist.songs.push(songId);
-          playlist.save()
-            .then(() => {
-              return res.status(200).header('Content-Type', 'application/json').json({ message: 'Song added to playlist', playlist });
-            })
-            .catch((error) => {
-              console.error(error);
-              console.log("I am here 3")
-              res.status(500).header('Content-Type', 'application/json').json({ message: 'Failed to add song to playlist' });
-            });
         })
         .catch((error) => {
           console.error(error);
