@@ -1,3 +1,5 @@
+// THIS IS SIMPLY A TEMPLATE FOR HOW WE ARE BUILDING BACKEND APIS
+
 const express = require("express");
 const router = express.Router();
 const todoController = require("../controllers/todo");

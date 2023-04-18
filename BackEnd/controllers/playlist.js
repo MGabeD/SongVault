@@ -124,7 +124,7 @@ exports.addSong = (req, res) => {
   playlistId = req.params.id;
   songId = req.query.songId;
   deleteOrNa = req.query.type;
-  console.log(deleteOrNa);
+//   console.log(deleteOrNa);
   Playlist.findById(playlistId)
     .then((playlist) => {
       if (!playlist) {
