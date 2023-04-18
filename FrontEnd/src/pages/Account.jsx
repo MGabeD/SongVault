@@ -217,6 +217,7 @@ const Account = () => {
                                 audio={card.mp3Link}
                                 image={card.imageLink}
                                 songID={card._id}
+                                updateRender={updateRender}
                                 // DELETE ME WHEN 
                                 // playlists={localStorage.getItem('playlists')}
                                 />
@@ -231,6 +232,7 @@ const Account = () => {
                                 title={playlist.name}
                                 image={playlist.imageLink}
                                 songs={playlist.songs}
+                                // updateRender={updateRender}
                                 />
                             </Grid>
                             )

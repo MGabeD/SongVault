@@ -5,6 +5,7 @@ import { IconButton, Modal, Button, Box, TextField, Grid, } from '@material-ui/c
 
 import song from '../../audio/reds.mp3'
 import PlayableSongCardSmall from '../PlayableSongCardSmall/PlayableSongCardSmall'
+// import PlaylistRemoveIcon from '@mui/icons-material/PlaylistRemove';
 
 const songProps = {
     title: "Reds",
@@ -72,9 +73,10 @@ const PlaylistDisplayModal = (props) => {
 
     return (
         <div>
-        <IconButton onClick={handleOpen}>
-          <Settings/>
-      </IconButton>
+            <Button onClick={handleOpen}>
+                <p> View Playlist</p>
+            </Button>
+        
         <Modal
             open={open}
             onClose={handleClose}
@@ -83,10 +85,18 @@ const PlaylistDisplayModal = (props) => {
         >
 
         <Box component='form' sx={{ ...style}} onSubmit={handleSubmit}>
-            <h2 id="child-modal-title"> Edit Playlist </h2>
+            {/* <img src={props.image} style={{width: '60%'}}/> */}
+            <h2 id="child-modal-title"> {props.title} </h2>
+
 
             <Grid container spacing={0} xs={12}>
+                {/* <Grid xs={3}>
+                    <IconButton onClick={() => {alert("remove from playlist")}}>
+                        <Settings/>
+                    </IconButton>
+                </Grid> */}
                 {songs.map((song) => (
+                    
                     <Grid item xs={12} style={{margin: '0.3px'}}>
                         <PlayableSongCardSmall audio={song.mp3Link} title={song.name} artist={song.artistNames[0]} image={song.imageLink}/>
                     </Grid>

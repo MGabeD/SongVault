@@ -45,6 +45,7 @@ const SongCardFull = (props) => {
                 <Grid item>
                     <AddToPlaylistModal 
                     songID={props.songID}
+                    updateRender={props.updateRender}
                     />
                 </Grid>
             </Grid>        

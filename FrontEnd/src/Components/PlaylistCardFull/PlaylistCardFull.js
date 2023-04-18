@@ -34,7 +34,10 @@ const PlaylistCardFull = (props) => {
                 </Grid>
                 <Grid item>
                     {/* <EditPlaylistModal/> */}
-                    <PlaylistDisplayModal title={props.title} songs={props.songs}/>
+                    <PlaylistDisplayModal 
+                    title={props.title} 
+                    songs={props.songs} 
+                    image={props.image}/>
                 </Grid>
             </Grid>        
         </CardContent>

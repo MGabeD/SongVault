@@ -94,7 +94,10 @@ const AddToPlaylistModal = (props) => {
 
     const addToPlaylist = (playlistID) => {
         // alert("PlaylistID: " + playlistID)
-        sendToServer(playlistID);
+        sendToServer(playlistID)
+        .then(() => {
+            props.updateRender()
+        })
     }
 
     const handleSubmit = () => {
