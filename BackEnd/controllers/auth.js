@@ -13,19 +13,19 @@ exports.getAuth = (req, res, next) => {
     }, { _id: 1 })
     .then(user => {
         if (!user) {
-            return res.status(404).json({
+            return res.status(404).header('Content-Type', 'application/json').json({
             message: "User not found.",
             });
         }
 
-        res.status(200).json({
+        res.status(200).header('Content-Type', 'application/json').json({
             message: "User found.",
             userId: user._id,
         });
     })
     .catch(err => {
         console.log(err);
-        res.status(500).json({
+        res.status(500).header('Content-Type', 'application/json').json({
             message: "An error occurred while finding user.",
         });
     });

@@ -11,7 +11,7 @@ exports.createRequest = (req, res, next) => {
     conversation
         .save()
         .then((result) => {
-            res.status(201).json({
+            res.status(201).header('Content-Type', 'application/json').json({
                 message: "conversation added successfully",
                 post: {
                     ...result.toObject(),
@@ -20,7 +20,7 @@ exports.createRequest = (req, res, next) => {
             });
         })
         .catch((err) => {
-            res.status(500).json({
+            res.status(500).header('Content-Type', 'application/json').json({
                 message: "Fail to create conservation!",
             });
         });
@@ -42,14 +42,14 @@ exports.getRequest = (req, res, next) => {
         return Conversation.countDocuments();
       })
       .then((count) => {
-        res.status(200).json({
+        res.status(200).header('Content-Type', 'application/json').json({
           message: "All requests fetched 200!",
           posts: fetchedRequest,
           maxPosts: count,
         });
       })
       .catch((error) => {
-        res.status(500).json({
+        res.status(500).header('Content-Type', 'application/json').json({
           message: "Fetching requests failed!",
         });
       });
@@ -60,13 +60,13 @@ exports.getRequestById = (req,res, next) => {
     Request.findById(req.params.id)
         .then((post) => {
             if (post) {
-                res.status(200).json(post)
+                res.status(200).header('Content-Type', 'application/json').json(post)
             } else {
-                res.status(404).json({ message: "Request not found!" });
+                res.status(404).header('Content-Type', 'application/json').json({ message: "Request not found!" });
             }
         })
         .catch((error) => {
-            res.status(500).json({
+            res.status(500).header('Content-Type', 'application/json').json({
                 message: "Fetching Request failed!",
             });
         });
@@ -80,10 +80,10 @@ exports.updateRequest = (req, res, next) => {
     console.log(updatedRequest);
     Request.updateOne({ _id: req.params.id }, { $set: updatedRequest })
         .then((result) => {
-            res.status(200).json({ message: "Update is successful!" });
+            res.status(200).header('Content-Type', 'application/json').json({ message: "Update is successful!" });
         })
         .catch((error) => {
-            res.status(500).json({
+            res.status(500).header('Content-Type', 'application/json').json({
                 message: "Couldn't update request!",
             });
             console.log(error);
@@ -95,10 +95,10 @@ exports.deleteRequest = (req, res, next) => {
     console.log(req.params.id);
     Reque.deleteOne({ _id: req.params.id })
     .then((resp) => {
-        res.status(200).json({ message: "Delete is successful!" });
+        res.status(200).header('Content-Type', 'application/json').json({ message: "Delete is successful!" });
     })
     .catch((error) => {
-        res.status(500).json({
+        res.status(500).header('Content-Type', 'application/json').json({
             message: "Couldn't delete request!",
         });
     });

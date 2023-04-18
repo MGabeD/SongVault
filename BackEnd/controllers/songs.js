@@ -33,11 +33,11 @@ exports.createSong = async (req, res, next) => {
       ])(req, res, async (err) => {
         if (err) {
           console.error(err);
-          return res.status(500).send("Failed to upload files");
+          return res.status(500).header('Content-Type', 'application/json').send("Failed to upload files");
         }
   
         if (!req.files || !req.files["Audio"] || !req.files["Image"]) {
-          return res.status(400).json({ message: "Missing files" });
+          return res.status(400).header('Content-Type', 'application/json').json({ message: "Missing files" });
         }
   
         const audioFile = req.files["Audio"][0];
@@ -66,7 +66,7 @@ exports.createSong = async (req, res, next) => {
   
         audioStream.on("error", (err) => {
           console.error(err);
-          res.status(500).send("Failed to upload audio file");
+          res.status(500).header('Content-Type', 'application/json').send("Failed to upload audio file");
         });
   
         audioStream.on("finish", async () => {
@@ -81,7 +81,7 @@ exports.createSong = async (req, res, next) => {
   
           imageStream.on("error", (err) => {
             console.error(err);
-            res.status(500).send("Failed to upload image file");
+            res.status(500).header('Content-Type', 'application/json').send("Failed to upload image file");
           });
   
           imageStream.on("finish", async () => {
@@ -105,20 +105,20 @@ exports.createSong = async (req, res, next) => {
                     // res.status(200).json({ message: "Song added to users' list of songs" });
                 })
                 .catch((error) => {
-                    res.status(500).json({
+                    res.status(500).header('Content-Type', 'application/json').json({
                     message: "Failed to add song to users' list of songs",
                     error: error
                     });
                 });
                 song.mp3Link = upSong.mp3Link;
                 song.imageLink = upSong.imageLink;
-              res.status(201).json({
+              res.status(201).header('Content-Type', 'application/json').json({
                 message: "Song created successfully",
                 song: song,
               });
             } catch (error) {
               console.error(error);
-              res.status(500).json({
+              res.status(500).header('Content-Type', 'application/json').json({
                 message: "Failed to save song with URLs",
               });
             }
@@ -131,7 +131,7 @@ exports.createSong = async (req, res, next) => {
       });
     } catch (error) {
       console.log(error);
-      res.status(500).json({
+      res.status(500).header('Content-Type', 'application/json').json({
         message: "An error occurred while creating the song",
       });
     }
@@ -141,13 +141,13 @@ exports.getSongById = (req,res, next) => {
     Song.findById(req.params.id)
         .then((post) => {
             if (post) {
-                res.status(200).json(post)
+                res.status(200).header('Content-Type', 'application/json').json(post)
             } else {
-                res.status(404).json({ message: "Song not found!" });
+                res.status(404).header('Content-Type', 'application/json').json({ message: "Song not found!" });
             }
         })
         .catch((error) => {
-            res.status(500).json({
+            res.status(500).header('Content-Type', 'application/json').json({
                 message: "Fetching Song failed!",
             });
         });
@@ -169,14 +169,14 @@ exports.getSong = (req, res, next) => {
         return Song.countDocuments();
       })
       .then((count) => {
-        res.status(200).json({
+        res.status(200).header('Content-Type', 'application/json').json({
           message: "All songs fetched 200!",
           posts: fetchedSong,
           maxPosts: count,
         });
       })
       .catch((error) => {
-        res.status(500).json({
+        res.status(500).header('Content-Type', 'application/json').json({
           message: "Fetching songs failed!",
         });
       });
@@ -196,10 +196,10 @@ exports.updateSong = (req, res, next) => {
     console.log(updatedSong);
     Song.updateOne({ _id: req.params.id }, { $set: updatedSong })
         .then((result) => {
-            res.status(200).json({ message: "Update is successful!" });
+            res.status(200).header('Content-Type', 'application/json').json({ message: "Update is successful!" });
         })
         .catch((error) => {
-            res.status(500).json({
+            res.status(500).header('Content-Type', 'application/json').json({
                 message: "Couldn't update Song!",
             });
             console.log(error);
@@ -216,16 +216,16 @@ exports.deleteSong = (req, res, next) => {
         { $pull: { songs: deletedSong._id } }
       )
         .then(() => {
-          res.status(200).json({ message: "Delete is successful!" });
+          res.status(200).header('Content-Type', 'application/json').json({ message: "Delete is successful!" });
         })
         .catch((error) => {
-          res.status(500).json({
+          res.status(500).header('Content-Type', 'application/json').json({
             message: "Couldn't delete song from user's list of songs!",
           });
         });
     })
     .catch((error) => {
-      res.status(500).json({
+      res.status(500).header('Content-Type', 'application/json').json({
         message: "Couldn't delete song!",
       });
     });

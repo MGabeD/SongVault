@@ -35,11 +35,11 @@ exports.createPlaylist = async (req, res, next) => {
     ])(req, res, async (err) => {
       if (err) {
         console.error(err);
-        return res.status(500).send("Failed to upload files");
+        return res.status(500).header('Content-Type', 'application/json').send("Failed to upload files");
       }
 
       if (!req.files || !req.files["Image"]) {
-        return res.status(400).json({ message: "Missing files" });
+        return res.status(400).header('Content-Type', 'application/json').json({ message: "Missing files" });
       }
 
       const imageFile = req.files["Image"][0];
@@ -65,7 +65,7 @@ exports.createPlaylist = async (req, res, next) => {
 
       imageStream.on("error", (err) => {
         console.error(err);
-        res.status(500).send("Failed to upload image file");
+        res.status(500).header('Content-Type', 'application/json').send("Failed to upload image file");
       });
 
       imageStream.on("finish", async () => {
@@ -87,19 +87,19 @@ exports.createPlaylist = async (req, res, next) => {
               // res.status(200).json({ message: "Playlist added to users' list of playlists" });
             })
             .catch((error) => {
-              res.status(500).json({
+              res.status(500).header('Content-Type', 'application/json').json({
                 message: "Failed to add playlist to users' list of playlists",
                 error: error
               });
             });
           savedPlaylist.imageLink = upPlaylist.imageLink;
-          res.status(201).json({
+          res.status(201).header('Content-Type', 'application/json').json({
             message: "Playlist created successfully",
             playlist: savedPlaylist,
           });
         } catch (error) {
           console.error(error);
-          res.status(500).json({
+          res.status(500).header('Content-Type', 'application/json').json({
             message: "Failed to save playlist with URL",
           });
         }
@@ -109,7 +109,7 @@ exports.createPlaylist = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({
+    res.status(500).header('Content-Type', 'application/json').json({
       message: "An error occurred while creating the playlist",
     });
   }
@@ -122,25 +122,25 @@ exports.addSong = async (req, res) => {
 
     const playlist = await Playlist.findById(playlistId);
     if (!playlist) {
-      return res.status(404).json({ message: 'Playlist not found' });
+      return res.status(404).header('Content-Type', 'application/json').json({ message: 'Playlist not found' });
     }
 
     const song = await Song.findById(songId);
     if (!song) {
-      return res.status(404).json({ message: 'Song not found' });
+      return res.status(404).header('Content-Type', 'application/json').json({ message: 'Song not found' });
     }
 
     if (playlist.songs.includes(songId)) {
-      return res.status(400).json({ message: 'Song already in playlist' });
+      return res.status(400).header('Content-Type', 'application/json').json({ message: 'Song already in playlist' });
     }
 
     playlist.songs.push(songId);
     await playlist.save();
 
-    return res.status(200).json({ message: 'Song added to playlist', playlist });
+    return res.status(200).header('Content-Type', 'application/json').json({ message: 'Song added to playlist', playlist });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Failed to add song to playlist' });
+    res.status(500).header('Content-Type', 'application/json').json({ message: 'Failed to add song to playlist' });
   }
 };
 
@@ -148,13 +148,13 @@ exports.getPlaylistById = async (req, res, next) => {
     Playlist.findById(req.params.id)
         .then((post) => {
             if (post) {
-                res.status(200).json(post)
+                res.status(200).header('Content-Type', 'application/json').json(post)
             } else {
-                res.status(404).json({ message: "Song not found!" });
+                res.status(404).header('Content-Type', 'application/json').json({ message: "Song not found!" });
             }
         })
         .catch((error) => {
-            res.status(500).json({
+            res.status(500).header('Content-Type', 'application/json').json({
                 message: "Fetching Song failed!",
             });
         });

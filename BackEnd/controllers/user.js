@@ -33,7 +33,7 @@ exports.createUser = (req, res, next) => {
         }
     })
     .then((result) => {
-        res.status(201).json({
+        res.status(201).header('Content-Type', 'application/json').json({
             message: "User added successfully",
             post: {
                 ...result.toObject(),
@@ -43,7 +43,7 @@ exports.createUser = (req, res, next) => {
     })
     .catch((err) => {
         console.log(err);
-        res.status(500).json({
+        res.status(500).header('Content-Type', 'application/json').json({
             message: err.message || "Fail to create user!",
         });
     });
@@ -103,14 +103,14 @@ exports.getUser = (req, res, next) => {
         return User.countDocuments();
       })
       .then((count) => {
-        res.status(200).json({
+        res.status(200).header('Content-Type', 'application/json').json({
           message: "All users fetched 200!",
           posts: fetchedUser,
           maxPosts: count,
         });
       })
       .catch((error) => {
-        res.status(500).json({
+        res.status(500).header('Content-Type', 'application/json').json({
           message: "Fetching users failed!",
         });
       });
@@ -121,13 +121,13 @@ exports.getUserById = (req,res, next) => {
     User.findById(req.params.id)
         .then((post) => {
             if (post) {
-                res.status(200).json(post)
+                res.status(200).header('Content-Type', 'application/json').json(post)
             } else {
-                res.status(404).json({ message: "User not found!" });
+                res.status(404).header('Content-Type', 'application/json').json({ message: "User not found!" });
             }
         })
         .catch((error) => {
-            res.status(500).json({
+            res.status(500).header('Content-Type', 'application/json').json({
                 message: "Fetching user failed!",
             });
         });
@@ -153,10 +153,10 @@ exports.updateUser = (req, res, next) => {
     console.log(updatedUser);
     User.updateOne({ _id: req.params.id }, { $set: updatedUser })
         .then((result) => {
-            res.status(200).json({ message: "Update is successful!" });
+            res.status(200).header('Content-Type', 'application/json').json({ message: "Update is successful!" });
         })
         .catch((error) => {
-            res.status(500).json({
+            res.status(500).header('Content-Type', 'application/json').json({
                 message: "Couldn't update user!",
             });
             console.log(error);
@@ -168,10 +168,10 @@ exports.deleteUser = (req, res, next) => {
     console.log(req.params.id);
     User.deleteOne({ _id: req.params.id })
     .then((resp) => {
-        res.status(200).json({ message: "Delete is successful!" });
+        res.status(200).header('Content-Type', 'application/json').json({ message: "Delete is successful!" });
     })
     .catch((error) => {
-        res.status(500).json({
+        res.status(500).header('Content-Type', 'application/json').json({
             message: "Couldn't delete user!",
         });
     });
