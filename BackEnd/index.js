@@ -14,7 +14,7 @@ const playRoutes = require("./routes/play.js");
 const trenRoutes = require("./routes/trending.js");
 const playListRoutes = require("./routes/playlists.js");
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 const { initializeFirebase } = require('./utils/firebase');
 
