@@ -26,6 +26,7 @@ const Discover = () => {
                             image={songInfo.imageLink}
                             id={songInfo.songId}
                             artist={songInfo.artistNames[0]}
+                            // id={songInfo._id}
                             />
                         </Grid>
                         ))}

@@ -5,9 +5,6 @@ import { Favorite } from '@material-ui/icons'
 
 import AddToPlaylistModal from '../AddToPlaylistModal/AddToPlaylistModal'
 import useStyles from './BottomSongControlUIStyles'
-import song from '../../audio/reds.mp3'
-
-const propPlaylists = [{name: 'playlist1', id: '12398124982'}, {name: 'playlist2', id: '1285830290'}, {name: 'playlist3', id: '1284883593'}]
 
 
 const BottomSongControlUI = (props) => {
@@ -28,7 +25,7 @@ const BottomSongControlUI = (props) => {
             alert(JSON.stringify(data));
         }
     
-        const params = {songID : props.id}
+        const params = {songId : props.id}
         serverLike(params)
         .then((data) => {
             alert(data.status);
@@ -36,10 +33,26 @@ const BottomSongControlUI = (props) => {
 
         
     }
-    const playingAudio = () => {
-        console.log(audioRef.current.currentTime);
+
+    const sendPlayToServer = async (songID) => {
+        const backendIP = process.env.REACT_APP_BACKEND_IP;
+        alert("SongID: " + songID);
+        const response = await fetch(backendIP + "/api/play/" + songID, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        });
+        const data = await response.json();
+
+        alert(JSON.stringify(data));
+        return data;
+
+    }
+    const playingAudio = (songID) => {
+        // console.log(audioRef.current.currentTime);
         if (audioRef.current.currentTime === 0) {
-            alert('playing song for the first time')
+            sendPlayToServer(songID);
         }
     }
 
@@ -72,7 +85,7 @@ const BottomSongControlUI = (props) => {
                             >
                                 <Favorite />
                             </IconButton> 
-                            <AddToPlaylistModal playlists={propPlaylists}/>
+                            <AddToPlaylistModal playlists={props.playlists}/>
                         </div> 
                     :
                     <></>}
@@ -80,9 +93,10 @@ const BottomSongControlUI = (props) => {
                     </div>
                     <Typography variant="subtitle">
                         {props.artist}
+                        
                     </Typography>
                 </Container>
-                <audio controls title='Song Title' style={{width: '100%'}} onPlay={playingAudio} ref={audioRef}>
+                <audio controls title='Song Title' style={{width: '100%'}} onPlay={() => {playingAudio(props.id)}} ref={audioRef}>
                     <source src={props.audio} type="audio/mp3" />
                     Your browser does not support the audio tag.
                 </audio>

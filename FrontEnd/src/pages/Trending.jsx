@@ -91,6 +91,7 @@ const Trending = () => {
                             artist={songInfo.artistNames[0]}
                             image={songInfo.imageLink}
                             audio={songInfo.mp3Link}
+                            id={songInfo._id}
                             />
                         </Grid>
                     ))}
