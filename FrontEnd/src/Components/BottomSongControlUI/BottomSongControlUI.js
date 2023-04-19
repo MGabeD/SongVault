@@ -93,7 +93,6 @@ const BottomSongControlUI = (props) => {
                     </div>
                     <Typography variant="subtitle">
                         {props.artist}
-                        
                     </Typography>
                 </Container>
                 <audio controls title='Song Title' style={{width: '100%'}} onPlay={() => {playingAudio(props.id)}} ref={audioRef}>
