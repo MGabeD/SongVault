@@ -25,7 +25,7 @@ main()
     
 async function main() {
     await initializeFirebase();
-    console.log("mongodb://" + MONGO);
+    // console.log("mongodb://" + MONGO);
     await mongoose.connect("mongodb://" + MONGO);
     // await mongoose.connect("mongodb://localhost:27017/test");
 } 
