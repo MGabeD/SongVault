@@ -2,14 +2,6 @@ import {React, useEffect, useState} from 'react'
 
 import { Container, Grid, Typography, Button, Select, MenuItem } from '@material-ui/core'
 import BottomSongControlUI from '../Components/BottomSongControlUI/BottomSongControlUI'
-import song from '../audio/reds.mp3'
-
-const songProps = {
-    title: "Reds",
-    artist: "Some Dude",
-    image: "https://source.unsplash.com/random/?Music",
-    audio: song
-}
 
 
 
@@ -24,7 +16,12 @@ const Trending = () => {
     // Need to change from json response
     const getTopSongs = async (params) => {
         const backendIP = process.env.REACT_APP_BACKEND_IP;
-        const response = await fetch(backendIP + '/trending');
+        const response = await fetch(backendIP + '/api/trending', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        });
         const recSongs = await response.json();
         return recSongs;
     }
@@ -38,42 +35,24 @@ const Trending = () => {
 
         // call async function to get new trending songs
         getTopSongs(params)
-        .then((data) => {
-            console.log(data.trending);
-            setSongs(data.trending)
-        })
+        // .then((data) => {
+        //     // setSongs(data)
+        // })
     };
-
-    const getSongInfo = async (id) => {
-        const backendIP = process.env.REACT_APP_BACKEND_IP;
-        const response = await fetch(backendIP + '/api/songs/' + id);
-        const data = await response.json();
-
-        // alert(JSON.stringify(data));
-        return data;
-    }
 
     useEffect(() => {
         // None is the default genre for the trending page
-        const params = {genre: "None"}
 
         // calls the async function to get the generic trending songs
-        getTopSongs(params)
+        getTopSongs()
         .then((data) => {
-            // alert(data.trending);
-            setSongs(data.trending)
-            // const updatedSongs = [];
-            // Promise.all(data.songs.map((songID) => {
-            //     return getSongInfo(songID)
-            //     .then((songInfo) => {
-            //       updatedSongs.push(songInfo);
-            //     })
-            // }))
-            
-            // .then(() => {
-            //     alert(updatedSongs)
-            //     setSongs(updatedSongs);
-            // })
+            // alert(JSON.stringify(data))
+            console.log("songs:")
+            console.log(data)
+            // console.log(data[0])
+            setSongs(data.songs)
+            console.log(songs)
+            // setSongs(data)
         })
     },[]);
 
@@ -107,19 +86,13 @@ const Trending = () => {
                 <Grid container style={{width: '100%'}} spacing={4}>
                     {songs.map((songInfo) => (
                         <Grid item xs={12} key={songInfo.songId}>
-                        <BottomSongControlUI
-                        title={songProps.title}
-                        artist={songProps.artist}
-                        image={songProps.image}
-                        audio={songProps.audio}
-
-                        // title={songInfo.name}
-                        // desc={""}
-                        // audio={songInfo.mp3Link}
-                        // image={songInfo.imageLink}
-                        // id={songInfo.songId}
-                        />
-                    </Grid>
+                            <BottomSongControlUI
+                            title={songInfo.name}
+                            artist={songInfo.artistNames[0]}
+                            image={songInfo.imageLink}
+                            audio={songInfo.mp3Link}
+                            />
+                        </Grid>
                     ))}
                 </Grid>
             </Container>

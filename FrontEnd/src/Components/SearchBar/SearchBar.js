@@ -39,7 +39,7 @@ const SearchBar = (props) => {
         const params = {userName: searchInput };
         reqSearch(params)
         .then((data) => {
-            alert(JSON.stringify(data))
+            // alert(JSON.stringify(data))
             
             const allResponses = []
             data.songs.map((songID) => {
