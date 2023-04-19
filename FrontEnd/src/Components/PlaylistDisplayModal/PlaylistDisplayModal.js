@@ -1,18 +1,8 @@
 import {React, useState} from 'react'
 
-import { Settings } from '@material-ui/icons'
+import { Settings, Remove } from '@material-ui/icons'
 import { IconButton, Modal, Button, Box, TextField, Grid, } from '@material-ui/core'
-
-import song from '../../audio/reds.mp3'
 import PlayableSongCardSmall from '../PlayableSongCardSmall/PlayableSongCardSmall'
-// import PlaylistRemoveIcon from '@mui/icons-material/PlaylistRemove';
-
-const songProps = {
-    title: "Reds",
-    artist: "James Becker",
-    image: "http://source.unsplash.com/random?music",
-    audio: song
-}
 
 
 const PlaylistDisplayModal = (props) => {
@@ -42,6 +32,25 @@ const PlaylistDisplayModal = (props) => {
         })
     }
 
+    const deleteSong = async (songID) => {
+        const params = {
+            songId: songID,
+            type: 1
+        }
+        const backendIP = process.env.REACT_APP_BACKEND_IP;
+        // alert("PlaylistID: " + props.playlistID);
+        // alert("SongID: " + songID);
+        const response = await fetch(backendIP + "/api/playlists/" + props.playlistID + "?" + new URLSearchParams(params), {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+        const data = await response.json();
+        alert(JSON.stringify(data));
+        return data;
+    }
+
     const handleOpen = () => {
         getSongs();
         setOpen(true)
@@ -49,6 +58,16 @@ const PlaylistDisplayModal = (props) => {
 
     const handleClose = () => {
         setOpen(false);
+    }
+
+    const handleRemoveClick = (songID) => {
+        deleteSong(songID)
+        .then(() => {
+            props.updateRender();
+        })
+        .then(() => {
+            getSongs();
+        })
     }
 
     const style = {
@@ -96,9 +115,13 @@ const PlaylistDisplayModal = (props) => {
                     </IconButton>
                 </Grid> */}
                 {songs.map((song) => (
-                    
                     <Grid item xs={12} style={{margin: '0.3px'}}>
-                        <PlayableSongCardSmall audio={song.mp3Link} title={song.name} artist={song.artistNames[0]} image={song.imageLink}/>
+                        <div style={{display: 'flex', flexDirection: 'row'}}>
+                            <IconButton onClick={() => {handleRemoveClick(song._id)}}>
+                                <Remove/>
+                            </IconButton>
+                            <PlayableSongCardSmall audio={song.mp3Link} title={song.name} artist={song.artistNames[0]} image={song.imageLink}/>
+                        </div>
                     </Grid>
                 ))}
 

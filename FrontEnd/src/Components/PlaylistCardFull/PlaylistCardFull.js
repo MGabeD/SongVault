@@ -37,7 +37,9 @@ const PlaylistCardFull = (props) => {
                     <PlaylistDisplayModal 
                     title={props.title} 
                     songs={props.songs} 
-                    image={props.image}/>
+                    image={props.image}
+                    playlistID={props.playlistID}
+                    updateRender={props.updateRender}/>
                 </Grid>
             </Grid>        
         </CardContent>

@@ -232,7 +232,8 @@ const Account = () => {
                                 title={playlist.name}
                                 image={playlist.imageLink}
                                 songs={playlist.songs}
-                                // updateRender={updateRender}
+                                playlistID={playlist._id}
+                                updateRender={updateRender}
                                 />
                             </Grid>
                             )

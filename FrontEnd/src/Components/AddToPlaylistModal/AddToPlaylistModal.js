@@ -72,16 +72,14 @@ const AddToPlaylistModal = (props) => {
         // alert("params: " + JSON.stringify(params))
         const backendIP = process.env.REACT_APP_BACKEND_IP;
 
-        // alert(backendIP + '/api/playlists/' + playlistID + '?' + new URLSearchParams(params))
-        const response = await fetch(backendIP + "/api/playlists/" + playlistID + "?" + new URLSearchParams(params), {
+        // alert(backendIP + '/api/playlists/' + playlistID + '?songId=' + props.songID )
+        const response = await fetch(backendIP + "/api/playlists/" + playlistID + '?songId=' + props.songID, {
+        // const response = await fetch("http://129.114.26.238:30005/api/playlists/643e1f6eb00e20618060365d?songId=643ec668b5a81be7e7051c8f", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
         })
-        // body: params,
-        
-         
          
         const data = await response.json();
         alert(JSON.stringify(data))

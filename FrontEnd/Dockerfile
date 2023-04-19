@@ -1,18 +1,3 @@
-# FROM node:alpine
-
-# WORKDIR /app
-
-# ENV PORT=3000
-# ENV NODE_ENV=production
-
-# COPY . .
-
-# RUN npm install --force
-
-# EXPOSE $PORT
-
-# CMD ["npm", "start"]
-
 # Use an official Node.js base image
 FROM node:16
 
