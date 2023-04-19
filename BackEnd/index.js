@@ -15,6 +15,7 @@ const trenRoutes = require("./routes/trending.js");
 const playListRoutes = require("./routes/playlists.js");
 
 const PORT = process.env.PORT || 3001;
+const MONGO = process.env.MONGO || "129.114.27.13:27017/test";
 
 const { initializeFirebase } = require('./utils/firebase');
 
@@ -24,7 +25,8 @@ main()
     
 async function main() {
     await initializeFirebase();
-    await mongoose.connect("mongodb://129.114.27.13:27017/test")
+    console.log("mongodb://" + MONGO);
+    await mongoose.connect("mongodb://" + MONGO);
     // await mongoose.connect("mongodb://localhost:27017/test");
 } 
 
