@@ -17,18 +17,16 @@ const Account = () => {
         password: '',
         birthday: '',
         bio: "",
-        websiteLink: 'http://fakeWebsite.com',
+        websiteLink: 'http://yourWebsiteHere.com',
         firstname: '',
         lastname: '',
-        email: 'fakeEmail@gmail.com',
+        email: 'yourEmailHere@gmail.com',
         songs: [],
     })
 
     const [songs, setSongs] = useState([]);
     const [playlists, setPlaylists] = useState([]);
-    const backendIP = process.env.REACT_APP_BACKEND_IP;
-
-    
+    const backendIP = process.env.REACT_APP_BACKEND_IP; 
 
     const getUserData = async (params) => {
         console.log(backendIP + '/api/users/' + localStorage.getItem("userID"))

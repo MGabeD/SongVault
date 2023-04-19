@@ -82,7 +82,7 @@ const AddToPlaylistModal = (props) => {
         })
          
         const data = await response.json();
-        alert(JSON.stringify(data))
+        // alert(JSON.stringify(data))
         return data;
     }
     
