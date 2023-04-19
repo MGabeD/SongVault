@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom'
 import NavBar from '../Components/NavBar/NavBar'
 import useStyles from '../styles'
 
+
 const Layout = (props) => {
     const classes = useStyles();
 
