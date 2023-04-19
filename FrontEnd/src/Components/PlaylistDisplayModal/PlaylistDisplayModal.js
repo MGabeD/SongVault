@@ -1,7 +1,7 @@
 import {React, useState} from 'react'
 
-import { Settings, Remove } from '@material-ui/icons'
-import { IconButton, Modal, Button, Box, TextField, Grid, } from '@material-ui/core'
+import { Remove } from '@material-ui/icons'
+import { IconButton, Modal, Button, Box, Grid, } from '@material-ui/core'
 import PlayableSongCardSmall from '../PlayableSongCardSmall/PlayableSongCardSmall'
 
 
@@ -13,8 +13,6 @@ const PlaylistDisplayModal = (props) => {
         const backendIP = process.env.REACT_APP_BACKEND_IP;
         const response = await fetch(backendIP + '/api/songs/' + id);
         const data = await response.json();
-
-        // alert(JSON.stringify(data));
         return data;
     }
 
@@ -23,7 +21,6 @@ const PlaylistDisplayModal = (props) => {
         Promise.all(props.songs.map((songID) => {
             return getSongInfo(songID)
             .then((songInfo) => {
-                // alert(JSON.stringify(songInfo))
                 updatedSongs.push(songInfo);
             })
         }))
@@ -38,8 +35,6 @@ const PlaylistDisplayModal = (props) => {
             type: 1
         }
         const backendIP = process.env.REACT_APP_BACKEND_IP;
-        // alert("PlaylistID: " + props.playlistID);
-        // alert("SongID: " + songID);
         const response = await fetch(backendIP + "/api/playlists/" + props.playlistID + "?" + new URLSearchParams(params), {
             method: "PUT",
             headers: {
@@ -104,16 +99,9 @@ const PlaylistDisplayModal = (props) => {
         >
 
         <Box component='form' sx={{ ...style}} onSubmit={handleSubmit}>
-            {/* <img src={props.image} style={{width: '60%'}}/> */}
             <h2 id="child-modal-title"> {props.title} </h2>
 
-
             <Grid container spacing={0} xs={12}>
-                {/* <Grid xs={3}>
-                    <IconButton onClick={() => {alert("remove from playlist")}}>
-                        <Settings/>
-                    </IconButton>
-                </Grid> */}
                 {songs.map((song) => (
                     <Grid item xs={12} style={{margin: '0.3px'}}>
                         <div style={{display: 'flex', flexDirection: 'row'}}>
@@ -126,9 +114,6 @@ const PlaylistDisplayModal = (props) => {
                 ))}
 
             </Grid>
-
-                
-
 
             <Button
             type="submit"

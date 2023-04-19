@@ -1,19 +1,12 @@
 import {React, useEffect, useState} from 'react'
-import { Modal, Typography, Button, Grid, Container, Tabs, Tab, Box, IconButton} from '@material-ui/core'
-
+import { Typography, Button, Grid, Container, Tabs, Tab, Box} from '@material-ui/core'
 
 import useStyles from '../styles'
 import SongCardFull from '../Components/SongCardFull/SongCardFull'
 import SongUploadModal from '../Components/SongUploadModal/SongUploadModal'
 import CreatePlaylistModal from '../Components/CreatePlaylistModal/CreatePlaylistModal'
 import EditAccountModal from '../Components/EditAccountModal/EditAccountModal'
-
-import song from '../audio/reds.mp3'
 import PlaylistCardFull from '../Components/PlaylistCardFull/PlaylistCardFull'
-
-const websiteLink = 'https://google.com'
-
-
 
 const Account = () => {
     const classes = useStyles();
@@ -44,28 +37,16 @@ const Account = () => {
                 'Content-Type': 'application/json'
             }
         });
-        // const response = await fetch(backendIP + '/api/users/' + localStorage.getItem("userID"), {
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     }
-        // });
-        // console.log("response: " + response)
-        // console.log(JSON.stringify(JSON.stringify(response.json())))
-        // console.log(response.text)
         
         const data = await response.json();
-        // console.log("data: " + JSON.stringify(data))
-        console.log(data)
 
         return data;
     }
 
     const getSongInfo = async (id) => {
-        
         const response = await fetch(backendIP + '/api/songs/' + id);
         const data = await response.json();
 
-        // alert(JSON.stringify(data));
         return data;
     }
 
@@ -73,17 +54,14 @@ const Account = () => {
         const response = await fetch(backendIP + '/api/playlists/' + id);
         const data = await response.json();
 
-        // alert(JSON.stringify(data));
         return data;
     }
 
     const updateRender = () => {
         const params = { userId: localStorage.getItem('userID')};
-        // console.log(localStorage.getItem('userID'));
 
         getUserData(params)
         .then((data) => {
-            // alert(JSON.stringify(data))
             setUserData({
                 username: data.userName,
                 password: data.password,
@@ -98,22 +76,11 @@ const Account = () => {
             
             
             localStorage.setItem('playlists', JSON.stringify(data.playlists));
-            // console.log(JSON.parse(localStorage.getItem('playlists')))
-
-            
-            // console.log(playlists[0])
-            // localStorage.setItem('playlists', data.playlists)
-            
-            // REPLACE WITH ABOVE WHEN API IS READY
-            // localStorage.setItem('playlists', JSON.stringify([{name: 'playlist 1', id: '1298214912'}, {name: 'playlist 2', id: '1238421052'}, {name: 'playlist 3', id: '184003592'}]))
-            
-            // alert(localStorage.getItem('playlists'))
 
             const updatedSongs = [];
             Promise.all(data.songs.map((songID) => {
                 return getSongInfo(songID)
                 .then((songInfo) => {
-                    // alert(JSON.stringify(songInfo))
                     updatedSongs.push(songInfo);
                 })
             }))
@@ -126,12 +93,10 @@ const Account = () => {
                 return getPlaylistInfo(playlistID)
                 .then((playlistInfo) => {
                 updatedPlaylists.push(playlistInfo);
-                // console.log(playlistInfo)
             })
             }))
             .then(() => {
                 setPlaylists(updatedPlaylists);
-            // console.log(JSON.stringify(playlists))
             })
         })
     }
@@ -145,12 +110,7 @@ const Account = () => {
     }
 
     const handleWebsiteLink = () => {
-        alert(localStorage.getItem('userID'))
-        // window.location.href = websiteLink;
-    }
-
-    const editAccount = () => {
-        alert("can't edit account details yet");
+        window.location.href = userData.websiteLink;
     }
 
     return (
@@ -207,6 +167,7 @@ const Account = () => {
                         <Tab value="Playlists" label="Playlists" style={{color: 'white'}}/>
                     </Tabs>
                 </Box>
+
                 <Container >
                     <Grid container spacing={4}>
                         {cardType === "Songs" ? songs.map((card) => (

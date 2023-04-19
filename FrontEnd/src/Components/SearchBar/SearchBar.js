@@ -1,9 +1,8 @@
-import { Typography, Container, FormGroup, Button, Menu, MenuItem } from '@material-ui/core'
+import { Container, Button } from '@material-ui/core'
 import React from 'react'
 import {useState} from 'react'
 
 import useStyles from './searchbarStyles'
-// import stockPhoto from '../../images/discoverPageBG.jpeg'
 import stockPhoto from '../../images/Headphones.avif'
 
 
@@ -29,7 +28,7 @@ const SearchBar = (props) => {
     const handleSubmit = () => {
         const reqSearch = async (params) => {
             const backendIP = process.env.REACT_APP_BACKEND_IP;
-            const response = await fetch(backendIP + '/api/discover' + '?' + new URLSearchParams(params));
+            const response = await fetch(backendIP + '/api/discover?' + new URLSearchParams(params));
             const results = await response.json();
     
             console.log(results);
@@ -44,11 +43,13 @@ const SearchBar = (props) => {
             const allResponses = []
             data.songs.map((songID) => {
                 allResponses.push(songID)
+                return true;
             })
             data.matchingSongs.map((songID) => {
                 if (!allResponses.includes(songID)) {
                     allResponses.push(songID)                        
                 }
+                return true;
             })
             const updatedSongs = [];
             Promise.all(allResponses.map((songID) => {
@@ -68,7 +69,7 @@ const SearchBar = (props) => {
 
     return (
         <Container className={classes.searchBarOnPhotoContainer}>
-            <img src={stockPhoto} style={{position: 'relative', width: '100%'}}/>
+            <img src={stockPhoto} alt={"alt"} style={{position: 'relative', width: '100%'}}/>
             <div className={classes.searchBarButtonContainer}>
                 <input
                 type="text"
