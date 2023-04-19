@@ -8,10 +8,6 @@ import AddToPlaylistModal from '../AddToPlaylistModal/AddToPlaylistModal'
 
 const SongCardFull = (props) => {
     const classes = useCardStyles();
-
-    const onLike = () => {
-        alert('no');
-    }
     
   return (
     <Card className={classes.card} style={{flexDirection:"column"}}> 

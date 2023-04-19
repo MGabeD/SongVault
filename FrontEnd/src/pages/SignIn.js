@@ -50,8 +50,8 @@ export default function SignIn(props) {
         localStorage.setItem('userID', valid.userId)
 
         // DeleteMe
-        alert("UserID: " + localStorage.getItem('userID'))
-        alert("Login Status: " + localStorage.getItem('loginStatus'))
+        // alert("UserID: " + localStorage.getItem('userID'))
+        // alert("Login Status: " + localStorage.getItem('loginStatus'))
 
         // pathing to the account page
         window.location.pathname = '/account'

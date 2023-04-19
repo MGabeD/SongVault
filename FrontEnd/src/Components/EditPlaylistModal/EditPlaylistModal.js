@@ -32,7 +32,7 @@ const EditPlaylistModal = () => {
       };
 
     const handleSubmit = () => {
-        alert('need to create the put api call');
+        // alert('need to create the put api call');
         handleClose();
     }
 

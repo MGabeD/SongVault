@@ -22,21 +22,14 @@ const BottomSongControlUI = (props) => {
                 body: JSON.stringify(params),
             })
             const data = await response.json();
-            alert(JSON.stringify(data));
         }
     
         const params = {songId : props.id}
-        serverLike(params)
-        .then((data) => {
-            alert(data.status);
-        })
-
-        
+        serverLike(params);        
     }
 
     const sendPlayToServer = async (songID) => {
         const backendIP = process.env.REACT_APP_BACKEND_IP;
-        alert("SongID: " + songID);
         const response = await fetch(backendIP + "/api/play/" + songID, {
             method: "PUT",
             headers: {
@@ -45,7 +38,6 @@ const BottomSongControlUI = (props) => {
         });
         const data = await response.json();
 
-        alert(JSON.stringify(data));
         return data;
 
     }

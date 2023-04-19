@@ -22,7 +22,7 @@ const PlaylistCardFull = (props) => {
             alt="./images/githubPfP.jpeg"
             style={{maxHeight: '200px', width: '100%'}}
             height={'100px'}
-            onClick={() => {alert("clicked: " + props.title)}}
+            // onClick={() => {alert("clicked: " + props.title)}}
             style={{cursor: "pointer",}}
         />
         <CardContent className={classes.cardContent}>

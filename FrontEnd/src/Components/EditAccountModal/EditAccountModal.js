@@ -70,10 +70,10 @@ const EditAccountModal = (props) => {
         }).then((response) => {
             console.log(response);
             
-            alert("Account Information Successfully Updated")
+            // alert("Account Information Successfully Updated")
         }).catch((error) => {
             console.log(error);
-            alert(error);
+            // alert(error);
         })
         console.log('after post req');
 
