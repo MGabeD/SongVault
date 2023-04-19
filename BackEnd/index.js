@@ -42,44 +42,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get("/discover", (req, res) => {
-    console.log("got discover request");
-
-    // receiving input parameters
-    const searchReq = req.query.searchReq;
-
-    // maybe just a direct search for a username --> return their songs
-    console.log("search value: ", searchReq);
-
-    // pushing array of songs to the frontend as response
-    res.json({ songs: ['song1', 'song2', 'song3'] });
-});
-
-app.get("/likeSong", (req, res) => {
-    console.log("got like song request");
-
-    // receiving input parameters
-    const songID = req.query.songID;
-    
-    console.log("req.query: ", req.query);
-    console.log("songID: ", songID);
-
-    // update the song's likes in db and send back status
-    res.json({ status: 200 });
-});
-
-app.get("/trending", (req, res) => {
-    console.log("got trending request");
-
-    // idk what kind of search query we are going to do for db, but
-    // i think we should do just some blanket search of the first 10 songs
-    // in song page
-
-    // sending back array of songs to frontend
-    // need to change these to objects containing mp3, image, name, and artist
-    res.json({ trending: ['trending1', 'trending2', 'trending3'] });
-});
-
 app.use("/api/todos", todoRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/requests", requestRoutes);
@@ -98,27 +60,8 @@ app.listen(PORT, () => {
 
 });
 
-async function downloadFile(fileName) {
-    const file = bucket.file(fileName);
-    const [fileBuffer] = await file.download();
-    return fileBuffer;
-}
-
-
-app.get('/download', (req, res) => {
-    // const fileName = req.params.fileName;
-
-    const folderName = '/undefined';
-    const fileName = 'githubPfP.jpeg'
-    const fileRef = storage.ref().child(`${folderName}/${fileName}`);
-
-    fileRef.getDownloadURL()
-    .then(url => {
-        // send the file URL to the client
-        res.status(200).send({ url });
-    })
-    .catch(error => {
-        console.log(error);
-        res.status(404).send('File not found');
-    });
-});
+// async function downloadFile(fileName) {
+//     const file = bucket.file(fileName);
+//     const [fileBuffer] = await file.download();
+//     return fileBuffer;
+// }
