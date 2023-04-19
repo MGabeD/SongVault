@@ -1,7 +1,8 @@
-const User = require("../models/user");
+const Song = require("../models/song");
 
 exports.playSong = (req, res, next) => {
-    const id = req.params.id;
+    const songId = req.params.id;
+    console.log(songId)
     Song.updateOne({ _id: songId }, { $inc: { plays: 1 } })
         .then(() => {
             res.status(200).header('Content-Type', 'application/json').json({
