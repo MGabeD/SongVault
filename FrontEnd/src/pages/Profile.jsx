@@ -1,13 +1,13 @@
 import {React, useState, useEffect} from 'react'
 import { Container, Grid, Typography } from '@material-ui/core'
 
-import profilePic from '../images/SomeDude.jpeg'
-import SongPlayerUI from '../Components/PlayableSongCardBig/PlayableSongCardBig'
+// import profilePic from '../images/SomeDude.jpeg'
+// import SongPlayerUI from '../Components/PlayableSongCardBig/PlayableSongCardBig'
 import BottomSongControlUI from '../Components/BottomSongControlUI/BottomSongControlUI'
 
 import song from '../audio/reds.mp3'
 import PlayableSongCardSmall from '../Components/PlayableSongCardSmall/PlayableSongCardSmall'
-import { ViewColumn } from '@material-ui/icons'
+// import { ViewColumn } from '@material-ui/icons'
 
 const songProps = {
     title: "Reds",
@@ -19,9 +19,9 @@ const songProps = {
 const songs = [1, 2, 3, 4, 5, 6, 7];
 
 const Profile = () => {
-    let [msg, setMsg] = useState("Loading...")
-    const [imageSrc, setImageSrc] = useState(null);
-    const [audioSrc, setAudioSrc] = useState(null);
+    // let [msg, setMsg] = useState("Loading...")
+    // const [imageSrc, setImageSrc] = useState(null);
+    // const [audioSrc, setAudioSrc] = useState(null);
 
     const [audioUrl, setAudioUrl] = useState("");
     const [imageUrl, setImageUrl] = useState("");
@@ -133,9 +133,9 @@ const Profile = () => {
                 </audio> */}
                 <audio controls src={audioUrl}></audio>
                 <img src={"https://firebasestorage.googleapis.com/v0/b/songvault-7f750.appspot.com/o/64378748fdcec13c62d4d113%2FdiscoverPageBG.jpeg?alt=media&token=89894b05-1aad-4b13-9d4d-c2114f3bc52b"} alt="Album cover" />
-                )}
+                
                 <Typography>
-                    {msg}
+                    {/* {msg} */}
                 </Typography>
                 
                 {/* <SongPlayerUI/>

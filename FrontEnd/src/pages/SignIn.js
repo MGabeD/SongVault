@@ -3,7 +3,7 @@ import * as React from 'react';
 import {Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container, createTheme, ThemeProvider} from '@material-ui/core'
 import {Lock} from '@material-ui/icons'
 
-import { PropTypes } from '@material-ui/core';
+// import { PropTypes } from '@material-ui/core';
 
 function Copyright(props) {
   return (
@@ -24,7 +24,7 @@ export default function SignIn(props) {
   const validateLogin = async (params) => {
     console.log(JSON.stringify(params));
     const backendIP = process.env.REACT_APP_BACKEND_IP;
-    const response = await fetch(backendIP + '/api/auth' + '?' + new URLSearchParams(params))
+    const response = await fetch(backendIP + '/api/auth?' + new URLSearchParams(params))
     const valid = await response.json();
     console.log(valid);
     return valid;

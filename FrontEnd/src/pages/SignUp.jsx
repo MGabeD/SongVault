@@ -1,5 +1,5 @@
 import {Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container, createTheme, ThemeProvider} from '@material-ui/core'
-import { useState } from 'react';
+// import { useState } from 'react';
 
 import {Lock} from '@material-ui/icons'
 import React from 'react'
@@ -20,16 +20,16 @@ function Copyright(props) {
   const theme = createTheme();
 
 const SignUp = (props) => {
-  const [validEmail, setValidEmail] = useState(false)
-  const [validPass, setValidPass] = useState(false)
-  const [validPassRetype, setValidPassRetype] = useState(false)
+  // const [validEmail, setValidEmail] = useState(false)
+  // const [validPass, setValidPass] = useState(false)
+  // const [validPassRetype, setValidPassRetype] = useState(false)
 
-    const createUser = async (params) => {
-      const backendIP = process.env.REACT_APP_BACKEND_IP;
-      const waiting = await fetch(backendIP + "/api/users" + '?' + new URLSearchParams(params)); 
-      const response = await waiting.json();
-      return response;
-    }
+    // const createUser = async (params) => {
+    //   const backendIP = process.env.REACT_APP_BACKEND_IP;
+    //   const waiting = await fetch(backendIP + "/api/users" + '?' + new URLSearchParams(params)); 
+    //   const response = await waiting.json();
+    //   return response;
+    // }
     
       const handleSubmit = (event) => {
         event.preventDefault();
