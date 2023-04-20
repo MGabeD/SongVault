@@ -1,27 +1,26 @@
 import {React, useState} from 'react'
-import { Modal, Button, Box, TextField, Input, Container, Typography, IconButton, ListItem, ListItemText, 
-    ListItemIcon, List,  } from '@material-ui/core'
-import {ListItemButton, Checkbox} from '@mui/material'
+import { Modal, Button, Box, IconButton, ListItem, ListItemText,  } from '@material-ui/core'
+// import {ListItemButton, Checkbox} from '@mui/material'
 
 import {PlaylistAdd} from '@material-ui/icons'
 
 const AddToPlaylistModal = (props) => {
     const [open, setOpen] = useState(false);
-    const [checked, setChecked] = useState([0]);
+    // const [checked, setChecked] = useState([0]);
     const [playlists, setPlaylists] = useState([]);
 
-    const handleToggle = (value) => () => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
+    // const handleToggle = (value) => () => {
+    //     const currentIndex = checked.indexOf(value);
+    //     const newChecked = [...checked];
 
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
+    //     if (currentIndex === -1) {
+    //         newChecked.push(value);
+    //     } else {
+    //         newChecked.splice(currentIndex, 1);
+    //     }
 
-        setChecked(newChecked);
-    };
+    //     setChecked(newChecked);
+    // };
 
     const style = {
         position: 'absolute',
@@ -66,9 +65,9 @@ const AddToPlaylistModal = (props) => {
     }
 
     const sendToServer = async(playlistID) => {
-        const params = {
-            songId: props.songID
-        }
+        // const params = {
+        //     songId: props.songID
+        // }
         // alert("params: " + JSON.stringify(params))
         const backendIP = process.env.REACT_APP_BACKEND_IP;
 
