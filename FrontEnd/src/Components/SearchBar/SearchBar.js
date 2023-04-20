@@ -32,7 +32,7 @@ const SearchBar = (props) => {
             const results = await response.json();
     
             console.log(results);
-            return results;        
+            return results;       
         }
 
         const params = {userName: searchInput };
