@@ -30,6 +30,7 @@ const BottomSongControlUI = (props) => {
 
     const sendPlayToServer = async (songID) => {
         const backendIP = process.env.REACT_APP_BACKEND_IP;
+        // alert(backendIP + "/api/play/" + songID)
         const response = await fetch(backendIP + "/api/play/" + songID, {
             method: "PUT",
             headers: {
@@ -77,7 +78,7 @@ const BottomSongControlUI = (props) => {
                             >
                                 <Favorite />
                             </IconButton> 
-                            <AddToPlaylistModal playlists={props.playlists}/>
+                            <AddToPlaylistModal playlists={props.playlists} songID={props.id}/>
                         </div> 
                     :
                     <></>}

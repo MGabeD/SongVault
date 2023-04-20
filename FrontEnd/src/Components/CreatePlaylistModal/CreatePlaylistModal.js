@@ -63,7 +63,7 @@ const CreatePlaylistModal = (props) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log(data)
-    alert(data.get('songName'));
+    // alert(data.get('songName'));
 
     const formData = new FormData();
     formData.append("name", data.get('playlistName'));
