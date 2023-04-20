@@ -53,7 +53,7 @@ exports.createSong = async (req, res, next) => {
         });
   
         const savedSong = await song.save();
-        console.log(savedSong._id);
+        // console.log(savedSong._id);
   
         const audioFileObject = bucket.file(
           `${savedSong._id}/${audioFile.originalname}`
@@ -193,7 +193,7 @@ exports.updateSong = (req, res, next) => {
         genre: req.body.genre,
         artistNames: req.body.userName,
     };
-    console.log(updatedSong);
+    // console.log(updatedSong);
     Song.updateOne({ _id: req.params.id }, { $set: updatedSong })
         .then((result) => {
             res.status(200).header('Content-Type', 'application/json').json({ message: "Update is successful!" });
@@ -207,7 +207,7 @@ exports.updateSong = (req, res, next) => {
 };
 
 exports.deleteSong = (req, res, next) => {
-  console.log("here");
+  // console.log("here");
   console.log(req.params.id);
   Song.findByIdAndDelete(req.params.id)
     .then((deletedSong) => {

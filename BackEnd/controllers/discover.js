@@ -33,14 +33,14 @@ const Song = require("../models/song");
 
   exports.getDisc = (req, res, next) => {
     const userName = req.query.userName;
-    console.log(userName);
+    // console.log(userName);
 
     // Find songs with matching titles
     Song.find({ name: userName }, { _id: 1 })
       .then((songs) => {
         // const songIds = songs.map((song) => song._id);
         const songIds = songs.map(song => song._id);
-        console.log(songIds);
+        // console.log(songIds);
         // Find user and their songs
         User.findOne(
           { $or: [{ userName: userName }, { email: userName }] },

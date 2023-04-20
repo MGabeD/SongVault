@@ -91,7 +91,7 @@ exports.updateRequest = (req, res, next) => {
 
 exports.deleteRequest = (req, res, next) => {
     // console.log("here");
-    console.log(req.params.id);
+    // console.log(req.params.id);
     Reque.deleteOne({ _id: req.params.id })
     .then((resp) => {
         res.status(200).header('Content-Type', 'application/json').json({ message: "Delete is successful!" });

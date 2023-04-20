@@ -52,7 +52,7 @@ exports.createPlaylist = async (req, res, next) => {
       });
 
       const savedPlaylist = await playlist.save();
-      console.log(savedPlaylist._id);
+      // console.log(savedPlaylist._id);
 
       const imageFileObject = bucket.file(
         `${savedPlaylist._id}/${imageFile.originalname}`
@@ -166,20 +166,20 @@ exports.addSong = (req, res) => {
                 })
                 .catch((error) => {
                   console.error(error);
-                  console.log("I am here 3")
+                  // console.log("I am here 3")
                   res.status(500).header('Content-Type', 'application/json').json({ message: 'Failed to add song to playlist' });
                 });
           }
         })
         .catch((error) => {
           console.error(error);
-          console.log("I am here")
+          // console.log("I am here")
           res.status(500).header('Content-Type', 'application/json').json({ message: 'Failed to find song' });
         });
     })
     .catch((error) => {
       console.error(error);
-      console.log("I am here 2")
+      // console.log("I am here 2")
       res.status(500).header('Content-Type', 'application/json').json({ message: 'Failed to find playlist' });
     });
 };

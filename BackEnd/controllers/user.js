@@ -1,7 +1,7 @@
 const User = require("../models/user");
 
 exports.createUser = (req, res, next) => {
-    console.log('got createUser req');
+    // console.log('got createUser req');
     const user = new User({
         userName: req.body.userName,
         password: req.body.password,
@@ -18,7 +18,7 @@ exports.createUser = (req, res, next) => {
         playlists: req.body.playlists,
         likedSongs: req.body.likedSongs,
     });
-    console.log(user);
+    // console.log(user);
     User.findOne({
         $or: [
             { userName: user.userName },
@@ -150,7 +150,7 @@ exports.updateUser = (req, res, next) => {
         playlists: req.body.playlists,
         likedSongs: req.body.likedSongs,
     };
-    console.log(updatedUser);
+    // console.log(updatedUser);
     User.updateOne({ _id: req.params.id }, { $set: updatedUser })
         .then((result) => {
             res.status(200).header('Content-Type', 'application/json').json({ message: "Update is successful!" });
@@ -164,7 +164,7 @@ exports.updateUser = (req, res, next) => {
 };
 
 exports.deleteUser = (req, res, next) => {
-    console.log("here");
+    // console.log("here");
     console.log(req.params.id);
     User.deleteOne({ _id: req.params.id })
     .then((resp) => {
