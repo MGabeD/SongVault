@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-auto
+spec:
+  selector:
+    matchLabels:
+      run: backend-auto
+  template:
+    metadata:
+      labels:
+        run: backend-auto
+    spec:
+      containers:
+      - name: backend-auto
+        image: wesmin/backend_server:latest
+        ports:
+        - containerPort: 3001
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-auto
+  labels:
+    run: backend-auto
+spec:
+  type: NodePort
+  ports:
+  - name: backend-auto
+    port: 3001
+    nodePort: 30005
+    targetPort: 3001
+  selector:
+    run: backend-auto
