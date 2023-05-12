@@ -53,14 +53,26 @@ const Home = () => {
                     Upload your song, rate other artists' songs, and contact curators to 
                     get your music added to their playlists.
                 </Typography>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    sx={{ width: '200px', fontSize: '16px' }}
-                    onClick={() => handleLinkSelect('discover')}
-                >
-                    Discover Music
-                </Button>
+                <div className={classes.linkButtons}>
+                    <Button
+                        style={{margin: "10px"}}
+                        variant="contained"
+                        color="primary"
+                        sx={{ width: '200px', fontSize: '16px' }}
+                        onClick={() => handleLinkSelect('discover')}
+                    >
+                        Discover Music
+                    </Button>
+                    <Button
+                        style={{margin: "10px"}}
+                        variant="contained"
+                        color="primary"
+                        sx={{ width: '200px', fontSize: '16px' }}
+                        onClick={() => handleLinkSelect('trending')}
+                    >
+                        Trending
+                    </Button>
+                </div>
             </div>
         </Box>
     )

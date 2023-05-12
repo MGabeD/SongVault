@@ -27,6 +27,11 @@ const useStyles = makeStyles((theme) => ({ // the theme object is part of MUI
         padding: '50px',
     },
 
+    linkButtons: {
+        flexDirection: 'row',
+        display: 'flex', 
+    },
+
     // These are Styles for HomePage
     homePageBox: {
         width: '100%',
