@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Menu, MenuItem, IconButton} from '@material-ui/core'
-import {AccountCircle} from '@material-ui/icons'
+import {AccountCircle, Settings} from '@material-ui/icons'
 
 export default function ProfileMenu(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -11,6 +11,7 @@ export default function ProfileMenu(props) {
     };
     
     const handleClose = () => {
+        console.log('Login Status: ' + localStorage.getItem('loginStatus'))
         setAnchorEl(null);
     };
 
@@ -31,18 +32,19 @@ export default function ProfileMenu(props) {
 
     return (
         <div>
-        <IconButton
-                size="large"
-                edge='start'
-                color='inherit'
-                aria-label='profile'
-                aria-controls={open ? 'basic-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-                onClick={handleClick}
-                style={{marginLeft: "5px"}}
+            <IconButton
+                    edge='start'
+                    color='inherit'
+                    aria-label='profile'
+                    aria-controls={open ? 'basic-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                    onClick={handleClick}
+                    style={{marginLeft: "5px"}}
             >
-                <AccountCircle/>
+                {localStorage.getItem('loginStatus') === 'valid' ? 
+                <Settings style={{width: '35px', height: '35px'}}/>:
+                <AccountCircle style={{width: '35px', height: '35px'}}/>}
             </IconButton>
         <Menu
             id="basic-menu"
@@ -56,16 +58,12 @@ export default function ProfileMenu(props) {
         >
             {localStorage.getItem('loginStatus') === 'valid' ?
             <>
-            {/* <MenuItem> Home </MenuItem> */}
-            {/* <MenuItem onClick={() => handleLinkSelect("profile")}>Profile</MenuItem> */}
             <MenuItem onClick={() => handleLinkSelect("account")}>My account</MenuItem>
             <MenuItem onClick={() => {alert("not built yet")}}> Messages </MenuItem>
             <MenuItem onClick={handleLogoutClick}> Logout </MenuItem>
             </>
             :
             <>
-            {/* <MenuItem onClick={() => handleLinkSelect('/')}> Home </MenuItem>
-            <MenuItem onClick={() => handleLinkSelect('/Discover')}> Discover </MenuItem> */}
             <MenuItem onClick={() => handleLinkSelect('/login')}> Login </MenuItem>
             <MenuItem onClick={() => handleLinkSelect('/signup')}> SignUp </MenuItem>
             </>}
