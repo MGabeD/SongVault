@@ -67,6 +67,12 @@ const SearchBar = (props) => {
         console.log(searchInput);
     }
 
+    const handleKeyInput = (e) => {
+        if (e.key === 'Enter') {
+            handleSubmit();
+        }
+    }
+
     return (
         <Container className={classes.searchBarOnPhotoContainer}>
             <img src={stockPhoto} alt={"alt"} style={{position: 'relative', width: '100%'}}/>
@@ -77,6 +83,7 @@ const SearchBar = (props) => {
                 onChange={handleChange}
                 value={searchInput} 
                 className={classes.searchBarInput}
+                onKeyDown={handleKeyInput}
                 />
 
                 <Button 
